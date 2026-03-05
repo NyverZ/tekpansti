@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::updateOrCreate(
-            ['email' => 'admin@plantintel.local'],
+            ['email' => 'admin@admin.local'],
             [
                 'name' => 'Super Admin',
                 'password' => Hash::make('12345678'),

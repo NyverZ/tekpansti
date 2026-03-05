@@ -6,6 +6,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\Web\PlantCatalogController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
+
 
 
 /*
@@ -29,7 +31,26 @@ Route::post('/suggest', [SuggestionController::class, 'store'])
     ->name('suggest.store');
 
 Route::get('/compare', [PlantCatalogController::class, 'compare'])->name('compare');
+
 Route::post('/compare/result', [PlantCatalogController::class, 'compareResult'])->name('compare.result');
+
+Route::post('/article', [ArticleController::class, 'store']);
+
+Route::get('/admin/articles', function () {
+    return view('admin.articles');
+})->name('admin.articles');
+
+Route::get('/admin/article/create', function () {
+    return view('admin.create-article');
+});
+
+Route::get('/article/{slug}', [ArticleController::class, 'show']);
+
+Route::get('/article/{id}/edit', [ArticleController::class, 'edit']);
+
+Route::put('/article/{id}', [ArticleController::class, 'update']);
+
+Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
 
 Route::post('/compare/result', [PlantCatalogController::class, 'compareResult'])
     ->name('compare.result');
@@ -41,10 +62,10 @@ Route::middleware(['auth', 'admin'])
         Route::resource('plants', AdminPlantController::class);
     });
 
-Route::middleware(['auth','admin'])->group(function(){
+Route::middleware(['auth', 'admin'])->group(function () {
 
-Route::resource('admin/articles',AdminArticleController::class);
 
+    Route::resource('admin/articles', AdminArticleController::class);
 });
 
 Route::get('/plants', [PlantCatalogController::class, 'index'])

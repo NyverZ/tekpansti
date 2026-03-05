@@ -72,6 +72,17 @@ hover:bg-emerald-50 dark:hover:bg-gray-700">
 
 </a>
 
+<!-- ARTIKEL -->
+<a href="{{ route('articles.index') }}"
+class="flex items-center gap-3 px-4 py-3 rounded-lg
+hover:bg-emerald-50 dark:hover:bg-gray-700
+{{ request()->routeIs('articles.*') ? 'bg-emerald-100 dark:bg-gray-700' : '' }}">
+
+📰
+<span>Kelola Artikel</span>
+
+</a>
+
 @endif
 
 

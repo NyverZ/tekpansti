@@ -34,8 +34,8 @@ type="text"
 name="name"
 value="{{ old('name') }}"
 required
+autocomplete="off"
 class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-
 @error('name')
 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
 @enderror
@@ -45,7 +45,7 @@ class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-
 
 <div>
 
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300">
+<label class="block text-sm font-medium text-gray-600 dark:text-gray-300" @required(true)>
 Email
 </label>
 
@@ -54,8 +54,8 @@ type="email"
 name="email"
 value="{{ old('email') }}"
 required
+autocomplete="off"
 class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-
 @error('email')
 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
 @enderror
@@ -65,7 +65,7 @@ class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-
 
 <div>
 
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300">
+<label class="block text-sm font-medium text-gray-600 dark:text-gray-300" @required(true)>
 Password
 </label>
 
@@ -73,8 +73,8 @@ Password
 type="password"
 name="password"
 required
+autocomplete="off"
 class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-
 @error('password')
 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
 @enderror
@@ -92,8 +92,9 @@ Konfirmasi Password
 type="password"
 name="password_confirmation"
 required
+autocomplete="off"
 class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-
+@required(true)
 </div>
 
 

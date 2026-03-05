@@ -1,84 +1,122 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
 
-<div class="max-w-5xl mx-auto px-6 py-12">
+<div class="max-w-7xl mx-auto px-6 py-10">
 
-<!-- Header -->
-<div class="mb-10">
+<!-- PROFILE HEADER -->
+<div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-8 shadow-xl mb-10">
 
-<h1 class="text-3xl font-bold text-gray-800 dark:text-white">
-Profile Settings
-</h1>
+<div class="flex items-center gap-6">
 
-<p class="text-gray-500 dark:text-gray-400 mt-2">
-Kelola informasi akun dan keamanan akun Anda.
-</p>
-
-</div>
-
-
-<div class="grid md:grid-cols-3 gap-8">
-
-<!-- Sidebar -->
-<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-
-<div class="flex flex-col items-center text-center">
-
-<div class="w-20 h-20 rounded-full bg-emerald-600 text-white flex items-center justify-center text-3xl font-bold mb-4">
+<div class="w-24 h-24 rounded-full bg-white text-emerald-600 flex items-center justify-center text-4xl font-bold shadow-lg">
 {{ strtoupper(substr(Auth::user()->name,0,1)) }}
 </div>
 
-<h2 class="font-semibold text-gray-800 dark:text-white">
-{{ Auth::user()->name }}
-</h2>
+<div class="text-white">
+<h1 class="text-3xl font-bold">{{ Auth::user()->name }}</h1>
+<p class="opacity-90">{{ Auth::user()->email }}</p>
 
-<p class="text-sm text-gray-500 dark:text-gray-400">
+<p class="text-sm opacity-80 mt-2">
+Kelola informasi akun dan keamanan Anda
+</p>
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="grid lg:grid-cols-4 gap-8">
+
+
+<!-- SIDEBAR -->
+<div class="space-y-4">
+
+<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5">
+
+<h3 class="font-semibold text-gray-800 dark:text-white mb-4">
+Menu
+</h3>
+
+<div class="space-y-2">
+
+<div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 font-medium">
+Profile
+</div>
+
+<div class="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition">
+Account Settings
+</div>
+
+<div class="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition">
+Security
+</div>
+
+<div class="p-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 text-red-500 cursor-pointer transition">
+Danger Zone
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ACCOUNT CARD -->
+<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5">
+
+<h3 class="font-semibold text-gray-800 dark:text-white mb-4">
+Account Info
+</h3>
+
+<div class="space-y-2 text-sm">
+
+<p class="text-gray-500 dark:text-gray-400">
+Name
+</p>
+
+<p class="font-medium text-gray-800 dark:text-white">
+{{ Auth::user()->name }}
+</p>
+
+<p class="text-gray-500 dark:text-gray-400 mt-3">
+Email
+</p>
+
+<p class="font-medium text-gray-800 dark:text-white">
 {{ Auth::user()->email }}
 </p>
 
 </div>
 
-<hr class="my-6 border-gray-200 dark:border-gray-700">
-
-<div class="space-y-3 text-sm">
-
-<p class="text-gray-500 dark:text-gray-400">
-Account Settings
-</p>
-
-<p class="text-gray-500 dark:text-gray-400">
-Security
-</p>
-
-<p class="text-red-500">
-Danger Zone
-</p>
-
 </div>
 
 </div>
 
 
-<!-- Main Content -->
-<div class="md:col-span-2 space-y-6">
+
+<!-- MAIN CONTENT -->
+<div class="lg:col-span-3 space-y-6">
 
 
-<!-- Update Profile -->
-<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+<!-- UPDATE PROFILE -->
+<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
 
-<h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+<h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">
 Update Profile Information
 </h2>
 
 @include('profile.partials.update-profile-information-form')
+
 </div>
 
 
-<!-- Update Password -->
-<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
 
-<h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+<!-- UPDATE PASSWORD -->
+<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+
+<h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">
 Change Password
 </h2>
 
@@ -87,16 +125,18 @@ Change Password
 </div>
 
 
-<!-- Delete Account -->
-<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-red-200 dark:border-red-800">
 
-<h2 class="text-lg font-semibold text-red-500 mb-4">
+<!-- DELETE ACCOUNT -->
+<div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8">
+
+<h2 class="text-xl font-semibold text-red-600 mb-6">
 Delete Account
 </h2>
 
 @include('profile.partials.delete-user-form')
 
 </div>
+
 
 </div>
 

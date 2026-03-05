@@ -43,18 +43,18 @@ document.documentElement.classList.add('dark')
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-function toggleMenu(){
-const menu=document.getElementById('mobileMenu')
-menu.classList.toggle('hidden')
-}
+    function toggleMenu(){
+        const menu=document.getElementById('mobileMenu')
+        menu.classList.toggle('hidden')
+    }
 
 </script>
 
 <body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 <!-- NAVBAR -->
@@ -64,9 +64,11 @@ menu.classList.toggle('hidden')
 
 
 <!-- LOGO -->
-<a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-bold text-emerald-600">
+<a href="{{ route('home') }}" class="flex items-center gap-2 hover:text-emerald-600 transition duration-300">
 <span class="text-2xl">🌿</span>
+<span class=" text-2xl bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent font-bold">
 EduPlant
+</span>
 </a>
 
 
@@ -78,7 +80,7 @@ EduPlant
 
 @auth
 @if(auth()->user()->role !== 'admin')
-<a href="{{ route('suggest.form') }}" class="hover:text-emerald-600">
+<a href="{{ route('suggest.form') }}" class="hover:text-emerald-600 transition duration-300">
 Saran
 </a>
 @endif
@@ -169,7 +171,7 @@ Logout
 
 
 <!-- HAMBURGER -->
-<button onclick="toggleMenu()" class="md:hidden text-2xl">
+<button onclick="toggleMenu()" class="md:hidden text-2xl p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition">
 ☰
 </button>
 
@@ -193,7 +195,6 @@ Saran
 
 <a href="{{ route('edukasi') }}">Edukasi</a>
 <a href="{{ route('konsultasi') }}">Konsultasi</a>
-<a href="{{ route('selfcheck') }}">Self-Check</a>
 <a href="{{ route('selfcheck') }}">Self-Check</a>
 <a href="{{ route('about') }}">Tentang Kami</a>
 <a href="{{ route('contact') }}">Kontak</a>

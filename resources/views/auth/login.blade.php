@@ -40,6 +40,7 @@ type="email"
 name="email"
 value="{{ old('email') }}"
 required
+autocomplete="off"
 class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
 
 @error('email')
@@ -51,7 +52,7 @@ class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-
 
 <div>
 
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300">
+<label class="block text-sm font-medium text-gray-600 dark:text-gray-300" @required(true)>
 Password
 </label>
 
@@ -59,6 +60,7 @@ Password
 type="password"
 name="password"
 required
+autocomplete="off"
 class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
 
 @error('password')
@@ -80,20 +82,13 @@ Remember me
 Forgot password?
 </a>
 @endif
-
 </div>
-
-
-<button
-class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold transition">
-
-Login
-
-</button>
+        <button
+        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold transition">
+            Login
+        </button>
 
 </form>
-
-
 <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
 
 Belum punya akun?
