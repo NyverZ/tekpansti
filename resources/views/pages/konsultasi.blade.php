@@ -1,60 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
+    <section class="sf-container">
+        <div class="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
+            <div class="space-y-6">
+                <span class="sf-chip">Consultation</span>
+                <h1 class="text-5xl font-bold text-slate-900">Connect learning with real food safety support</h1>
+                <p class="text-lg leading-8 text-slate-600">
+                    SafeFood consultation gives users a next step after reading articles, completing the safety checker, or reviewing HACCP guidance.
+                </p>
+                <div class="sf-panel bg-[linear-gradient(140deg,#102033,#0f766e)] p-8 text-white">
+                    <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Recommended use</p>
+                    <p class="mt-4 text-xl leading-8 text-slate-100">Invite questions about storage failures, sanitation gaps, ingredient handling, or healthy food substitutions.</p>
+                </div>
+            </div>
 
-<section class="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
-
-<div class="container mx-auto px-6 text-center">
-
-<!-- TITLE -->
-<div data-aos="fade-up">
-
-<h1 class="text-4xl font-bold mb-4 text-gray-800 dark:text-white">
-Konsultasi <span class="text-emerald-500">Keamanan Pangan</span>
-</h1>
-
-<p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10">
-Jika Anda memiliki pertanyaan mengenai keamanan pangan, sanitasi,
-higiene, atau gizi makanan, Anda dapat berkonsultasi langsung
-dengan tim kami melalui WhatsApp.
-</p>
-
-</div>
-
-
-<!-- CONSULT CARD -->
-<div class="max-w-md mx-auto">
-
-<div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition"
-data-aos="zoom-in">
-
-<div class="text-5xl mb-4">
-💬
-</div>
-
-<h2 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">
-Konsultasi Gratis
-</h2>
-
-<p class="text-gray-600 dark:text-gray-300 mb-6">
-Tanyakan segala hal tentang keamanan pangan dan gizi kepada tim kami.
-Kami siap membantu memberikan informasi yang bermanfaat untuk Anda.
-</p>
-
-<a href="https://wa.me/628123456789?text=Halo%20saya%20ingin%20konsultasi"
-target="_blank"
-class="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl transition shadow">
-
-Konsultasi via WhatsApp
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
+            <div class="grid gap-6 md:grid-cols-2">
+                <div class="sf-panel p-8">
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Email</p>
+                    <p class="mt-4 text-2xl font-bold text-slate-900">{{ $contacts['email'] }}</p>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">Use for structured questions, collaboration requests, or follow-up documentation.</p>
+                </div>
+                <div class="sf-panel p-8">
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">WhatsApp</p>
+                    <p class="mt-4 text-2xl font-bold text-slate-900">{{ $contacts['whatsapp'] }}</p>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">Best for quick consultation and practical discussion around food safety issues.</p>
+                </div>
+                <div class="sf-panel p-8 md:col-span-2">
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Instagram</p>
+                    <p class="mt-4 text-2xl font-bold text-slate-900">{{ $contacts['instagram'] }}</p>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">Use social channels for broader educational updates and public engagement.</p>
+                    <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" class="sf-button-primary mt-8">Start WhatsApp Consultation</a>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

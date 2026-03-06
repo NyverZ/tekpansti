@@ -1,255 +1,64 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name', 'SafeFood') }}</title>
+    <script>
+        (() => {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>{{ config('app.name') }}</title>
-
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-@vite(['resources/css/app.css','resources/js/app.js'])
-
-</head>
-
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>
-
-AOS.init({
-duration:1000,
-once:true
-})
-
-</script>
-
-<script>
-
-function toggleDark(){
-
-document.documentElement.classList.toggle('dark')
-
-if(document.documentElement.classList.contains('dark')){
-localStorage.theme='dark'
-}else{
-localStorage.theme='light'
-}
-
-}
-
-if(localStorage.theme==='dark'){
-document.documentElement.classList.add('dark')
-}
-
-</script>
-
-
-<script>
-
-    function toggleMenu(){
-        const menu=document.getElementById('mobileMenu')
-        menu.classList.toggle('hidden')
-    }
-
-</script>
-
-<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+            if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-<!-- NAVBAR -->
-<nav class="dark:bg-gray-900 bg-white/80 backdrop-blur-md border-b sticky top-0 z-50 shadow-sm">
-
-<div class="container mx-auto px-6 py-3 flex justify-between items-center">
-
-
-<!-- LOGO -->
-<a href="{{ route('home') }}" class="flex items-center gap-2 hover:text-emerald-600 transition duration-300">
-<span class="text-2xl">🌿</span>
-<span class=" text-2xl bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent font-bold">
-EduPlant
-</span>
-</a>
-
-
-<!-- DESKTOP MENU -->
-<div class="hidden md:flex items-center gap-6 text-sm font-medium">
-
-<a href="{{ route('home') }}" class="hover:text-emerald-600">Beranda</a>
-
-
-@auth
-@if(auth()->user()->role !== 'admin')
-<a href="{{ route('suggest.form') }}" class="hover:text-emerald-600 transition duration-300">
-Saran
-</a>
-@endif
-@endauth
-
-
-<a href="{{ route('edukasi') }}" class="hover:text-emerald-600">Edukasi</a>
-<a href="{{ route('konsultasi') }}" class="hover:text-emerald-600">Konsultasi</a>
-<a href="{{ route('selfcheck') }}" class="hover:text-emerald-600">Self-Check</a>
-<a href="{{ route('quiz') }}" class="hover:text-emerald-600">Kuis</a>
-<a href="{{ route('about') }}" class="hover:text-emerald-600">Tentang Kami</a>
-<a href="{{ route('contact') }}" class="hover:text-emerald-600">Kontak</a>
-
-
-@guest
-<a href="{{ route('login') }}" class="hover:text-emerald-600">Login</a>
-
-<a href="{{ route('register') }}"
-class="bg-emerald-600 text-white px-4 py-2 rounded-xl hover:bg-emerald-700 transition">
-Register
-</a>
-@endguest
-
-
-<!-- DARK MODE -->
-<button onclick="toggleDark()"
-class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:scale-105 transition">
-
-<span class="dark:hidden">🌙</span>
-<span class="hidden dark:inline">☀️</span>
-
-</button>
-
-
-@auth
-
-<div x-data="{open:false}" class="relative">
-
-<button @click="open=!open" class="flex items-center gap-2">
-
-<div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold">
-
-{{ strtoupper(substr(Auth::user()->name,0,1)) }}
-
-</div>
-
-<span>{{ Auth::user()->name }}</span>
-
-</button>
-
-
-<div x-show="open" @click.outside="open=false"
-class="absolute right-0 mt-3 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-xl py-2">
-
-<a href="{{ route('dashboard') }}"
-class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-Dashboard
-</a>
-
-<a href="{{ route('profile.edit') }}"
-class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-Settings
-</a>
-
-
-@if(auth()->user()->role === 'admin')
-<a href="{{ route('admin.plants.index') }}"
-class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-Kelola Tanaman
-</a>
-@endif
-
-
-<form method="POST" action="{{ route('logout') }}">
-@csrf
-<button class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-red-500">
-Logout
-</button>
-</form>
-
-</div>
-
-</div>
-
-@endauth
-
-</div>
-
-
-<!-- HAMBURGER -->
-<button onclick="toggleMenu()" class="md:hidden text-2xl p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-☰
-</button>
-
-</div>
-
-
-<!-- MOBILE MENU -->
-<div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-900 border-t">
-
-<div class="flex flex-col px-6 py-4 gap-4 text-sm font-medium">
-
-<a href="{{ route('home') }}">Beranda</a>
-
-@auth
-@if(auth()->user()->role !== 'admin')
-<a href="{{ route('suggest.form') }}">
-Saran
-</a>
-@endif
-@endauth
-
-<a href="{{ route('edukasi') }}">Edukasi</a>
-<a href="{{ route('konsultasi') }}">Konsultasi</a>
-<a href="{{ route('selfcheck') }}">Self-Check</a>
-<a href="{{ route('about') }}">Tentang Kami</a>
-<a href="{{ route('contact') }}">Kontak</a>
-
-
-@guest
-<a href="{{ route('login') }}">Login</a>
-
-<a href="{{ route('register') }}"
-class="bg-emerald-600 text-white px-4 py-2 rounded-xl w-fit">
-Register
-</a>
-@endguest
-
-
-<button onclick="toggleDark()"
-class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 w-fit">
-🌙 / ☀️
-</button>
-
-
-@auth
-<a href="{{ route('dashboard') }}">Dashboard</a>
-<a href="{{ route('profile.edit') }}">Settings</a>
-
-<form method="POST" action="{{ route('logout') }}">
-@csrf
-<button class="text-red-500 text-left">
-Logout
-</button>
-</form>
-@endauth
-
-</div>
-
-</div>
-
-</nav>
-
-
-<!-- CONTENT -->
-<main class="py-10">
-
-@yield('content')
-
-</main>
-
-
-<!-- FOOTER -->
-<footer class="dark:bg-gray-800 border-t mt-10 py-6 text-center text-sm text-gray-500">
-
-© {{ date('Y') }} EduPlant. All rights reserved.
-
-</footer>
-
-
+    @stack('head')
+</head>
+<body class="sf-shell bg-[var(--sf-bg)] text-[var(--sf-ink)] transition-colors duration-300">
+    @php
+        $navItems = [
+            ['label' => 'Home', 'route' => 'home'],
+            ['label' => 'Food Education', 'route' => 'education'],
+            ['label' => 'HACCP', 'route' => 'haccp'],
+            ['label' => 'Safety Checker', 'route' => 'safety-checker'],
+            ['label' => 'Nutrition Comparison', 'route' => 'foods.compare'],
+            ['label' => 'Quiz', 'route' => 'quiz'],
+            ['label' => 'Articles', 'route' => 'articles.index'],
+            ['label' => 'About', 'route' => 'about'],
+            ['label' => 'Contact', 'route' => 'contact'],
+        ];
+    @endphp
+
+    <div class="relative overflow-x-clip">
+        <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[42rem] bg-[radial-gradient(circle_at_top,_rgba(14,165,164,0.22),_transparent_42%),radial-gradient(circle_at_85%_8%,_rgba(245,158,11,0.18),_transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.3),transparent)] dark:bg-[radial-gradient(circle_at_top,_rgba(45,212,191,0.18),_transparent_36%),radial-gradient(circle_at_85%_8%,_rgba(251,191,36,0.15),_transparent_22%),linear-gradient(180deg,rgba(15,23,42,0.45),transparent)]"></div>
+        <div class="pointer-events-none absolute left-1/2 top-28 -z-10 h-[34rem] w-[70rem] -translate-x-1/2 rounded-full bg-teal-500/10 blur-3xl dark:bg-cyan-400/10"></div>
+
+        <x-navbar :items="$navItems" />
+
+        <main class="pb-16 pt-6">
+            @yield('content')
+        </main>
+
+        <footer class="border-t border-slate-200/70 bg-white/60 py-10 backdrop-blur dark:border-slate-800 dark:bg-slate-950/55">
+            <div class="sf-container flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                <div class="max-w-xl">
+                    <p class="text-xl font-bold text-slate-900 dark:text-white">SafeFood</p>
+                    <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                        A competition-ready educational platform for food safety, HACCP literacy, healthy handling habits, and practical nutrition awareness.
+                    </p>
+                </div>
+                <div class="text-sm text-slate-500 dark:text-slate-400">
+                    <p>&copy; {{ date('Y') }} SafeFood.</p>
+                    <p>Built for modern food safety education.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @stack('scripts')
 </body>
 </html>

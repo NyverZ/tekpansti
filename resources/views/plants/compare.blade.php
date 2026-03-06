@@ -1,256 +1,133 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="container mx-auto px-6 py-12">
-
-{{-- HERO --}}
-<div class="text-center mb-12">
-<h1 class="text-4xl font-bold text-emerald-700 dark:text-emerald-400 mb-4">
-🔬 Compare Tanaman Herbal
-</h1>
-
-<p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-Bandingkan manfaat, potensi pengolahan, dan kandungan nutrisi dua tanaman herbal secara ilmiah dan visual.
-</p>
-</div>
-
-
-{{-- FORM --}}
-<div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg mb-12">
-
-<form method="POST" action="{{ route('compare.result') }}">
-@csrf
-
-<div class="grid md:grid-cols-2 gap-6">
-
-<div>
-<label class="block text-sm mb-2 font-medium text-gray-700 dark:text-gray-300">
-Tanaman Pertama
-</label>
-
-<select name="plant1" class="w-full border border-gray-300 dark:border-gray-600 rounded-xl p-3 bg-white dark:bg-gray-700 text-gray-800 dark:text-white">
-
-<option value="">Pilih Tanaman</option>
-
-@foreach($plants as $plant)
-<option value="{{ $plant->id }}">
-{{ $plant->local_name }}
-</option>
-@endforeach
-
-</select>
-</div>
-
-
-<div>
-<label class="block text-sm mb-2 font-medium text-gray-700 dark:text-gray-300">
-Tanaman Kedua
-</label>
-
-<select name="plant2" class="w-full border border-gray-300 dark:border-gray-600 rounded-xl p-3 bg-white dark:bg-gray-700 text-gray-800 dark:text-white">
-
-<option value="">Pilih Tanaman</option>
-
-@foreach($plants as $plant)
-<option value="{{ $plant->id }}">
-{{ $plant->local_name }}
-</option>
-@endforeach
-
-</select>
-
-</div>
-
-</div>
-
-<div class="text-center mt-8">
-
-<button
-class="bg-emerald-600 text-white px-8 py-3 rounded-2xl hover:bg-emerald-700 transition">
-
-🚀 Bandingkan Sekarang
-
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-
-{{-- RESULT --}}
-@isset($plant1, $plant2)
-
-<div class="grid md:grid-cols-2 gap-10 mb-12">
-
-{{-- PLANT 1 --}}
-<div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-lg">
-
-<h2 class="text-xl font-bold text-emerald-600 mb-4">
-{{ $plant1->local_name }}
-</h2>
-
-<p class="text-gray-500 italic mb-4">
-{{ $plant1->scientific_name }}
-</p>
-
-<p class="mb-4 text-gray-700 dark:text-gray-300">
-<strong>Manfaat:</strong> {{ $plant1->health_benefits }}
-</p>
-
-<p class="mb-4 text-gray-700 dark:text-gray-300">
-<strong>Potensi Pengolahan:</strong> {{ $plant1->processing_potential }}
-</p>
-
-<canvas id="chart1"></canvas>
-
-</div>
-
-
-{{-- PLANT 2 --}}
-<div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-lg">
-
-<h2 class="text-xl font-bold text-blue-600 mb-4">
-{{ $plant2->local_name }}
-</h2>
-
-<p class="text-gray-500 italic mb-4">
-{{ $plant2->scientific_name }}
-</p>
-
-<p class="mb-4 text-gray-700 dark:text-gray-300">
-<strong>Manfaat:</strong> {{ $plant2->health_benefits }}
-</p>
-
-<p class="mb-4 text-gray-700 dark:text-gray-300">
-<strong>Potensi Pengolahan:</strong> {{ $plant2->processing_potential }}
-</p>
-
-<canvas id="chart2"></canvas>
-
-</div>
-
-</div>
-
-
-{{-- TABEL PERBANDINGAN --}}
-<div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg">
-
-<h2 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">
-📊 Perbandingan Nutrisi
-</h2>
-
-<table class="w-full border border-gray-200 dark:border-gray-700">
-
-<thead class="bg-gray-100 dark:bg-gray-700">
-
-<tr class="text-left text-gray-700 dark:text-gray-200">
-
-<th class="p-3">Nutrisi</th>
-<th class="p-3">{{ $plant1->local_name }}</th>
-<th class="p-3">{{ $plant2->local_name }}</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-@php
-$nutrients = $plant1->nutrients->merge($plant2->nutrients)->unique('id');
-@endphp
-
-@foreach($nutrients as $nutrient)
-
-<tr class="border-t border-gray-200 dark:border-gray-700">
-
-<td class="p-3 font-medium text-gray-700 dark:text-gray-200">
-{{ $nutrient->name }}
-</td>
-
-<td class="p-3 text-emerald-600 font-semibold">
-
-{{ optional($plant1->nutrients->firstWhere('id',$nutrient->id))->pivot->amount ?? '-' }}
-
-</td>
-
-<td class="p-3 text-blue-600 font-semibold">
-
-{{ optional($plant2->nutrients->firstWhere('id',$nutrient->id))->pivot->amount ?? '-' }}
-
-</td>
-
-</tr>
-
-@endforeach
-
-</tbody>
-
-</table>
-
-</div>
-
-
-{{-- CHART SCRIPT --}}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-
-function renderChart(id, labels, data, color){
-
-new Chart(document.getElementById(id),{
-
-type:'bar',
-
-data:{
-labels: labels,
-datasets:[{
-data: data,
-backgroundColor: color
-}]
-},
-
-options:{
-plugins:{ legend:{display:false}},
-responsive:true
-}
-
-})
-
-}
-
-
-renderChart(
-'chart1',
-{!! json_encode($plant1->nutrients->pluck('name')) !!},
-{!! json_encode($plant1->nutrients->pluck('pivot.amount')) !!},
-'#10b981'
-)
-
-
-renderChart(
-'chart2',
-{!! json_encode($plant2->nutrients->pluck('name')) !!},
-{!! json_encode($plant2->nutrients->pluck('pivot.amount')) !!},
-'#3b82f6'
-)
-
-</script>
-
-@endisset
-
-
-{{-- EMPTY MESSAGE --}}
-@if(!isset($plant1))
-
-<div class="text-center text-gray-500 dark:text-gray-400 mt-12">
-Silakan pilih dua tanaman untuk dibandingkan.
-</div>
-
-@endif
-
-</div>
-
+    <section class="sf-container">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+                <span class="sf-chip">Nutrition comparison</span>
+                <h1 class="mt-4 text-5xl font-bold text-slate-900">Compare ingredients side by side</h1>
+                <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+                    Turn the previous plant comparison into a decision tool for food safety education, meal planning, and nutritional analysis.
+                </p>
+            </div>
+        </div>
+
+        <div class="sf-panel mt-10 p-6">
+            <form method="POST" action="{{ route('foods.compare.result') }}" class="grid gap-4 lg:grid-cols-[1fr_1fr_auto]">
+                @csrf
+                <div>
+                    <label for="food_1" class="mb-2 block text-sm font-semibold text-slate-700">Ingredient A</label>
+                    <select id="food_1" name="food_1" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800">
+                        <option value="">Select ingredient</option>
+                        @foreach ($foods as $food)
+                            <option value="{{ $food->id }}" @selected((int) old('food_1', $foodA->id ?? 0) === $food->id)>{{ $food->local_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('food_1')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label for="food_2" class="mb-2 block text-sm font-semibold text-slate-700">Ingredient B</label>
+                    <select id="food_2" name="food_2" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800">
+                        <option value="">Select ingredient</option>
+                        @foreach ($foods as $food)
+                            <option value="{{ $food->id }}" @selected((int) old('food_2', $foodB->id ?? 0) === $food->id)>{{ $food->local_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('food_2')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="flex items-end">
+                    <button class="sf-button-primary">Compare</button>
+                </div>
+            </form>
+        </div>
+
+        @isset($foodA, $foodB, $comparisonRows)
+            <div class="mt-10 grid gap-6 lg:grid-cols-2">
+                <div class="sf-panel p-8">
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Ingredient A</p>
+                    <h2 class="mt-3 text-3xl font-bold text-slate-900">{{ $foodA->local_name }}</h2>
+                    <p class="mt-2 text-sm italic text-slate-500">{{ $foodA->scientific_name }}</p>
+                    <p class="mt-5 text-sm leading-7 text-slate-600">{{ $foodA->description }}</p>
+                </div>
+                <div class="sf-panel p-8">
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Ingredient B</p>
+                    <h2 class="mt-3 text-3xl font-bold text-slate-900">{{ $foodB->local_name }}</h2>
+                    <p class="mt-2 text-sm italic text-slate-500">{{ $foodB->scientific_name }}</p>
+                    <p class="mt-5 text-sm leading-7 text-slate-600">{{ $foodB->description }}</p>
+                </div>
+            </div>
+
+            <div class="mt-10 grid gap-6 xl:grid-cols-[1fr_0.95fr]">
+                <div class="sf-panel p-8">
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Chart.js comparison</p>
+                    <h2 class="mt-3 text-3xl font-bold text-slate-900">Nutrition difference overview</h2>
+                    <div class="mt-8">
+                        <canvas id="comparisonChart" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="sf-panel p-8">
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Comparison table</p>
+                    <div class="mt-6 space-y-3">
+                        @foreach ($comparisonRows as $row)
+                            <div class="rounded-[1.5rem] bg-slate-50 px-5 py-4">
+                                <div class="flex items-center justify-between gap-4">
+                                    <div>
+                                        <p class="font-semibold text-slate-900">{{ $row['label'] }}</p>
+                                        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">{{ $row['unit'] ?: 'unitless' }}</p>
+                                    </div>
+                                    <div class="grid gap-1 text-right text-sm">
+                                        <span class="text-teal-700">{{ $foodA->local_name }}: {{ $row['food_a'] }}</span>
+                                        <span class="text-amber-700">{{ $foodB->local_name }}: {{ $row['food_b'] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                const comparisonRows = @json($comparisonRows);
+                const comparisonChart = document.getElementById('comparisonChart');
+
+                new Chart(comparisonChart, {
+                    type: 'radar',
+                    data: {
+                        labels: comparisonRows.map(row => row.label),
+                        datasets: [
+                            {
+                                label: @json($foodA->local_name),
+                                data: comparisonRows.map(row => row.food_a),
+                                borderColor: '#0f766e',
+                                backgroundColor: 'rgba(15, 118, 110, 0.18)',
+                            },
+                            {
+                                label: @json($foodB->local_name),
+                                data: comparisonRows.map(row => row.food_b),
+                                borderColor: '#d97706',
+                                backgroundColor: 'rgba(217, 119, 6, 0.18)',
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        @else
+            <div class="sf-panel mt-10 p-10 text-center">
+                <h2 class="text-2xl font-bold text-slate-900">Choose two ingredients to see the nutrition comparison.</h2>
+                <p class="mt-3 text-sm text-slate-600">Example: chicken vs tempeh, apple vs banana, or rice vs corn.</p>
+            </div>
+        @endisset
+    </section>
 @endsection

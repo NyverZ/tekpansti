@@ -1,125 +1,44 @@
-@extends('layouts.app')
+<x-guest-layout>
+    <x-slot:eyebrow>SafeFood Registration</x-slot:eyebrow>
+    <x-slot:heading>Create your account</x-slot:heading>
+    <x-slot:subheading>Join SafeFood to explore HACCP content, run safety checks, compare nutrition, and track your learning.</x-slot:subheading>
 
-@section('content')
+    <form method="POST" action="{{ route('register') }}" class="space-y-5">
+        @csrf
 
-<div class="min-h-[80vh] flex items-center justify-center px-6">
+        <div>
+            <x-input-label for="name" :value="__('Full Name')" />
+            <x-text-input id="name" class="mt-2 block w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Your full name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
 
-<div class="w-full max-w-md bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8">
+        <div>
+            <x-input-label for="email" :value="__('Email Address')" />
+            <x-text-input id="email" class="mt-2 block w-full" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="name@company.com" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
 
-<div class="text-center mb-6">
+        <div>
+            <x-input-label for="password" :value="__('Password')" />
+            <x-text-input id="password" class="mt-2 block w-full" type="password" name="password" required autocomplete="new-password" placeholder="Create a secure password" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
 
-<h1 class="text-3xl font-bold text-emerald-600">
-🌿 EduPlant
-</h1>
+        <div>
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-text-input id="password_confirmation" class="mt-2 block w-full" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Repeat your password" />
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
 
-<p class="text-gray-500 dark:text-gray-400 mt-2">
-Buat akun baru
-</p>
+        <x-primary-button class="w-full justify-center">
+            {{ __('Create Account') }}
+        </x-primary-button>
+    </form>
 
-</div>
-
-
-<form method="POST" action="{{ route('register') }}" class="space-y-4">
-@csrf
-
-
-<div>
-
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300">
-Nama
-</label>
-
-<input
-type="text"
-name="name"
-value="{{ old('name') }}"
-required
-autocomplete="off"
-class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-@error('name')
-<p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-@enderror
-
-</div>
-
-
-<div>
-
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300" @required(true)>
-Email
-</label>
-
-<input
-type="email"
-name="email"
-value="{{ old('email') }}"
-required
-autocomplete="off"
-class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-@error('email')
-<p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-@enderror
-
-</div>
-
-
-<div>
-
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300" @required(true)>
-Password
-</label>
-
-<input
-type="password"
-name="password"
-required
-autocomplete="off"
-class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-@error('password')
-<p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-@enderror
-
-</div>
-
-
-<div>
-
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300">
-Konfirmasi Password
-</label>
-
-<input
-type="password"
-name="password_confirmation"
-required
-autocomplete="off"
-class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-@required(true)
-</div>
-
-
-<button
-class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold transition">
-
-Register
-
-</button>
-
-</form>
-
-
-<p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
-
-Sudah punya akun?
-
-<a href="{{ route('login') }}" class="text-emerald-600 font-semibold">
-Login
-</a>
-
-</p>
-
-</div>
-
-</div>
-
-@endsection
+    <x-slot:footer>
+        <div class="flex flex-col gap-2 text-center sm:flex-row sm:items-center sm:justify-center">
+            <span>Already have an account?</span>
+            <a href="{{ route('login') }}" class="font-semibold text-teal-600 hover:text-teal-500 dark:text-teal-300">Sign in instead</a>
+        </div>
+    </x-slot:footer>
+</x-guest-layout>

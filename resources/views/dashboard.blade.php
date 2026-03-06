@@ -1,135 +1,118 @@
 @extends('layouts.dashboard')
 
 @section('content')
+    @php
+        $chartValues = [$stats['ingredients'], $stats['nutrients'], $stats['articles'], $stats['users'], $stats['pendingSuggestions']];
+    @endphp
 
-@if(Auth::user()->role === 'admin')
+    <section class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+        <div class="space-y-6">
+            <div class="rounded-[2rem] bg-[linear-gradient(140deg,#102033,#0f766e)] px-8 py-10 text-white shadow-xl">
+                <p class="text-sm uppercase tracking-[0.28em] text-teal-100">Overview</p>
+                <h2 class="mt-4 text-4xl font-bold">SafeFood operational dashboard</h2>
+                <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-100">
+                    Monitor food ingredient data, published articles, registered users, and feedback flow from one clean administrative workspace.
+                </p>
+                <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                    @if (auth()->user()->role === 'admin')
+                        <a href="{{ route('admin.articles.index') }}" class="sf-button-secondary border-white/20 bg-white/10 text-white">Manage Articles</a>
+                        <a href="{{ route('admin.ingredients.index') }}" class="sf-button-secondary border-white/20 bg-white/10 text-white">Manage Ingredients</a>
+                    @else
+                        <a href="{{ route('education') }}" class="sf-button-secondary border-white/20 bg-white/10 text-white">Continue Learning</a>
+                        <a href="{{ route('foods.compare') }}" class="sf-button-secondary border-white/20 bg-white/10 text-white">Compare Nutrition</a>
+                    @endif
+                </div>
+            </div>
 
-<!-- ADMIN DASHBOARD -->
-<div class="grid md:grid-cols-5 gap-6 mb-10">
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                <div class="sf-panel p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Ingredients</p>
+                    <p class="mt-3 text-4xl font-bold">{{ $stats['ingredients'] }}</p>
+                </div>
+                <div class="sf-panel p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Nutrients</p>
+                    <p class="mt-3 text-4xl font-bold">{{ $stats['nutrients'] }}</p>
+                </div>
+                <div class="sf-panel p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Articles</p>
+                    <p class="mt-3 text-4xl font-bold">{{ $stats['articles'] }}</p>
+                </div>
+                <div class="sf-panel p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Users</p>
+                    <p class="mt-3 text-4xl font-bold">{{ $stats['users'] }}</p>
+                </div>
+                <div class="sf-panel p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Pending Suggestions</p>
+                    <p class="mt-3 text-4xl font-bold">{{ $stats['pendingSuggestions'] }}</p>
+                </div>
+                <div class="sf-panel p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Daily Tip</p>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">{{ $dailyTip }}</p>
+                </div>
+            </div>
+        </div>
 
-<div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
-<h2 class="text-sm text-gray-600 dark:text-gray-400">Total Tanaman</h2>
-<p class="text-3xl font-bold text-emerald-600">
-{{ \App\Models\Plant::count() }}
-</p>
-</div>
+        <div class="space-y-6">
+            <div class="sf-panel p-6">
+                <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Data mix</p>
+                <h3 class="mt-2 text-2xl font-bold">SafeFood metrics</h3>
+                <div class="mt-6">
+                    <canvas id="dashboardMetricsChart" height="260"></canvas>
+                </div>
+            </div>
 
-<div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
-<h2 class="text-sm text-gray-600 dark:text-gray-400">Total Nutrisi</h2>
-<p class="text-3xl font-bold text-blue-500">
-{{ \App\Models\Nutrient::count() }}
-</p>
-</div>
+            <div class="sf-panel p-6">
+                <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Recent content</p>
+                <h3 class="mt-2 text-2xl font-bold">Latest articles</h3>
+                <div class="mt-6 space-y-4">
+                    @forelse ($latestArticles as $article)
+                        <div class="rounded-[1.5rem] bg-slate-50 px-5 py-4">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <p class="text-sm font-semibold text-slate-900">{{ $article->title }}</p>
+                                    <p class="mt-1 text-xs uppercase tracking-[0.2em] text-slate-500">{{ $article->created_at->format('d M Y') }}</p>
+                                </div>
+                                @if (auth()->user()->role === 'admin')
+                                    <a href="{{ route('admin.articles.edit', $article) }}" class="text-sm font-semibold text-teal-700">Edit</a>
+                                @else
+                                    <a href="{{ route('articles.show', $article) }}" class="text-sm font-semibold text-teal-700">Read</a>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-sm text-slate-500">No articles published yet.</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
-<h2 class="text-sm text-gray-600 dark:text-gray-400">Total User</h2>
-<p class="text-3xl font-bold text-purple-500">
-{{ \App\Models\User::count() }}
-</p>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
-<h2 class="text-sm text-gray-600 dark:text-gray-400">Suggestion Pending</h2>
-<p class="text-3xl font-bold text-orange-500">
-
-@if(\Schema::hasTable('suggestions'))
-{{ \App\Models\Suggestion::where('status','pending')->count() }}
-@else
-0
-@endif
-
-</p>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
-<h2 class="text-sm text-gray-600 dark:text-gray-400">Total Artikel</h2>
-<p class="text-3xl font-bold text-green-600">
-{{ \App\Models\Article::count() }}
-</p>
-</div>
-
-</div>
-
-
-<!-- CHART -->
-<div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow mb-10">
-
-<h2 class="font-semibold text-gray-800 dark:text-white mb-6">
-📊 Statistik EduPlant
-</h2>
-
-<canvas id="chart"></canvas>
-
-</div>
-
-<script>
-const ctx=document.getElementById('chart')
-
-new Chart(ctx,{
-type:'bar',
-data:{
-labels:['Tanaman','Nutrisi','User','Artikel'],
-datasets:[{
-label:'Total Data',
-data:[
-{{ \App\Models\Plant::count() }},
-{{ \App\Models\Nutrient::count() }},
-{{ \App\Models\User::count() }},
-{{ \App\Models\Article::count() }}
-]
-}]
-}
-})
-</script>
-
-
-
-
-
-@else
-
-<!-- USER DASHBOARD -->
-
-<div class="grid md:grid-cols-2 gap-6">
-
-<div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow">
-
-<h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">
-🌱 Jelajahi Tanaman Herbal
-</h2>
-
-<p class="text-gray-600 dark:text-gray-400 mb-4">
-Pelajari berbagai tanaman herbal Indonesia beserta manfaat nutrisinya.
-</p>
-
-<a href="{{ route('plants.index') }}"
-class="bg-emerald-600 text-white px-6 py-3 rounded-xl hover:bg-emerald-700 transition">
-
-Mulai Belajar
-
-</a>
-
-</div>
-
-
-<div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow">
-
-<h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">
-📊 Total Tanaman EduPlant
-</h2>
-
-<p class="text-4xl font-bold text-emerald-600">
-{{ \App\Models\Plant::count() }}
-</p>
-
-<p class="text-gray-600 dark:text-gray-400 mt-2">
-Tanaman herbal tersedia untuk dipelajari
-</p>
-
-</div>
-
-</div>
-
-@endif
-
+    <script>
+        new Chart(document.getElementById('dashboardMetricsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Ingredients', 'Nutrients', 'Articles', 'Users', 'Pending'],
+                datasets: [{
+                    data: @json($chartValues),
+                    backgroundColor: ['#0f766e', '#155e75', '#d97706', '#334155', '#dc2626'],
+                    borderRadius: 12,
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

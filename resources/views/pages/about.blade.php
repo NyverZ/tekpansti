@@ -1,107 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
+    <section class="sf-container">
+        <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <div class="space-y-6">
+                <span class="sf-chip">About SafeFood</span>
+                <h1 class="text-5xl font-bold text-slate-900">A focused digital platform for food safety education</h1>
+                <p class="text-lg leading-8 text-slate-600">
+                    SafeFood replaces the previous plant-centered concept with an integrated learning product about food safety, HACCP, hygiene, storage, and healthy food practices.
+                </p>
+            </div>
 
-<section class="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
+            <div class="grid gap-6">
+                @foreach ($milestones as $milestone)
+                    <article class="sf-panel p-8">
+                        <h2 class="text-3xl font-bold text-slate-900">{{ $milestone['title'] }}</h2>
+                        <p class="mt-4 text-sm leading-8 text-slate-600">{{ $milestone['description'] }}</p>
+                    </article>
+                @endforeach
+            </div>
+        </div>
 
-<div class="container mx-auto px-6">
-
-<!-- TITLE -->
-<div class="text-center mb-12" data-aos="fade-up">
-
-<h1 class="text-4xl font-bold mb-4 text-gray-800 dark:text-white">
-Tentang <span class="text-emerald-500">EduPlant</span>
-</h1>
-
-<p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
-EduPlant merupakan platform edukasi yang bertujuan meningkatkan
-kesadaran masyarakat tentang keamanan pangan, sanitasi, higiene,
-dan gizi pangan melalui media pembelajaran digital yang interaktif.
-</p>
-
-</div>
-
-<!-- CONTENT -->
-<div class="grid md:grid-cols-2 gap-10 items-center">
-
-<!-- TEXT -->
-<div data-aos="fade-right">
-
-<h2 class="text-2xl font-semibold mb-4 text-emerald-500">
-Latar Belakang
-</h2>
-
-<p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-Website ini dikembangkan oleh mahasiswa Program Studi
-Teknologi Pangan dan Sistem & Teknologi Informasi sebagai
-media edukasi digital untuk masyarakat. Dengan adanya platform
-ini diharapkan masyarakat dapat memahami pentingnya keamanan
-pangan, sanitasi, serta pola konsumsi pangan yang sehat.
-</p>
-
-<h2 class="text-2xl font-semibold mb-4 text-emerald-500">
-Tujuan
-</h2>
-
-<ul class="space-y-2 text-gray-600 dark:text-gray-300">
-
-<li>🌱 Memberikan edukasi keamanan pangan</li>
-<li>🥗 Meningkatkan kesadaran gizi masyarakat</li>
-<li>🧼 Memberikan informasi sanitasi dan higiene</li>
-<li>📚 Menyediakan media pembelajaran interaktif</li>
-
-</ul>
-
-</div>
-
-<!-- IMAGE -->
-<div data-aos="fade-left">
-
-<img
-src="https://images.unsplash.com/photo-1543353071-873f17a7a088"
-class="rounded-2xl shadow-lg"
->
-
-</div>
-
-</div>
-
-
-<!-- VISION MISSION -->
-<div class="grid md:grid-cols-2 gap-8 mt-16">
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg transition" data-aos="zoom-in">
-
-<h3 class="text-xl font-bold text-emerald-500 mb-3">
-Visi
-</h3>
-
-<p class="text-gray-600 dark:text-gray-300">
-Menjadi platform edukasi digital yang membantu masyarakat
-memahami pentingnya keamanan pangan dan gizi untuk meningkatkan
-kesehatan dan kualitas hidup.
-</p>
-
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg transition" data-aos="zoom-in">
-
-<h3 class="text-xl font-bold text-emerald-500 mb-3">
-Misi
-</h3>
-
-<ul class="text-gray-600 dark:text-gray-300 space-y-2">
-<li>• Menyediakan informasi edukatif yang mudah dipahami</li>
-<li>• Mengembangkan pembelajaran interaktif</li>
-<li>• Meningkatkan kesadaran masyarakat tentang pangan sehat</li>
-</ul>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
+        <div class="mt-12 grid gap-6 md:grid-cols-2">
+            <div class="sf-panel p-8">
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Vision</p>
+                <p class="mt-4 text-2xl font-bold text-slate-900">Make food safety education practical, modern, and accessible.</p>
+            </div>
+            <div class="sf-panel p-8">
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Mission</p>
+                <p class="mt-4 text-2xl font-bold text-slate-900">Deliver structured content, interactive tools, and production-ready presentation quality.</p>
+            </div>
+        </div>
+    </section>
 @endsection

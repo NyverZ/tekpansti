@@ -1,106 +1,47 @@
-@extends('layouts.app')
+<x-guest-layout>
+    <x-slot:eyebrow>SafeFood Login</x-slot:eyebrow>
+    <x-slot:heading>Welcome back</x-slot:heading>
+    <x-slot:subheading>Sign in to access your SafeFood dashboard, continue learning, and use the platform tools.</x-slot:subheading>
 
-@section('content')
+    <x-auth-session-status class="mb-6 rounded-2xl bg-emerald-100 px-4 py-3 text-sm font-medium text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300" :status="session('status')" />
 
-<div class="min-h-[80vh] flex items-center justify-center px-6">
+    <form method="POST" action="{{ route('login') }}" class="space-y-5">
+        @csrf
 
-<div class="w-full max-w-md bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8">
+        <div>
+            <x-input-label for="email" :value="__('Email Address')" />
+            <x-text-input id="email" class="mt-2 block w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="name@company.com" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
 
-<div class="text-center mb-6">
+        <div>
+            <div class="flex items-center justify-between">
+                <x-input-label for="password" :value="__('Password')" />
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" class="text-sm font-semibold text-teal-600 hover:text-teal-500 dark:text-teal-300">
+                        Forgot password?
+                    </a>
+                @endif
+            </div>
 
-<h1 class="text-3xl font-bold text-emerald-600">
-🌿 EduPlant
-</h1>
+            <x-text-input id="password" class="mt-2 block w-full" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
 
-<p class="text-gray-500 dark:text-gray-400 mt-2">
-Masuk ke akun Anda
-</p>
+        <label class="inline-flex items-center gap-3 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 dark:bg-slate-900 dark:text-slate-300">
+            <input id="remember_me" type="checkbox" class="rounded border-slate-300 text-teal-600 focus:ring-teal-500 dark:border-slate-600 dark:bg-slate-950" name="remember">
+            <span>{{ __('Remember me') }}</span>
+        </label>
 
-</div>
+        <x-primary-button class="w-full justify-center">
+            {{ __('Sign In') }}
+        </x-primary-button>
+    </form>
 
-
-@if(session('status'))
-<div class="bg-green-100 text-green-700 p-3 rounded mb-4">
-{{ session('status') }}
-</div>
-@endif
-
-
-<form method="POST" action="{{ route('login') }}" class="space-y-4">
-@csrf
-
-<div>
-
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300">
-Email
-</label>
-
-<input
-type="email"
-name="email"
-value="{{ old('email') }}"
-required
-autocomplete="off"
-class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-
-@error('email')
-<p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-@enderror
-
-</div>
-
-
-<div>
-
-<label class="block text-sm font-medium text-gray-600 dark:text-gray-300" @required(true)>
-Password
-</label>
-
-<input
-type="password"
-name="password"
-required
-autocomplete="off"
-class="w-full mt-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500">
-
-@error('password')
-<p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-@enderror
-
-</div>
-
-
-<div class="flex items-center justify-between text-sm">
-
-<label class="flex items-center gap-2">
-<input type="checkbox" name="remember">
-Remember me
-</label>
-
-@if (Route::has('password.request'))
-<a href="{{ route('password.request') }}" class="text-emerald-600 hover:underline">
-Forgot password?
-</a>
-@endif
-</div>
-        <button
-        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold transition">
-            Login
-        </button>
-
-</form>
-<p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
-
-Belum punya akun?
-
-<a href="{{ route('register') }}" class="text-emerald-600 font-semibold">
-Register
-</a>
-
-</p>
-
-</div>
-
-</div>
-
-@endsection
+    <x-slot:footer>
+        <div class="flex flex-col gap-2 text-center sm:flex-row sm:items-center sm:justify-center">
+            <span>No account yet?</span>
+            <a href="{{ route('register') }}" class="font-semibold text-teal-600 hover:text-teal-500 dark:text-teal-300">Create a SafeFood account</a>
+        </div>
+    </x-slot:footer>
+</x-guest-layout>

@@ -1,139 +1,74 @@
 @extends('layouts.app')
 
 @section('content')
+    <section class="sf-container">
+        <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <div class="space-y-6">
+                <span class="sf-chip">Food Safety Quiz</span>
+                <h1 class="text-5xl font-bold text-slate-900">Test core food safety knowledge in three questions</h1>
+                <p class="text-lg leading-8 text-slate-600">
+                    The quiz is lightweight, competition-friendly, and designed to reinforce the most important hygiene and storage rules.
+                </p>
+                <div id="quiz-result-panel" class="sf-panel hidden p-8">
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Result</p>
+                    <h2 id="quiz-score" class="mt-3 text-4xl font-bold text-slate-900"></h2>
+                    <p id="quiz-feedback" class="mt-4 text-sm leading-7 text-slate-600"></p>
+                </div>
+            </div>
 
-<script>
-function checkQuiz(){
+            <div class="sf-panel p-8">
+                <form id="safefood-quiz" class="space-y-6">
+                    @foreach ($questions as $index => $question)
+                        <fieldset class="rounded-[1.75rem] bg-slate-50 p-5">
+                            <legend class="text-base font-semibold text-slate-900">{{ $index + 1 }}. {{ $question['question'] }}</legend>
+                            <div class="mt-4 grid gap-3">
+                                @foreach ($question['options'] as $optionIndex => $option)
+                                    <label class="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-sm text-slate-700">
+                                        <input type="radio" name="question_{{ $index }}" value="{{ $optionIndex }}">
+                                        <span>{{ $option }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </fieldset>
+                    @endforeach
 
-let score = 0
+                    <button type="button" id="quiz-submit" class="sf-button-primary">See My Score</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
-const q1 = document.querySelector('input[name="q1"]:checked')
-const q2 = document.querySelector('input[name="q2"]:checked')
-const q3 = document.querySelector('input[name="q3"]:checked')
+    <script>
+        const quizAnswers = @json(collect($questions)->pluck('answer'));
+        const submitButton = document.getElementById('quiz-submit');
 
-if(q1) score += parseInt(q1.value)
-if(q2) score += parseInt(q2.value)
-if(q3) score += parseInt(q3.value)
+        submitButton.addEventListener('click', () => {
+            let score = 0;
 
-let result = document.getElementById("quizResult")
+            quizAnswers.forEach((answer, index) => {
+                const checked = document.querySelector(`input[name="question_${index}"]:checked`);
 
-if(score === 3){
-result.innerHTML = "🎉 Skor Anda 3/3 - Pengetahuan keamanan pangan Anda sangat baik!"
-}
-else if(score === 2){
-result.innerHTML = "👍 Skor Anda 2/3 - Cukup baik, tetapi masih bisa ditingkatkan."
-}
-else{
-result.innerHTML = "⚠️ Skor Anda rendah. Pelajari kembali prinsip keamanan pangan."
-}
+                if (checked && Number(checked.value) === Number(answer)) {
+                    score += 1;
+                }
+            });
 
-}
-</script>
+            const total = quizAnswers.length;
+            const panel = document.getElementById('quiz-result-panel');
+            const scoreLabel = document.getElementById('quiz-score');
+            const feedback = document.getElementById('quiz-feedback');
 
+            scoreLabel.textContent = `${score}/${total}`;
 
-<!-- QUIZ -->
-<section class="py-16 bg-white dark:bg-gray-900">
+            if (score === total) {
+                feedback.textContent = 'Excellent. You have a strong grasp of the essential SafeFood rules.';
+            } else if (score >= total - 1) {
+                feedback.textContent = 'Good result. Review the missed point and keep strengthening your food safety habits.';
+            } else {
+                feedback.textContent = 'Needs improvement. Revisit the education and HACCP sections to reinforce the basics.';
+            }
 
-<div class="container mx-auto px-6 max-w-3xl">
-
-<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-
-<h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
-Kuis Pengetahuan Keamanan Pangan
-</h2>
-
-<p class="text-gray-500 dark:text-gray-400 mb-8">
-Jawab pertanyaan berikut untuk mengetahui tingkat pemahaman Anda.
-</p>
-
-
-<form class="space-y-8">
-
-<!-- Q1 -->
-<div>
-
-<p class="font-semibold mb-3">
-1. Apa langkah pertama sebelum mengolah makanan?
-</p>
-
-<label class="block mb-2">
-<input type="radio" name="q1" value="0"> Langsung memasak
-</label>
-
-<label class="block mb-2">
-<input type="radio" name="q1" value="1"> Mencuci tangan
-</label>
-
-<label class="block">
-<input type="radio" name="q1" value="0"> Menyiapkan piring
-</label>
-
-</div>
-
-
-<!-- Q2 -->
-<div>
-
-<p class="font-semibold mb-3">
-2. Makanan matang sebaiknya disimpan pada suhu?
-</p>
-
-<label class="block mb-2">
-<input type="radio" name="q2" value="0"> Suhu kamar
-</label>
-
-<label class="block mb-2">
-<input type="radio" name="q2" value="1"> Suhu kulkas
-</label>
-
-<label class="block">
-<input type="radio" name="q2" value="0"> Suhu terbuka
-</label>
-
-</div>
-
-
-<!-- Q3 -->
-<div>
-
-<p class="font-semibold mb-3">
-3. Mengapa bahan mentah harus dipisahkan dari makanan matang?
-</p>
-
-<label class="block mb-2">
-<input type="radio" name="q3" value="1"> Untuk mencegah kontaminasi
-</label>
-
-<label class="block mb-2">
-<input type="radio" name="q3" value="0"> Agar terlihat rapi
-</label>
-
-<label class="block">
-<input type="radio" name="q3" value="0"> Agar mudah dimasak
-</label>
-
-</div>
-
-
-<button type="button"
-onclick="checkQuiz()"
-class="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition">
-
-Lihat Hasil Kuis
-
-</button>
-
-</form>
-
-
-<div id="quizResult"
-class="mt-8 text-lg font-semibold text-emerald-600 dark:text-emerald-400">
-</div>
-
-</div>
-
-</div>
-
-</section>
-
+            panel.classList.remove('hidden');
+        });
+    </script>
 @endsection

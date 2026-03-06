@@ -2,102 +2,64 @@
 
 use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\AdminPlantController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SafeFoodController;
 use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\Web\PlantCatalogController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArticleController;
 
+Route::get('/', [SafeFoodController::class, 'home'])->name('home');
 
+Route::get('/food-education', [SafeFoodController::class, 'education'])->name('education');
+Route::get('/haccp', [SafeFoodController::class, 'haccp'])->name('haccp');
+Route::get('/food-safety-checker', [SafeFoodController::class, 'showSafetyChecker'])->name('safety-checker');
+Route::post('/food-safety-checker', [SafeFoodController::class, 'submitSafetyChecker'])->name('safety-checker.submit');
+Route::get('/quiz', [SafeFoodController::class, 'quiz'])->name('quiz');
+Route::get('/consultation', [SafeFoodController::class, 'consultation'])->name('consultation');
+Route::get('/about-us', [SafeFoodController::class, 'about'])->name('about');
+Route::get('/contact', [SafeFoodController::class, 'contact'])->name('contact');
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
+Route::get('/ingredients', [PlantCatalogController::class, 'index'])->name('foods.index');
+Route::get('/ingredients/{plant:slug}', [PlantCatalogController::class, 'show'])->name('foods.show');
+Route::get('/nutrition-comparison', [PlantCatalogController::class, 'compare'])->name('foods.compare');
+Route::post('/nutrition-comparison', [PlantCatalogController::class, 'compareResult'])->name('foods.compare.result');
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/suggest', [SuggestionController::class, 'form'])->name('suggest.form');
+Route::post('/suggest', [SuggestionController::class, 'store'])->name('suggest.store');
 
-Route::get('/suggest', [SuggestionController::class, 'form'])
-    ->name('suggest.form');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-Route::post('/suggest', [SuggestionController::class, 'store'])
-    ->name('suggest.store');
-
-Route::get('/compare', [PlantCatalogController::class, 'compare'])->name('compare');
-
-Route::post('/compare/result', [PlantCatalogController::class, 'compareResult'])->name('compare.result');
-
-Route::post('/article', [ArticleController::class, 'store']);
-
-Route::get('/admin/articles', function () {
-    return view('admin.articles');
-})->name('admin.articles');
-
-Route::get('/admin/article/create', function () {
-    return view('admin.create-article');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/article/{slug}', [ArticleController::class, 'show']);
-
-Route::get('/article/{id}/edit', [ArticleController::class, 'edit']);
-
-Route::put('/article/{id}', [ArticleController::class, 'update']);
-
-Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
-
-Route::post('/compare/result', [PlantCatalogController::class, 'compareResult'])
-    ->name('compare.result');
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::resource('plants', AdminPlantController::class);
+        Route::resource('articles', AdminArticleController::class)->except('show');
+
+        Route::resource('ingredients', AdminPlantController::class)
+            ->except('show')
+            ->parameters(['ingredients' => 'plant'])
+            ->names('ingredients');
     });
 
-Route::middleware(['auth', 'admin'])->group(function () {
-
-
-    Route::resource('admin/articles', AdminArticleController::class);
-});
-
-Route::get('/plants', [PlantCatalogController::class, 'index'])
-    ->name('plants.index');
-
-Route::get('/plants/{plant}', [PlantCatalogController::class, 'show'])
-    ->name('plants.show');
-
-Route::get('/plants/search', [PlantCatalogController::class, 'search'])
-    ->name('plants.search');
-
-
-Route::get('/', fn() => view('home'))->name('home');
-Route::get('/edukasi', fn() => view('pages.edukasi'))->name('edukasi');
-Route::get('/konsultasi', fn() => view('pages.konsultasi'))->name('konsultasi');
-Route::get('/self-check', fn() => view('pages.selfcheck'))->name('selfcheck');
-Route::get('/tentang-kami', fn() => view('pages.about'))->name('about');
-Route::get('/kontak', fn() => view('pages.contact'))->name('contact');
-Route::get('/quiz', fn() => view('pages.quiz'))->name('quiz');
-
-
-
-Route::middleware('auth')->group(function () {
-
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
-
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
-
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
-});
+Route::redirect('/edukasi', '/food-education');
+Route::redirect('/konsultasi', '/consultation');
+Route::redirect('/self-check', '/food-safety-checker');
+Route::redirect('/tentang-kami', '/about-us');
+Route::redirect('/kontak', '/contact');
+Route::redirect('/compare', '/nutrition-comparison');
+Route::redirect('/plants', '/ingredients');
 
 require __DIR__ . '/auth.php';

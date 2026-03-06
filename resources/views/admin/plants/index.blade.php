@@ -1,58 +1,61 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="container mx-auto py-10">
-
-    <div class="flex justify-center items-center gap-96 mb-6">
-        <h1 class="text-2xl font-bold">Kelola Tanaman</h1>
-        <a href="{{ route('admin.plants.create') }}"
-           class="bg-emerald-600 text-white px-4 py-2 rounded-xl">
-           + Tambah
-        </a>
-    </div>
-
-    @if(session('success'))
-        <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
-            {{ session('success') }}
+    <section class="space-y-6">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Ingredients</p>
+                <h2 class="mt-2 text-4xl font-bold text-slate-900">Manage SafeFood ingredients</h2>
+            </div>
+            <a href="{{ route('admin.ingredients.create') }}" class="sf-button-primary">Add Ingredient</a>
         </div>
-    @endif
 
-    <table class="w-full bg-white rounded-xl dark:bg-gray-800 shadow">
-        <thead class="bg-gray-100 dark:bg-gray-700 rounded-t-xl">
-            <tr>
-                <th class="p-3 text-left">Nama</th>
-                <th class="p-3 text-left">Kategori</th>
-                <th class="p-3 text-left">Status</th>
-                <th class="p-3">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach($plants as $plant)
-            <tr class="border-t">
-                <td class="p-3">{{ $plant->local_name }}</td>
-                <td class="p-3">{{ $plant->category->name ?? '-' }}</td>
-                <td class="p-3">
-                    {{ $plant->is_published ? 'Publish' : 'Draft' }}
-                </td>
-                <td class="p-3 flex gap-2 justify-center">
-                    <a href="{{ route('admin.plants.edit',$plant) }}"
-                       class="text-blue-500">Edit</a>
+        @if (session('success'))
+            <div class="rounded-2xl bg-emerald-100 px-5 py-4 text-sm font-medium text-emerald-700">{{ session('success') }}</div>
+        @endif
 
-                    <form method="POST"
-                          action="{{ route('admin.plants.destroy',$plant) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button class="text-red-500">Hapus</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+        <div class="sf-panel overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-500">
+                        <tr>
+                            <th class="px-6 py-4 font-semibold">Ingredient</th>
+                            <th class="px-6 py-4 font-semibold">Category</th>
+                            <th class="px-6 py-4 font-semibold">Slug</th>
+                            <th class="px-6 py-4 font-semibold">Status</th>
+                            <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @foreach ($plants as $plant)
+                            <tr>
+                                <td class="px-6 py-4 font-medium text-slate-900">{{ $plant->local_name }}</td>
+                                <td class="px-6 py-4 text-slate-500">{{ $plant->category?->name ?? '-' }}</td>
+                                <td class="px-6 py-4 text-slate-500">{{ $plant->slug }}</td>
+                                <td class="px-6 py-4">
+                                    <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $plant->is_published ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">
+                                        {{ $plant->is_published ? 'Published' : 'Draft' }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex justify-end gap-3">
+                                        <a href="{{ route('admin.ingredients.edit', $plant) }}" class="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">Edit</a>
+                                        <form method="POST" action="{{ route('admin.ingredients.destroy', $plant) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white" onclick="return confirm('Delete this ingredient?')">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="mt-6">
-        {{ $plants->links() }}
-    </div>
-
-</div>
+        <div>
+            {{ $plants->links() }}
+        </div>
+    </section>
 @endsection

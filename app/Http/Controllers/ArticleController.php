@@ -3,63 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-
+use Illuminate\Contracts\View\View;
 
 class ArticleController extends Controller
 {
-    public function store(Request $request)
+    public function index(): View
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'image' => 'nullable'
-        ]);
+        $articles = Article::query()
+            ->published()
+            ->latest()
+            ->paginate(9);
 
-        Article::create([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'content' => $request->content,
-            'image' => $request->image
-        ]);
-
-        return redirect()->back()->with('success', 'Artikel berhasil ditambahkan');
+        return view('article.index', compact('articles'));
     }
 
-    public function edit($id)
+    public function show(Article $article): View
     {
-        $article = Article::findOrFail($id);
+        abort_unless($article->is_published, 404);
 
-        return view('admin.edit-article', compact('article'));
-    }
+        $relatedArticles = Article::query()
+            ->published()
+            ->whereKeyNot($article->id)
+            ->latest()
+            ->take(3)
+            ->get();
 
-    public function update(Request $request, $id)
-    {
-        $article = Article::findOrFail($id);
-
-        $article->update([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'content' => $request->content,
-            'image' => $request->image
-        ]);
-
-        return redirect('/dashboard')->with('success', 'Artikel berhasil diupdate');
-    }
-
-    public function destroy($id)
-    {
-        $article = Article::findOrFail($id);
-        $article->delete();
-
-        return redirect('/dashboard')->with('success', 'Artikel berhasil dihapus');
-    }
-
-    public function show($slug)
-    {
-        $article = \App\Models\Article::where('slug', $slug)->firstOrFail();
-
-        return view('article.show', compact('article'));
+        return view('article.show', compact('article', 'relatedArticles'));
     }
 }

@@ -45,12 +45,12 @@ class AdminPlantController extends Controller
             'health_benefits' => $request->health_benefits,
             'processing_potential' => $request->processing_potential,
             'category_id' => $request->category_id,
-            'image' => $imagePath,
+            'image_path' => $imagePath,
             'is_published' => $request->has('is_published')
         ]);
 
-        return redirect()->route('admin.plants.index')
-            ->with('success', 'Tanaman berhasil ditambahkan');
+        return redirect()->route('admin.ingredients.index')
+            ->with('success', 'Ingredient added successfully.');
     }
 
     public function edit(Plant $plant)
@@ -79,13 +79,13 @@ class AdminPlantController extends Controller
             'is_published' => $request->has('is_published')
         ]);
 
-        return redirect()->route('admin.plants.index')
-            ->with('success', 'Tanaman berhasil diperbarui');
+        return redirect()->route('admin.ingredients.index')
+            ->with('success', 'Ingredient updated successfully.');
     }
 
     public function destroy(Plant $plant)
     {
         $plant->delete();
-        return back()->with('success', 'Tanaman berhasil dihapus');
+        return back()->with('success', 'Ingredient deleted successfully.');
     }
 }

@@ -4,79 +4,114 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\Category;
 use App\Models\Plant;
-use App\Models\Region;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class PlantCatalogController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        $plants = Plant::query()
-            ->where('is_published', true)
-            ->with('category')
+        $foods = Plant::query()
+            ->published()
+            ->with(['category', 'nutrients'])
             ->when(
                 $request->filled('search'),
-                fn($q) =>
-                $q->where(function ($qq) use ($request) {
-                    $qq->where('local_name', 'like', "%{$request->search}%")
-                        ->orWhere('scientific_name', 'like', "%{$request->search}%");
+                fn ($query) => $query->where(function ($foodQuery) use ($request) {
+                    $search = $request->string('search');
+
+                    $foodQuery
+                        ->where('local_name', 'like', '%' . $search . '%')
+                        ->orWhere('scientific_name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%');
                 })
             )
             ->when(
                 $request->filled('category'),
-                fn($q) =>
-                $q->whereHas('category', fn($qq) => $qq->where('slug', $request->category))
+                fn ($query) => $query->whereHas(
+                    'category',
+                    fn ($categoryQuery) => $categoryQuery->where('slug', $request->string('category'))
+                )
             )
-            ->when(
-                $request->filled('region'),
-                fn($q) =>
-                $q->whereHas('regions', fn($qq) => $qq->where('id', $request->integer('region')))
-            )
-            ->paginate(12)
+            ->latest()
+            ->paginate(9)
             ->withQueryString();
 
         return view('plants.index', [
-            'plants' => $plants,
-            'categories' => Category::orderBy('name')->get(),
-            'regions' => Region::orderBy('name')->get(),
+            'foods' => $foods,
+            'categories' => Category::query()->orderBy('name')->get(),
         ]);
     }
 
-    public function show(Plant $plant)
+    public function show(Plant $plant): View
     {
-        $plant->load(['category', 'nutrients', 'regions']);
-        return view('plants.show', compact('plant'));
-    }
-    public function compare()
-    {
-        $plants = Plant::where('is_published', true)->get();
-        return view('plants.compare', compact('plants'));
+        $plant->load(['category', 'nutrients']);
+
+        $chartData = $plant->nutrients
+            ->map(fn ($nutrient) => [
+                'label' => $nutrient->name,
+                'value' => (float) $nutrient->pivot->amount,
+                'unit' => $nutrient->unit,
+            ])
+            ->values();
+
+        return view('plants.show', [
+            'food' => $plant,
+            'chartData' => $chartData,
+        ]);
     }
 
-    public function compareResult(Request $request)
+    public function compare(): View
     {
-        $request->validate([
-            'plant1' => 'required|different:plant2',
-            'plant2' => 'required'
+        return view('plants.compare', [
+            'foods' => Plant::query()
+                ->published()
+                ->with('nutrients')
+                ->orderBy('local_name')
+                ->get(),
+        ]);
+    }
+
+    public function compareResult(Request $request): View|RedirectResponse
+    {
+        $validated = $request->validate([
+            'food_1' => ['required', 'different:food_2', 'exists:plants,id'],
+            'food_2' => ['required', 'exists:plants,id'],
         ]);
 
-        $plant1 = Plant::with('nutrients')->findOrFail($request->plant1);
-        $plant2 = Plant::with('nutrients')->findOrFail($request->plant2);
-
-        return view('plants.compare', compact('plant1', 'plant2'))
-            ->with('plants', Plant::where('is_published', true)->get());
-    }
-
-    public function search(Request $request)
-    {
-
-        $keyword = $request->q;
-
-        $plants = Plant::where('local_name', 'like', "%$keyword%")
-            ->orWhere('scientific_name', 'like', "%$keyword%")
+        $foods = Plant::query()
+            ->published()
+            ->with('nutrients')
+            ->orderBy('local_name')
             ->get();
 
-        return view('plants.index', compact('plants'));
+        $foodA = $foods->firstWhere('id', (int) $validated['food_1']);
+        $foodB = $foods->firstWhere('id', (int) $validated['food_2']);
+
+        if (! $foodA || ! $foodB) {
+            return redirect()
+                ->route('foods.compare')
+                ->with('error', 'Selected ingredients could not be found.');
+        }
+
+        $comparisonRows = $foodA->nutrients
+            ->merge($foodB->nutrients)
+            ->pluck('name')
+            ->unique()
+            ->values()
+            ->map(function (string $label) use ($foodA, $foodB) {
+                $nutrientA = $foodA->nutrients->firstWhere('name', $label);
+                $nutrientB = $foodB->nutrients->firstWhere('name', $label);
+
+                return [
+                    'label' => $label,
+                    'unit' => $nutrientA?->unit ?? $nutrientB?->unit ?? '',
+                    'food_a' => (float) ($nutrientA?->pivot->amount ?? 0),
+                    'food_b' => (float) ($nutrientB?->pivot->amount ?? 0),
+                ];
+            });
+
+        return view('plants.compare', compact('foods', 'foodA', 'foodB', 'comparisonRows'));
     }
 }

@@ -43,7 +43,7 @@ class PlantController extends Controller
             $this->syncRegions($plant, $data['regions'] ?? []);
         });
 
-        return redirect()->route('admin.plants.index')->with('success', 'Plant created.');
+        return redirect()->route('admin.ingredients.index')->with('success', 'Ingredient created.');
     }
 
     public function edit(Plant $plant)
@@ -76,7 +76,7 @@ class PlantController extends Controller
             $this->syncRegions($plant, $data['regions'] ?? []);
         });
 
-        return redirect()->route('admin.plants.index')->with('success', 'Plant updated.');
+        return redirect()->route('admin.ingredients.index')->with('success', 'Ingredient updated.');
     }
 
     public function destroy(Plant $plant)
@@ -87,7 +87,7 @@ class PlantController extends Controller
 
         $plant->delete();
 
-        return redirect()->route('admin.plants.index')->with('success', 'Plant deleted.');
+        return redirect()->route('admin.ingredients.index')->with('success', 'Ingredient deleted.');
     }
 
     private function syncNutrients(Plant $plant, array $items): void

@@ -1,99 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
+    <section class="sf-container">
+        <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+            <div class="space-y-6">
+                <span class="sf-chip">Food Education</span>
+                <h1 class="text-5xl font-bold text-slate-900">Practical learning tracks for safer food handling</h1>
+                <p class="text-lg leading-8 text-slate-600">
+                    SafeFood organizes education into clear modules so users can understand food hazards, storage, nutrition literacy, and sanitation without technical overload.
+                </p>
+                <div class="sf-panel bg-[linear-gradient(140deg,#102033,#0f766e)] p-8 text-white">
+                    <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Daily reminder</p>
+                    <p class="mt-4 text-2xl font-bold">"{{ $dailyTip }}"</p>
+                </div>
+            </div>
 
-<section class="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-500">
+            <div class="grid gap-6">
+                @foreach ($educationModules as $module)
+                    <article class="sf-panel p-8">
+                        <h2 class="text-3xl font-bold text-slate-900">{{ $module['title'] }}</h2>
+                        <p class="mt-4 text-sm leading-7 text-slate-600">{{ $module['description'] }}</p>
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            @foreach ($module['items'] as $item)
+                                <span class="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">{{ $item }}</span>
+                            @endforeach
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </div>
 
-<div class="max-w-7xl mx-auto px-6">
+        <div class="mt-16">
+            <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div>
+                    <span class="sf-chip">Educational articles</span>
+                    <h2 class="mt-4 text-4xl font-bold text-slate-900">Support each module with current reading</h2>
+                </div>
+                <a href="{{ route('articles.index') }}" class="sf-button-secondary">All Articles</a>
+            </div>
 
-<!-- HERO -->
-<div class="text-center mb-20">
-
-<span class="inline-block px-4 py-1 text-sm font-medium bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full mb-4">
-Edukasi Kesehatan
-</span>
-
-<h1 class="text-5xl md:text-6xl font-extrabold text-gray-800 dark:text-white leading-tight mb-6">
-Edukasi Keamanan Pangan
-</h1>
-
-<p class="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-lg leading-relaxed">
-Pelajari berbagai informasi penting tentang keamanan pangan,
-cara menyimpan makanan dengan benar, serta tips menjaga kesehatan
-keluarga melalui makanan yang aman dan bergizi.
-</p>
-
-</div>
-
-
-<!-- GRID ARTICLE -->
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-
-@foreach(\App\Models\Article::latest()->get() as $article)
-
-<div class="group bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-2xl transition duration-300 overflow-hidden">
-
-<!-- IMAGE -->
-<div class="relative overflow-hidden">
-
-<img
-src="{{ $article->image ?? 'https://images.unsplash.com/photo-1498837167922-ddd27525d352' }}"
-class="h-56 w-full object-cover group-hover:scale-110 transition duration-500"
->
-
-<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-
-<span class="absolute top-4 left-4 text-xs bg-green-600 text-white px-3 py-1 rounded-full shadow">
-Artikel
-</span>
-
-</div>
-
-
-<!-- CONTENT -->
-<div class="p-6">
-
-<h2 class="text-xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition">
-{{ $article->title }}
-</h2>
-
-<p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-5">
-{{ Str::limit(strip_tags($article->content),120) }}
-</p>
-
-<a href="/article/{{ $article->slug }}"
-class="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-medium hover:gap-3 transition">
-
-Baca Artikel
-<span>→</span>
-
-</a>
-
-</div>
-
-</div>
-
-@endforeach
-
-</div>
-
-
-<!-- EMPTY STATE -->
-@if(\App\Models\Article::count() == 0)
-
-<div class="text-center mt-20">
-
-<h3 class="text-xl text-gray-600 dark:text-gray-400">
-Belum ada artikel tersedia
-</h3>
-
-</div>
-
-@endif
-
-
-</div>
-
-</section>
-
+            <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                @foreach ($featuredArticles as $article)
+                    <article class="sf-panel p-8">
+                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500">{{ $article->created_at->format('d M Y') }}</p>
+                        <h3 class="mt-3 text-2xl font-bold text-slate-900">{{ $article->title }}</h3>
+                        <p class="mt-4 text-sm leading-7 text-slate-600">{{ \Illuminate\Support\Str::limit(strip_tags($article->content), 110) }}</p>
+                        <a href="{{ route('articles.show', $article) }}" class="mt-6 inline-flex font-semibold text-teal-700">Read More</a>
+                    </article>
+                @endforeach
+            </div>
+        </div>
+    </section>
 @endsection
