@@ -4,14 +4,14 @@
     <section class="sf-container">
         <div class="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
             <div class="space-y-6">
-                <span class="sf-chip">Consultation</span>
-                <h1 class="text-5xl font-bold text-slate-900">Connect learning with real food safety support</h1>
+                <span class="sf-chip">Konsultasi</span>
+                <h1 class="text-5xl font-bold text-slate-900">Hubungkan pembelajaran dengan dukungan keamanan pangan yang nyata</h1>
                 <p class="text-lg leading-8 text-slate-600">
-                    SafeFood consultation gives users a next step after reading articles, completing the safety checker, or reviewing HACCP guidance.
+                    Konsultasi SafeFood memberi pengguna langkah lanjutan setelah membaca artikel, menyelesaikan pemeriksaan keamanan, atau meninjau panduan HACCP.
                 </p>
                 <div class="sf-panel bg-[linear-gradient(140deg,#102033,#0f766e)] p-8 text-white">
-                    <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Recommended use</p>
-                    <p class="mt-4 text-xl leading-8 text-slate-100">Invite questions about storage failures, sanitation gaps, ingredient handling, or healthy food substitutions.</p>
+                    <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Penggunaan yang disarankan</p>
+                    <p class="mt-4 text-xl leading-8 text-slate-100">Ajak pengguna bertanya tentang kegagalan penyimpanan, celah sanitasi, penanganan bahan pangan, atau pengganti makanan yang lebih sehat.</p>
                 </div>
             </div>
 
@@ -19,18 +19,18 @@
                 <div class="sf-panel p-8">
                     <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Email</p>
                     <p class="mt-4 text-2xl font-bold text-slate-900">{{ $contacts['email'] }}</p>
-                    <p class="mt-3 text-sm leading-7 text-slate-600">Use for structured questions, collaboration requests, or follow-up documentation.</p>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">Gunakan untuk pertanyaan terstruktur, permintaan kolaborasi, atau dokumentasi lanjutan.</p>
                 </div>
                 <div class="sf-panel p-8">
                     <p class="text-sm uppercase tracking-[0.24em] text-slate-500">WhatsApp</p>
                     <p class="mt-4 text-2xl font-bold text-slate-900">{{ $contacts['whatsapp'] }}</p>
-                    <p class="mt-3 text-sm leading-7 text-slate-600">Best for quick consultation and practical discussion around food safety issues.</p>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">Paling sesuai untuk konsultasi cepat dan diskusi praktis seputar isu keamanan pangan.</p>
                 </div>
                 <div class="sf-panel p-8 md:col-span-2">
                     <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Instagram</p>
                     <p class="mt-4 text-2xl font-bold text-slate-900">{{ $contacts['instagram'] }}</p>
-                    <p class="mt-3 text-sm leading-7 text-slate-600">Use social channels for broader educational updates and public engagement.</p>
-                    <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" class="sf-button-primary mt-8">Start WhatsApp Consultation</a>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">Gunakan kanal sosial untuk pembaruan edukasi yang lebih luas dan interaksi publik.</p>
+                    <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" class="sf-button-primary mt-8">Mulai Konsultasi WhatsApp</a>
                 </div>
             </div>
         </div>

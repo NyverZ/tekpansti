@@ -3,8 +3,8 @@
 @section('content')
     <section class="mx-auto max-w-4xl">
         <div class="sf-panel p-8">
-            <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Create</p>
-            <h2 class="mt-2 text-4xl font-bold text-slate-900">New SafeFood article</h2>
+            <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Buat</p>
+            <h2 class="mt-2 text-4xl font-bold text-slate-900">Artikel SafeFood baru</h2>
 
             <form method="POST" action="{{ route('admin.articles.store') }}" class="mt-8 space-y-6">
                 @csrf

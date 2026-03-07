@@ -7,12 +7,12 @@
 <div class="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
 
 <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
-Kirim Saran Tanaman
+Kirim Saran
 </h1>
 
 <p class="text-gray-600 dark:text-gray-400 mb-6">
-Punya rekomendasi tanaman yang bermanfaat untuk kesehatan atau pangan?
-Silakan kirimkan saran Anda kepada kami.
+Punya saran topik, materi, atau fitur untuk pengembangan SafeFood?
+Silakan kirimkan masukan Anda kepada kami.
 </p>
 
 <form method="POST" action="{{ route('suggest.store') }}" class="space-y-4">
@@ -35,12 +35,12 @@ p-3 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
 
 <div>
 <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-Nama Tanaman
+Judul Saran
 </label>
 
 <input
 name="plant_name"
-placeholder="Contoh: Daun Kelor"
+placeholder="Contoh: Tambahkan materi sanitasi dapur"
 class="w-full border border-gray-300 dark:border-gray-600
 dark:bg-gray-700 dark:text-white
 p-3 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
@@ -49,13 +49,13 @@ p-3 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
 
 <div>
 <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-Manfaat / Deskripsi
+Deskripsi Saran
 </label>
 
 <textarea
 name="description"
 rows="4"
-placeholder="Tuliskan manfaat atau alasan tanaman ini penting..."
+placeholder="Tuliskan detail saran atau alasan mengapa ini penting..."
 class="w-full border border-gray-300 dark:border-gray-600
 dark:bg-gray-700 dark:text-white
 p-3 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>

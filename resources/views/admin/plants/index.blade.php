@@ -4,10 +4,10 @@
     <section class="space-y-6">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Ingredients</p>
-                <h2 class="mt-2 text-4xl font-bold text-slate-900">Manage SafeFood ingredients</h2>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Bahan Pangan</p>
+                <h2 class="mt-2 text-4xl font-bold text-slate-900">Kelola bahan pangan SafeFood</h2>
             </div>
-            <a href="{{ route('admin.ingredients.create') }}" class="sf-button-primary">Add Ingredient</a>
+            <a href="{{ route('admin.ingredients.create') }}" class="sf-button-primary">Tambah Bahan Pangan</a>
         </div>
 
         @if (session('success'))
@@ -19,11 +19,11 @@
                 <table class="min-w-full text-left text-sm">
                     <thead class="bg-slate-50 text-slate-500">
                         <tr>
-                            <th class="px-6 py-4 font-semibold">Ingredient</th>
-                            <th class="px-6 py-4 font-semibold">Category</th>
+                            <th class="px-6 py-4 font-semibold">Bahan Pangan</th>
+                            <th class="px-6 py-4 font-semibold">Kategori</th>
                             <th class="px-6 py-4 font-semibold">Slug</th>
                             <th class="px-6 py-4 font-semibold">Status</th>
-                            <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                            <th class="px-6 py-4 font-semibold text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
@@ -34,16 +34,16 @@
                                 <td class="px-6 py-4 text-slate-500">{{ $plant->slug }}</td>
                                 <td class="px-6 py-4">
                                     <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $plant->is_published ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">
-                                        {{ $plant->is_published ? 'Published' : 'Draft' }}
+                                        {{ $plant->is_published ? 'Dipublikasikan' : 'Draft' }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-3">
-                                        <a href="{{ route('admin.ingredients.edit', $plant) }}" class="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">Edit</a>
+                                        <a href="{{ route('admin.ingredients.edit', $plant) }}" class="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">Ubah</a>
                                         <form method="POST" action="{{ route('admin.ingredients.destroy', $plant) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white" onclick="return confirm('Delete this ingredient?')">Delete</button>
+                                            <button class="rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white" onclick="return confirm('Hapus bahan pangan ini?')">Hapus</button>
                                         </form>
                                     </div>
                                 </td>

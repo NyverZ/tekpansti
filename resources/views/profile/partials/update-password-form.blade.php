@@ -2,11 +2,11 @@
 
 <header class="mb-6">
 <h2 class="text-xl font-semibold text-gray-800 dark:text-white">
-Update Password
+Perbarui Kata Sandi
 </h2>
 
 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-Ensure your account is using a long, random password to stay secure.
+Pastikan akun Anda menggunakan kata sandi yang panjang dan acak agar tetap aman.
 </p>
 </header>
 
@@ -19,7 +19,7 @@ Ensure your account is using a long, random password to stay secure.
 <div>
 
 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-Current Password
+Kata Sandi Saat Ini
 </label>
 
 <input
@@ -44,7 +44,7 @@ outline-none transition"
 <div>
 
 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-New Password
+Kata Sandi Baru
 </label>
 
 <input
@@ -69,7 +69,7 @@ outline-none transition"
 <div>
 
 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-Confirm Password
+Konfirmasi Kata Sandi
 </label>
 
 <input
@@ -98,7 +98,7 @@ type="submit"
 class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700
 text-white font-medium shadow-md transition"
 >
-Update Password
+Perbarui Kata Sandi
 </button>
 
 @if (session('status') === 'password-updated')
@@ -110,7 +110,7 @@ x-transition
 x-init="setTimeout(() => show = false, 2000)"
 class="text-sm text-gray-500 dark:text-gray-400"
 >
-Saved.
+Tersimpan.
 </p>
 
 @endif

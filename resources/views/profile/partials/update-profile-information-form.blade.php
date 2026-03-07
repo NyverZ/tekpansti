@@ -2,11 +2,11 @@
 
 <header class="mb-6">
 <h2 class="text-xl font-semibold text-gray-800 dark:text-white">
-{{ __('Profile Information') }}
+{{ __('Informasi Profil') }}
 </h2>
 
 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-{{ __("Update your account's profile information and email address.") }}
+{{ __("Perbarui informasi profil akun dan alamat email Anda.") }}
 </p>
 </header>
 
@@ -25,7 +25,7 @@
 <div>
 
 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-Name
+Nama
 </label>
 
 <input
@@ -80,18 +80,18 @@ outline-none transition"
 <div class="mt-3 p-4 rounded-xl bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700">
 
 <p class="text-sm text-yellow-800 dark:text-yellow-200">
-{{ __('Your email address is unverified.') }}
+{{ __('Alamat email Anda belum terverifikasi.') }}
 </p>
 
 <button form="send-verification"
 class="mt-2 text-sm text-emerald-600 hover:text-emerald-700 font-medium underline">
-{{ __('Click here to re-send the verification email.') }}
+{{ __('Klik di sini untuk mengirim ulang email verifikasi.') }}
 </button>
 
 @if (session('status') === 'verification-link-sent')
 
 <p class="mt-2 text-sm text-green-600">
-{{ __('A new verification link has been sent to your email address.') }}
+{{ __('Tautan verifikasi baru telah dikirim ke alamat email Anda.') }}
 </p>
 
 @endif
@@ -112,7 +112,7 @@ type="submit"
 class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700
 text-white font-medium shadow-md transition"
 >
-Save Changes
+Simpan Perubahan
 </button>
 
 
@@ -125,7 +125,7 @@ x-transition
 x-init="setTimeout(() => show = false, 2000)"
 class="text-sm text-gray-500 dark:text-gray-400"
 >
-Saved.
+Tersimpan.
 </p>
 
 @endif

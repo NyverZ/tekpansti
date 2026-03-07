@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class PlantCatalogController extends Controller
 {
@@ -15,7 +16,8 @@ class PlantCatalogController extends Controller
     {
         $foods = Plant::query()
             ->published()
-            ->with(['category', 'nutrients'])
+            ->with('category')
+            ->withCount('nutrients')
             ->when(
                 $request->filled('search'),
                 fn ($query) => $query->where(function ($foodQuery) use ($request) {
@@ -40,7 +42,10 @@ class PlantCatalogController extends Controller
 
         return view('plants.index', [
             'foods' => $foods,
-            'categories' => Category::query()->orderBy('name')->get(),
+            'categories' => Cache::remember('safefood.categories.options', now()->addHour(), fn () => Category::query()
+                ->orderBy('name')
+                ->select(['id', 'name', 'slug'])
+                ->get()),
         ]);
     }
 
@@ -65,11 +70,11 @@ class PlantCatalogController extends Controller
     public function compare(): View
     {
         return view('plants.compare', [
-            'foods' => Plant::query()
+            'foods' => Cache::remember('safefood.compare.food-options', now()->addMinutes(15), fn () => Plant::query()
                 ->published()
-                ->with('nutrients')
                 ->orderBy('local_name')
-                ->get(),
+                ->select(['id', 'local_name'])
+                ->get()),
         ]);
     }
 
@@ -80,14 +85,21 @@ class PlantCatalogController extends Controller
             'food_2' => ['required', 'exists:plants,id'],
         ]);
 
-        $foods = Plant::query()
+        $foods = Cache::remember('safefood.compare.food-options', now()->addMinutes(15), fn () => Plant::query()
+            ->published()
+            ->orderBy('local_name')
+            ->select(['id', 'local_name'])
+            ->get());
+
+        $selectedFoods = Plant::query()
             ->published()
             ->with('nutrients')
-            ->orderBy('local_name')
-            ->get();
+            ->whereIn('id', [$validated['food_1'], $validated['food_2']])
+            ->get()
+            ->keyBy('id');
 
-        $foodA = $foods->firstWhere('id', (int) $validated['food_1']);
-        $foodB = $foods->firstWhere('id', (int) $validated['food_2']);
+        $foodA = $selectedFoods->get((int) $validated['food_1']);
+        $foodB = $selectedFoods->get((int) $validated['food_2']);
 
         if (! $foodA || ! $foodB) {
             return redirect()

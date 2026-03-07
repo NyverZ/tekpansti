@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\AdminPlantController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -47,6 +48,7 @@ Route::middleware(['auth', 'admin'])
     ->name('admin.')
     ->group(function () {
         Route::resource('articles', AdminArticleController::class)->except('show');
+        Route::resource('users', AdminUserController::class)->only(['index', 'destroy']);
 
         Route::resource('ingredients', AdminPlantController::class)
             ->except('show')

@@ -15,21 +15,21 @@
         })();
     </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('head')
 </head>
 <body class="sf-shell bg-[var(--sf-bg)] text-[var(--sf-ink)] transition-colors duration-300">
     @php
         $navItems = [
-            ['label' => 'Home', 'route' => 'home'],
-            ['label' => 'Food Education', 'route' => 'education'],
+            ['label' => 'Beranda', 'route' => 'home'],
+            ['label' => 'Edukasi', 'route' => 'education'],
             ['label' => 'HACCP', 'route' => 'haccp'],
-            ['label' => 'Safety Checker', 'route' => 'safety-checker'],
-            ['label' => 'Nutrition Comparison', 'route' => 'foods.compare'],
-            ['label' => 'Quiz', 'route' => 'quiz'],
-            ['label' => 'Articles', 'route' => 'articles.index'],
-            ['label' => 'About', 'route' => 'about'],
-            ['label' => 'Contact', 'route' => 'contact'],
+            ['label' => 'Cek Keamanan Makanan', 'route' => 'safety-checker'],
+            ['label' => 'Perbandingan Nutrisi', 'route' => 'foods.compare'],
+            ['label' => 'Kuis', 'route' => 'quiz'],
+            ['label' => 'Artikel', 'route' => 'articles.index'],
+            ['label' => 'Saran', 'route' => 'suggest.form'],
+            ['label' => 'Tentang Kami', 'route' => 'about'],
+            ['label' => 'Kontak', 'route' => 'contact'],
         ];
     @endphp
 
@@ -48,12 +48,12 @@
                 <div class="max-w-xl">
                     <p class="text-xl font-bold text-slate-900 dark:text-white">SafeFood</p>
                     <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                        A competition-ready educational platform for food safety, HACCP literacy, healthy handling habits, and practical nutrition awareness.
+                        Platform edukasi yang siap untuk kompetisi teknologi, dengan fokus pada keamanan pangan, literasi HACCP, praktik penanganan yang higienis, dan pemahaman nutrisi yang praktis.
                     </p>
                 </div>
                 <div class="text-sm text-slate-500 dark:text-slate-400">
                     <p>&copy; {{ date('Y') }} SafeFood.</p>
-                    <p>Built for modern food safety education.</p>
+                    <p>Dibangun untuk edukasi keamanan pangan modern.</p>
                 </div>
             </div>
         </footer>

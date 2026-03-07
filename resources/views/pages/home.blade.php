@@ -5,38 +5,38 @@
         <div class="grid gap-10 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
             <div class="space-y-8">
                 <div class="sf-reveal space-y-5">
-                    <span class="sf-chip">Modern food safety platform for education and competition demos</span>
+                    <span class="sf-chip">Platform keamanan pangan modern untuk edukasi dan demo kompetisi</span>
                     <h1 class="max-w-5xl text-5xl font-bold leading-[0.96] text-slate-950 md:text-7xl dark:text-white">
                         SafeFood
                         <span class="bg-gradient-to-r from-teal-500 via-cyan-500 to-amber-400 bg-clip-text text-transparent">
-                            teaches food safety the smart way.
+                            mengajarkan keamanan pangan dengan cara yang cerdas.
                         </span>
                     </h1>
                     <p class="max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-                        SafeFood combines HACCP education, self-check tools, nutrition comparison, quizzes, and modern articles into one platform designed to impress judges and help users act safely.
+                        SafeFood menggabungkan edukasi HACCP, alat pemeriksaan mandiri, perbandingan nutrisi, Quiz, dan artikel modern dalam satu platform yang dirancang untuk menarik perhatian juri sekaligus membantu pengguna bertindak lebih aman.
                     </p>
                 </div>
 
                 <div class="sf-reveal flex flex-col gap-4 sm:flex-row">
-                    <a href="{{ route('haccp') }}" class="sf-button-primary">Learn HACCP</a>
-                    <a href="{{ route('safety-checker') }}" class="sf-button-secondary">Check Food Safety</a>
+                    <a href="{{ route('haccp') }}" class="sf-button-primary">Pelajari HACCP</a>
+                    <a href="{{ route('safety-checker') }}" class="sf-button-secondary">Cek Keamanan Makanan</a>
                 </div>
 
                 <div class="sf-reveal grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     <div class="sf-stat-card dark:bg-slate-900/70">
-                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Ingredients</p>
+                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Bahan Pangan</p>
                         <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['ingredients'] }}</p>
                     </div>
                     <div class="sf-stat-card dark:bg-slate-900/70">
-                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Nutrition Points</p>
+                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Poin Nutrisi</p>
                         <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['nutritionPoints'] }}</p>
                     </div>
                     <div class="sf-stat-card dark:bg-slate-900/70">
-                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Articles</p>
+                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Artikel</p>
                         <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['articles'] }}</p>
                     </div>
                     <div class="sf-stat-card dark:bg-slate-900/70">
-                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Daily Tips</p>
+                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Tips Harian</p>
                         <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['tips'] }}</p>
                     </div>
                 </div>
@@ -44,10 +44,10 @@
 
             <div class="sf-reveal relative">
                 <div class="absolute -left-6 top-10 hidden rounded-full border border-teal-200 bg-white/85 px-4 py-2 text-sm font-medium text-teal-700 shadow-lg lg:block dark:border-teal-500/30 dark:bg-slate-900/80 dark:text-teal-300">
-                    HACCP Ready
+                    Siap HACCP
                 </div>
                 <div class="absolute -right-4 bottom-10 hidden rounded-full border border-amber-200 bg-white/85 px-4 py-2 text-sm font-medium text-amber-700 shadow-lg lg:block dark:border-amber-500/30 dark:bg-slate-900/80 dark:text-amber-300">
-                    Smart Checker
+                    Pemeriksa Cerdas
                 </div>
 
                 <div class="sf-panel relative overflow-hidden p-4 dark:bg-slate-950/70">
@@ -56,44 +56,44 @@
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-sm uppercase tracking-[0.24em] text-cyan-100">SafeFood Console</p>
-                                <h2 class="mt-3 text-3xl font-bold">Learn. Check. Compare.</h2>
+                                <h2 class="mt-3 text-3xl font-bold">Pelajari. Cek. Bandingkan.</h2>
                             </div>
                             <div class="rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
-                                Startup UI
+                                UI Kompetisi
                             </div>
                         </div>
 
                         <div class="mt-8 grid gap-4 sm:grid-cols-[0.95fr_1.05fr]">
                             <div class="rounded-[1.75rem] bg-white/10 p-5 backdrop-blur">
-                                <p class="text-sm text-white/70">Today's focus</p>
+                                <p class="text-sm text-white/70">Fokus hari ini</p>
                                 <p class="mt-3 text-2xl font-semibold leading-8">"{{ $dailyTip }}"</p>
                             </div>
 
                             <div class="space-y-4">
                                 <div class="rounded-[1.75rem] bg-slate-950/35 p-5 backdrop-blur">
                                     <div class="flex items-center justify-between">
-                                        <p class="text-sm text-white/70">Food Safety Score</p>
-                                        <span class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-semibold text-emerald-200">Live Preview</span>
+                                        <p class="text-sm text-white/70">Skor Keamanan Pangan</p>
+                                        <span class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-semibold text-emerald-200">Pratinjau Langsung</span>
                                     </div>
                                     <div class="mt-4 flex items-end gap-3">
                                         <p class="text-5xl font-bold">92</p>
-                                        <p class="pb-1 text-sm text-white/70">Excellent practice</p>
+                                        <p class="pb-1 text-sm text-white/70">Praktik sangat baik</p>
                                     </div>
                                 </div>
                                 <div class="rounded-[1.75rem] bg-slate-950/35 p-5 backdrop-blur">
-                                    <p class="text-sm text-white/70">Why judges notice it</p>
+                                    <p class="text-sm text-white/70">Alasan juri memperhatikannya</p>
                                     <div class="mt-4 grid grid-cols-3 gap-3 text-center text-sm">
                                         <div class="rounded-2xl bg-white/10 px-3 py-3">
                                             <p class="font-bold">5</p>
-                                            <p class="mt-1 text-white/70">Core tools</p>
+                                            <p class="mt-1 text-white/70">Fitur inti</p>
                                         </div>
                                         <div class="rounded-2xl bg-white/10 px-3 py-3">
                                             <p class="font-bold">3</p>
-                                            <p class="mt-1 text-white/70">Interactive flows</p>
+                                            <p class="mt-1 text-white/70">Alur interaktif</p>
                                         </div>
                                         <div class="rounded-2xl bg-white/10 px-3 py-3">
                                             <p class="font-bold">1</p>
-                                            <p class="mt-1 text-white/70">Unified platform</p>
+                                            <p class="mt-1 text-white/70">Platform terpadu</p>
                                         </div>
                                     </div>
                                 </div>
@@ -108,11 +108,11 @@
     <section class="sf-container mt-24">
         <div class="sf-reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-                <span class="sf-chip">Why Food Safety Matters</span>
-                <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Food safety is a public health issue, not just a kitchen detail</h2>
+                <span class="sf-chip">Mengapa Keamanan Pangan Penting</span>
+                <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Keamanan pangan adalah isu kesehatan publik, bukan sekadar urusan dapur</h2>
             </div>
             <p class="max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                SafeFood helps users understand why hygiene, clean handling, proper temperatures, and contamination control matter in daily decisions.
+                SafeFood membantu pengguna memahami mengapa higienitas, penanganan yang bersih, suhu yang tepat, dan pengendalian kontaminasi penting dalam keputusan sehari-hari.
             </p>
         </div>
 
@@ -130,16 +130,16 @@
                 </article>
             @endforeach
         </div>
-        <p class="mt-5 text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Reference basis: CDC foodborne illness estimates and preventive hygiene guidance.</p>
+        <p class="mt-5 text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Dasar referensi: estimasi penyakit bawaan pangan dari CDC dan panduan higienitas preventif.</p>
     </section>
 
     <section class="sf-container mt-24">
         <div class="sf-reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-                <span class="sf-chip">Core Platform Features</span>
-                <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Five features that define the SafeFood experience</h2>
+                <span class="sf-chip">Fitur Utama Platform</span>
+                <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Lima fitur yang membentuk pengalaman SafeFood</h2>
             </div>
-            <a href="{{ route('education') }}" class="sf-button-secondary">Explore Education</a>
+            <a href="{{ route('education') }}" class="sf-button-secondary">Jelajahi Edukasi</a>
         </div>
 
         <div class="mt-10 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
@@ -161,10 +161,10 @@
     <section class="sf-container mt-24">
         <div class="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
             <div class="sf-panel sf-reveal p-8 md:p-10 dark:bg-slate-900/70">
-                <span class="sf-chip">Interactive Tools</span>
-                <h2 class="mt-5 text-4xl font-bold text-slate-950 dark:text-white">Tools that turn learning into action</h2>
+                <span class="sf-chip">Alat Interaktif</span>
+                <h2 class="mt-5 text-4xl font-bold text-slate-950 dark:text-white">Alat yang mengubah pembelajaran menjadi tindakan</h2>
                 <p class="mt-4 text-base leading-8 text-slate-600 dark:text-slate-300">
-                    The strongest part of SafeFood is interaction. Users do not just read; they check their habits, compare foods, and test their understanding.
+                    Kekuatan utama SafeFood adalah interaksi. Pengguna tidak hanya membaca; mereka juga memeriksa kebiasaan, membandingkan makanan, dan menguji pemahaman mereka.
                 </p>
 
                 <div class="mt-8 space-y-4">
@@ -187,13 +187,13 @@
                 <div class="rounded-[1.75rem] border border-slate-200/80 bg-white/75 p-7 backdrop-blur dark:border-slate-700 dark:bg-slate-950/80">
                     <div class="flex items-end justify-between gap-4">
                         <div>
-                            <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Preview</p>
-                            <h3 class="mt-3 text-3xl font-bold text-slate-950 dark:text-white">Chicken vs Tempeh</h3>
+                            <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Pratinjau</p>
+                            <h3 class="mt-3 text-3xl font-bold text-slate-950 dark:text-white">Ayam vs Tempe</h3>
                         </div>
                         <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">Chart.js</span>
                     </div>
                     <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                        SafeFood uses comparative visualization so users can read nutrition differences quickly, not just scan tables.
+                        SafeFood menggunakan visualisasi perbandingan agar pengguna dapat membaca perbedaan nutrisi dengan cepat, bukan hanya memindai tabel.
                     </p>
                     <div class="mt-8 rounded-[1.5rem] bg-slate-50 p-5 dark:bg-slate-900">
                         <canvas id="homepageNutritionChart" height="280"></canvas>
@@ -206,17 +206,17 @@
     <section class="sf-container mt-24">
         <div class="sf-reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-                <span class="sf-chip">Latest Educational Articles</span>
-                <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Modern reading cards for up-to-date learning</h2>
+                <span class="sf-chip">Artikel Edukasi Terbaru</span>
+                <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Kartu bacaan modern untuk pembelajaran yang relevan</h2>
             </div>
-            <a href="{{ route('articles.index') }}" class="sf-button-secondary">Read All Articles</a>
+            <a href="{{ route('articles.index') }}" class="sf-button-secondary">Lihat Semua Artikel</a>
         </div>
 
         <div class="mt-10 grid gap-6 lg:grid-cols-3">
             @foreach ($latestArticles as $article)
                 <article class="sf-panel sf-hover-lift sf-reveal overflow-hidden dark:bg-slate-900/70">
                     @if ($article->image)
-                        <img src="{{ $article->image }}" alt="{{ $article->title }}" class="h-52 w-full object-cover">
+                        <img src="{{ $article->image }}" alt="{{ $article->title }}" loading="lazy" decoding="async" class="h-52 w-full object-cover">
                     @else
                         <div class="h-52 w-full bg-[linear-gradient(135deg,#0f766e,#0891b2,#f59e0b)]"></div>
                     @endif
@@ -225,7 +225,7 @@
                         <h3 class="mt-4 text-2xl font-bold text-slate-950 dark:text-white">{{ $article->title }}</h3>
                         <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ \Illuminate\Support\Str::limit(strip_tags($article->content), 130) }}</p>
                         <a href="{{ route('articles.show', $article) }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 transition hover:gap-3 dark:text-teal-300">
-                            Read More
+                            Baca Selengkapnya
                             <span aria-hidden="true">-></span>
                         </a>
                     </div>
@@ -238,11 +238,11 @@
         <div class="sf-panel sf-reveal overflow-hidden px-8 py-10 md:px-10 dark:bg-slate-900/70">
             <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
-                    <span class="sf-chip">Platform Statistics</span>
-                    <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Metrics that strengthen platform credibility</h2>
+                    <span class="sf-chip">Statistik Platform</span>
+                    <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Metrik yang memperkuat kredibilitas platform</h2>
                 </div>
                 <p class="max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                    Startup-style counters help communicate scope quickly and give judges a clear read on platform value.
+                    Penghitung bergaya startup membantu menyampaikan cakupan platform dengan cepat dan memberi juri gambaran jelas tentang nilainya.
                 </p>
             </div>
 
@@ -265,16 +265,16 @@
             <div class="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-cyan-400/15 blur-3xl"></div>
             <div class="relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
                 <div class="max-w-2xl">
-                    <span class="inline-flex rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-white/90">Call To Action</span>
-                    <h2 class="mt-5 text-4xl font-bold">Start learning food safety today and protect your health.</h2>
+                    <span class="inline-flex rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-white/90">Aksi Sekarang</span>
+                    <h2 class="mt-5 text-4xl font-bold">Mulai pelajari keamanan pangan hari ini dan lindungi kesehatan Anda.</h2>
                     <p class="mt-4 text-base leading-8 text-slate-100">
-                        SafeFood is built to be clear, interactive, and competition-ready, with modern design and educational depth in one platform.
+                        SafeFood dirancang agar jelas, interaktif, dan siap untuk kompetisi, dengan desain modern serta kedalaman materi edukasi dalam satu platform.
                     </p>
                 </div>
 
                 <div class="flex flex-col gap-3 sm:flex-row">
-                    <a href="{{ route('education') }}" class="sf-button-secondary border-white/20 bg-white/10 text-white">Explore Education</a>
-                    <a href="{{ route('quiz') }}" class="sf-button-primary">Take the Quiz</a>
+                    <a href="{{ route('education') }}" class="sf-button-secondary border-white/20 bg-white/10 text-white">Jelajahi Edukasi</a>
+                    <a href="{{ route('quiz') }}" class="sf-button-primary">Ikuti Kuis</a>
                 </div>
             </div>
         </div>
@@ -282,6 +282,7 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const revealItems = document.querySelectorAll('.sf-reveal');
@@ -335,16 +336,16 @@
                 new Chart(chartCanvas, {
                     type: 'bar',
                     data: {
-                        labels: ['Calories', 'Protein', 'Fat'],
+                        labels: ['Kalori', 'Protein', 'Lemak'],
                         datasets: [
                             {
-                                label: 'Chicken',
+                                label: 'Ayam',
                                 data: [165, 31, 3.6],
                                 backgroundColor: '#0f766e',
                                 borderRadius: 10,
                             },
                             {
-                                label: 'Tempeh',
+                                label: 'Tempe',
                                 data: [193, 20.3, 10.8],
                                 backgroundColor: '#f59e0b',
                                 borderRadius: 10,

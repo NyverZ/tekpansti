@@ -4,13 +4,13 @@
     <section class="sf-container">
         <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div class="space-y-6">
-                <span class="sf-chip">Food Safety Quiz</span>
-                <h1 class="text-5xl font-bold text-slate-900">Test core food safety knowledge in three questions</h1>
+                <span class="sf-chip">Quiz Keamanan Pangan</span>
+                <h1 class="text-5xl font-bold text-slate-900">Uji pengetahuan dasar keamanan pangan dalam tiga pertanyaan</h1>
                 <p class="text-lg leading-8 text-slate-600">
-                    The quiz is lightweight, competition-friendly, and designed to reinforce the most important hygiene and storage rules.
+                    Quiz ini ringan, cocok untuk presentasi kompetisi, dan dirancang untuk memperkuat aturan higienitas serta penyimpanan yang paling penting.
                 </p>
                 <div id="quiz-result-panel" class="sf-panel hidden p-8">
-                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Result</p>
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Hasil</p>
                     <h2 id="quiz-score" class="mt-3 text-4xl font-bold text-slate-900"></h2>
                     <p id="quiz-feedback" class="mt-4 text-sm leading-7 text-slate-600"></p>
                 </div>
@@ -32,7 +32,7 @@
                         </fieldset>
                     @endforeach
 
-                    <button type="button" id="quiz-submit" class="sf-button-primary">See My Score</button>
+                    <button type="button" id="quiz-submit" class="sf-button-primary">Lihat Skor Saya</button>
                 </form>
             </div>
         </div>
@@ -61,11 +61,11 @@
             scoreLabel.textContent = `${score}/${total}`;
 
             if (score === total) {
-                feedback.textContent = 'Excellent. You have a strong grasp of the essential SafeFood rules.';
+                feedback.textContent = 'Sangat baik. Anda memahami aturan penting SafeFood dengan kuat.';
             } else if (score >= total - 1) {
-                feedback.textContent = 'Good result. Review the missed point and keep strengthening your food safety habits.';
+                feedback.textContent = 'Hasil bagus. Tinjau poin yang terlewat dan terus perkuat kebiasaan keamanan pangan Anda.';
             } else {
-                feedback.textContent = 'Needs improvement. Revisit the education and HACCP sections to reinforce the basics.';
+                feedback.textContent = 'Masih perlu ditingkatkan. Kunjungi kembali bagian Edukasi dan HACCP untuk memperkuat dasar-dasarnya.';
             }
 
             panel.classList.remove('hidden');

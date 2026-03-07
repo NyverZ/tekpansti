@@ -8,15 +8,15 @@
     <section class="sf-container">
         <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
             <div class="space-y-6">
-                <span class="sf-chip">Food Safety Checker</span>
-                <h1 class="text-5xl font-bold text-slate-900">Run a quick self-check on your food handling habits</h1>
+                <span class="sf-chip">Cek Keamanan Makanan</span>
+                <h1 class="text-5xl font-bold text-slate-900">Lakukan pemeriksaan singkat pada kebiasaan penanganan makanan Anda</h1>
                 <p class="text-lg leading-8 text-slate-600">
-                    This interactive check replaces the old embedded form with a native SafeFood workflow that scores safety practices and generates recommendations.
+                    Pemeriksaan interaktif ini menggantikan formulir lama dengan alur SafeFood yang menilai praktik keamanan dan menghasilkan rekomendasi.
                 </p>
 
                 @if ($result)
                     <div class="sf-panel bg-[linear-gradient(140deg,#102033,#0f766e)] p-8 text-white">
-                        <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Result</p>
+                        <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Hasil</p>
                         <h2 class="mt-3 text-4xl font-bold">{{ $result['score'] }}/100</h2>
                         <p class="mt-2 text-lg text-slate-100">{{ $result['status'] }}</p>
 
@@ -40,11 +40,11 @@
                             <div class="mt-4 flex flex-wrap gap-3">
                                 <label class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-slate-700">
                                     <input type="radio" name="{{ $question['key'] }}" value="1" @checked(old($question['key']) === '1')>
-                                    Yes
+                                    Ya
                                 </label>
                                 <label class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-slate-700">
                                     <input type="radio" name="{{ $question['key'] }}" value="0" @checked(old($question['key']) === '0')>
-                                    No
+                                    Tidak
                                 </label>
                             </div>
                             @error($question['key'])
@@ -53,7 +53,7 @@
                         </fieldset>
                     @endforeach
 
-                    <button class="sf-button-primary">Calculate Safety Score</button>
+                    <button class="sf-button-primary">Hitung Skor Keamanan</button>
                 </form>
             </div>
         </div>

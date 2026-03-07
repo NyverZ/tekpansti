@@ -9,6 +9,7 @@ use App\Models\Suggestion;
 use App\Models\User;
 use App\Services\SafeFoodContentService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -19,20 +20,23 @@ class DashboardController extends Controller
 
     public function index(): View
     {
+        $isAdmin = auth()->user()?->role === 'admin';
+
         return view('dashboard', [
-            'stats' => [
+            'stats' => Cache::remember('safefood.dashboard.stats', now()->addMinutes(5), fn (): array => [
                 'ingredients' => Plant::count(),
                 'nutrients' => Nutrient::count(),
                 'articles' => Article::count(),
                 'users' => User::count(),
                 'pendingSuggestions' => Suggestion::query()->where('status', 'pending')->count(),
-            ],
+            ]),
             'latestArticles' => Article::query()
                 ->when(
-                    auth()->user()?->role !== 'admin',
+                    ! $isAdmin,
                     fn ($query) => $query->published()
                 )
                 ->latest()
+                ->select(['id', 'slug', 'title', 'created_at', 'is_published'])
                 ->take(4)
                 ->get(),
             'dailyTip' => $this->safeFoodContentService->dailyTip(),

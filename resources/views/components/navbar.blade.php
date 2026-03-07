@@ -1,9 +1,39 @@
 @props(['items' => []])
 
+@php
+    $mobilePrimaryItems = [
+        ['label' => 'Beranda', 'route' => 'home'],
+        ['label' => 'Edukasi', 'route' => 'education'],
+        ['label' => 'Cek Keamanan Makanan', 'route' => 'safety-checker'],
+        ['label' => 'Kuis', 'route' => 'quiz'],
+    ];
+
+    $mobileSecondaryItems = [
+        ['label' => 'Artikel Edukasi', 'route' => 'articles.index'],
+        ['label' => 'Perbandingan Nutrisi', 'route' => 'foods.compare'],
+        ['label' => 'Konsultasi', 'route' => 'consultation'],
+        ['label' => 'Suggest', 'route' => 'suggest.form'],
+        ['label' => 'Tentang Kami', 'route' => 'about'],
+        ['label' => 'Kontak', 'route' => 'contact'],
+    ];
+@endphp
+
 <header
     x-data="{
         open: false,
+        mobileMore: false,
         dark: document.documentElement.classList.contains('dark'),
+        toggleMenu() {
+            this.open = !this.open;
+
+            if (!this.open) {
+                this.mobileMore = false;
+            }
+        },
+        closeMenu() {
+            this.open = false;
+            this.mobileMore = false;
+        },
         toggleTheme() {
             this.dark = !this.dark;
             document.documentElement.classList.toggle('dark', this.dark);
@@ -20,18 +50,18 @@
                 </div>
                 <div>
                     <p class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">SafeFood</p>
-                    <p class="text-[11px] uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Startup Education</p>
+                    <p class="text-[11px] uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Platform Edukasi</p>
                 </div>
             </a>
 
             <div class="hidden items-center gap-3 md:flex">
                 <button
                     type="button"
-                    @click="open = !open"
+                    @click="toggleMenu()"
                     class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-                    aria-label="Toggle navigation menu"
+                    aria-label="Buka menu navigasi"
                 >
-                    <span>Navigation</span>
+                    <span>Navigasi</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 9l-7 7-7-7" />
                     </svg>
@@ -41,7 +71,7 @@
                     type="button"
                     @click="toggleTheme()"
                     class="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:-translate-y-0.5 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-                    aria-label="Toggle dark mode"
+                    aria-label="Ubah mode gelap"
                 >
                     <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M21 12.79A9 9 0 1111.21 3c0 0 0 0 0 0A7 7 0 0021 12.79z" />
@@ -52,14 +82,14 @@
                 </button>
 
                 @auth
-                    <a href="{{ route('dashboard') }}" class="sf-button-secondary">Dashboard</a>
+                    <a href="{{ route('dashboard') }}" class="sf-button-secondary">Dasbor</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button class="sf-button-primary px-5 py-2.5">Logout</button>
+                        <button class="sf-button-primary px-5 py-2.5">Keluar</button>
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="sf-button-secondary">Login</a>
-                    <a href="{{ route('register') }}" class="sf-button-primary">Get Started</a>
+                    <a href="{{ route('register') }}" class="sf-button-primary">Register</a>
                 @endauth
             </div>
 
@@ -68,7 +98,7 @@
                     type="button"
                     @click="toggleTheme()"
                     class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-                    aria-label="Toggle dark mode"
+                    aria-label="Ubah mode gelap"
                 >
                     <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M21 12.79A9 9 0 1111.21 3c0 0 0 0 0 0A7 7 0 0021 12.79z" />
@@ -80,9 +110,9 @@
 
                 <button
                     type="button"
-                    @click="open = !open"
+                    @click="toggleMenu()"
                     class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-                    aria-label="Toggle mobile navigation"
+                    aria-label="Buka navigasi seluler"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M4 7h16M4 12h16M4 17h16" />
@@ -96,15 +126,15 @@
             x-show="open"
             x-transition.origin.top.duration.250ms
             x-cloak
-            @click.outside="open = false"
+            @click.outside="open = false; mobileMore = false"
             class="absolute inset-x-4 top-[calc(100%+0.85rem)] sm:inset-x-6 lg:left-auto lg:right-8 lg:w-[26rem]"
         >
-            <div class="sf-glass rounded-[1.5rem] border border-slate-200/80 px-4 py-4 shadow-[0_22px_60px_rgba(15,23,42,0.18)] dark:border-slate-700/70">
-                <div class="mb-3 px-3 pt-1">
-                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Navigation</p>
+            <div class="sf-glass rounded-[1.5rem] border border-slate-200/80 px-4 py-4 shadow-[0_22px_60px_rgba(15,23,42,0.18)] dark:border-slate-700/70 md:px-4 md:py-4">
+                <div class="mb-3 hidden px-3 pt-1 md:block">
+                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Navigasi</p>
                 </div>
 
-                <nav class="grid gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 md:grid-cols-2">
+                <nav class="hidden gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 md:grid md:grid-cols-2">
                     @foreach ($items as $item)
                         <a href="{{ route($item['route']) }}" class="rounded-2xl px-4 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">
                             {{ $item['label'] }}
@@ -112,16 +142,75 @@
                     @endforeach
                 </nav>
 
+                <div class="space-y-4 md:hidden">
+                    <div class="px-1">
+                        <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Menu Utama</p>
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Fitur terpenting ditampilkan lebih ringkas untuk layar kecil.</p>
+                    </div>
+
+                    <nav class="grid gap-2.5">
+                        @foreach ($mobilePrimaryItems as $item)
+                            <a
+                                href="{{ route($item['route']) }}"
+                                @click="closeMenu()"
+                                class="flex items-center justify-between rounded-[1.25rem] border border-slate-200/80 bg-white/85 px-4 py-4 text-base font-semibold text-slate-800 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950/80 dark:text-slate-100 dark:hover:bg-slate-900"
+                            >
+                                <span>{{ $item['label'] }}</span>
+                                <span class="text-teal-600 dark:text-teal-300" aria-hidden="true">&rarr;</span>
+                            </a>
+                        @endforeach
+                    </nav>
+
+                    <div class="rounded-[1.35rem] border border-slate-200/80 bg-white/80 p-2 dark:border-slate-700 dark:bg-slate-950/75">
+                        <button
+                            type="button"
+                            @click="mobileMore = !mobileMore"
+                            class="flex w-full items-center justify-between rounded-[1rem] px-3 py-3 text-left text-sm font-semibold text-slate-800 transition hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-900"
+                            aria-label="Buka menu lainnya"
+                            :aria-expanded="mobileMore"
+                        >
+                            <div>
+                                <p class="text-base">Lainnya</p>
+                                <p class="mt-0.5 text-xs font-medium uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">Menu sekunder</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition" :class="mobileMore ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div
+                            x-show="mobileMore"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 -translate-y-2"
+                            class="mt-2 space-y-2 px-1 pb-1"
+                        >
+                            @foreach ($mobileSecondaryItems as $item)
+                                <a
+                                    href="{{ route($item['route']) }}"
+                                    @click="closeMenu()"
+                                    class="block rounded-[1rem] px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900"
+                                >
+                                    {{ $item['label'] }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mt-4 grid gap-2 border-t border-slate-200 pt-4 dark:border-slate-800 md:hidden">
                     @auth
-                        <a href="{{ route('dashboard') }}" class="sf-button-secondary justify-center">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" @click="closeMenu()" class="sf-button-secondary justify-center">Dasbor</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button class="sf-button-primary w-full justify-center">Logout</button>
+                            <button @click="closeMenu()" class="sf-button-primary w-full justify-center">Keluar</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="sf-button-secondary justify-center">Login</a>
-                        <a href="{{ route('register') }}" class="sf-button-primary justify-center">Get Started</a>
+                        <a href="{{ route('login') }}" @click="closeMenu()" class="sf-button-secondary justify-center">Login</a>
+                        <a href="{{ route('register') }}" @click="closeMenu()" class="sf-button-primary justify-center">Register</a>
                     @endauth
                 </div>
             </div>

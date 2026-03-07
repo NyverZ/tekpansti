@@ -34,17 +34,17 @@
                             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-sm font-bold tracking-[0.2em] text-white">SF</div>
                             <div>
                                 <p class="text-xl font-bold">SafeFood</p>
-                                <p class="text-xs uppercase tracking-[0.34em] text-cyan-100/80">Secure Access</p>
+                                <p class="text-xs uppercase tracking-[0.34em] text-cyan-100/80">Akses Aman</p>
                             </div>
                         </a>
 
                         <div class="mt-16 space-y-6">
-                            <span class="inline-flex rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-cyan-50">Company-style access experience</span>
+                            <span class="inline-flex rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-cyan-50">Pengalaman akses bergaya profesional</span>
                             <h1 class="max-w-xl text-5xl font-bold leading-[1.02]">
-                                Professional authentication screens for a competition-ready platform.
+                                Layar autentikasi profesional untuk platform yang siap ditampilkan dalam kompetisi.
                             </h1>
                             <p class="max-w-lg text-base leading-8 text-slate-100">
-                                SafeFood access pages now present a consistent brand surface with better structure, stronger hierarchy, and a polished product feel.
+                                Halaman akses SafeFood kini menampilkan identitas merek yang konsisten dengan struktur yang lebih baik, hierarki yang lebih jelas, dan kesan produk yang lebih matang.
                             </p>
                         </div>
                     </div>
@@ -52,15 +52,15 @@
                     <div class="relative grid gap-4 sm:grid-cols-3">
                         <div class="rounded-[1.75rem] bg-white/10 px-5 py-5 backdrop-blur">
                             <p class="text-3xl font-bold">01</p>
-                            <p class="mt-2 text-sm text-slate-100/80">Unified visual standard</p>
+                            <p class="mt-2 text-sm text-slate-100/80">Standar visual terpadu</p>
                         </div>
                         <div class="rounded-[1.75rem] bg-white/10 px-5 py-5 backdrop-blur">
                             <p class="text-3xl font-bold">02</p>
-                            <p class="mt-2 text-sm text-slate-100/80">Clearer secure access flow</p>
+                            <p class="mt-2 text-sm text-slate-100/80">Alur akses aman yang lebih jelas</p>
                         </div>
                         <div class="rounded-[1.75rem] bg-white/10 px-5 py-5 backdrop-blur">
                             <p class="text-3xl font-bold">03</p>
-                            <p class="mt-2 text-sm text-slate-100/80">Presentation-ready for judges</p>
+                            <p class="mt-2 text-sm text-slate-100/80">Siap dipresentasikan kepada juri</p>
                         </div>
                     </div>
                 </div>
@@ -71,22 +71,22 @@
                     <div class="mb-6 flex items-center justify-between">
                         <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300">
                             <span aria-hidden="true">&larr;</span>
-                            <span>Back to homepage</span>
+                            <span>Kembali ke beranda</span>
                         </a>
                         <button
                             type="button"
                             onclick="document.documentElement.classList.toggle('dark'); localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light')"
                             class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                         >
-                            ❤️ 
+                            Tema
                         </button>
                     </div>
 
                     <div class="sf-panel overflow-hidden p-8 shadow-[0_25px_70px_rgba(15,23,42,0.12)] dark:bg-slate-950/85 md:p-10">
                         <div class="mb-8">
-                            <p class="text-xs font-semibold uppercase tracking-[0.34em] text-slate-400 dark:text-slate-500">{{ $eyebrow ?? 'SafeFood Access' }}</p>
-                            <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">{{ $heading ?? 'Welcome back' }}</h2>
-                            <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ $subheading ?? 'Use your account to continue learning with SafeFood.' }}</p>
+                            <p class="text-xs font-semibold uppercase tracking-[0.34em] text-slate-400 dark:text-slate-500">{{ $eyebrow ?? 'Akses SafeFood' }}</p>
+                            <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">{{ $heading ?? 'Selamat datang kembali' }}</h2>
+                            <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ $subheading ?? 'Gunakan akun Anda untuk melanjutkan pembelajaran bersama SafeFood.' }}</p>
                         </div>
 
                         {{ $slot }}

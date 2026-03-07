@@ -12,6 +12,7 @@ class ArticleController extends Controller
         $articles = Article::query()
             ->published()
             ->latest()
+            ->select(['id', 'slug', 'title', 'content', 'image', 'created_at'])
             ->paginate(9);
 
         return view('article.index', compact('articles'));
@@ -25,6 +26,7 @@ class ArticleController extends Controller
             ->published()
             ->whereKeyNot($article->id)
             ->latest()
+            ->select(['id', 'slug', 'title', 'created_at'])
             ->take(3)
             ->get();
 

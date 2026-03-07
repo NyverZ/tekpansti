@@ -8,6 +8,8 @@ use App\Services\SafeFoodContentService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class SafeFoodController extends Controller
 {
@@ -18,24 +20,32 @@ class SafeFoodController extends Controller
 
     public function home(): View
     {
-        return view('pages.home', [
-            'stats' => [
+        $stats = Cache::remember('safefood.home.stats', now()->addMinutes(10), function (): array {
+            $articleCount = Article::query()->published()->count();
+
+            return [
                 'ingredients' => Plant::query()->published()->count(),
-                'nutritionPoints' => Plant::query()->withCount('nutrients')->get()->sum('nutrients_count'),
-                'articles' => Article::query()->published()->count(),
+                'nutritionPoints' => DB::table('plant_nutrient')
+                    ->join('plants', 'plants.id', '=', 'plant_nutrient.plant_id')
+                    ->where('plants.is_published', true)
+                    ->count(),
+                'articles' => $articleCount,
                 'tips' => count($this->safeFoodContentService->tips()),
-            ],
-            'featuredFoods' => Plant::query()
-                ->published()
-                ->with(['category', 'nutrients'])
-                ->latest()
-                ->take(6)
-                ->get(),
-            'latestArticles' => Article::query()
+            ];
+        });
+
+        $latestArticles = Cache::remember('safefood.home.latest-articles', now()->addMinutes(10), function () {
+            return Article::query()
                 ->published()
                 ->latest()
+                ->select(['id', 'slug', 'title', 'content', 'image', 'created_at'])
                 ->take(3)
-                ->get(),
+                ->get();
+        });
+
+        return view('pages.home', [
+            'stats' => $stats,
+            'latestArticles' => $latestArticles,
             'dailyTip' => $this->safeFoodContentService->dailyTip(),
             'educationModules' => $this->safeFoodContentService->educationModules(),
             'whyItMattersStats' => [
@@ -118,7 +128,7 @@ class SafeFoodController extends Controller
                 ],
             ],
             'platformStats' => [
-                ['value' => max(50, Article::query()->published()->count()), 'suffix' => '+', 'label' => 'Educational Touchpoints'],
+                ['value' => max(50, $stats['articles']), 'suffix' => '+', 'label' => 'Educational Touchpoints'],
                 ['value' => 20, 'suffix' => '+', 'label' => 'Food Safety Topics'],
                 ['value' => 500, 'suffix' => '+', 'label' => 'Target Learners'],
             ],
@@ -130,11 +140,14 @@ class SafeFoodController extends Controller
         return view('pages.edukasi', [
             'educationModules' => $this->safeFoodContentService->educationModules(),
             'dailyTip' => $this->safeFoodContentService->dailyTip(),
-            'featuredArticles' => Article::query()
-                ->published()
-                ->latest()
-                ->take(6)
-                ->get(),
+            'featuredArticles' => Cache::remember('safefood.education.featured-articles', now()->addMinutes(10), function () {
+                return Article::query()
+                    ->published()
+                    ->latest()
+                    ->select(['id', 'slug', 'title', 'content', 'created_at'])
+                    ->take(6)
+                    ->get();
+            }),
         ]);
     }
 

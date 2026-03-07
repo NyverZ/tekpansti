@@ -43,19 +43,19 @@ Menu
 <div class="space-y-2">
 
 <div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 font-medium">
-Profile
+Profil
 </div>
 
 <div class="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition">
-Account Settings
+Pengaturan Akun
 </div>
 
 <div class="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition">
-Security
+Keamanan
 </div>
 
 <div class="p-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 text-red-500 cursor-pointer transition">
-Danger Zone
+Zona Berbahaya
 </div>
 
 </div>
@@ -67,13 +67,13 @@ Danger Zone
 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5">
 
 <h3 class="font-semibold text-gray-800 dark:text-white mb-4">
-Account Info
+Info Akun
 </h3>
 
 <div class="space-y-2 text-sm">
 
 <p class="text-gray-500 dark:text-gray-400">
-Name
+Nama
 </p>
 
 <p class="font-medium text-gray-800 dark:text-white">
@@ -104,7 +104,7 @@ Email
 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
 
 <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">
-Update Profile Information
+Perbarui Informasi Profil
 </h2>
 
 @include('profile.partials.update-profile-information-form')
@@ -117,7 +117,7 @@ Update Profile Information
 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
 
 <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">
-Change Password
+Ubah Kata Sandi
 </h2>
 
 @include('profile.partials.update-password-form')
@@ -130,7 +130,7 @@ Change Password
 <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8">
 
 <h2 class="text-xl font-semibold text-red-600 mb-6">
-Delete Account
+Hapus Akun
 </h2>
 
 @include('profile.partials.delete-user-form')

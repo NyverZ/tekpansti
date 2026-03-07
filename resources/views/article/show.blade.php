@@ -16,7 +16,7 @@
 
             <aside class="space-y-6">
                 <div class="sf-panel p-6">
-                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Related reading</p>
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Bacaan terkait</p>
                     <div class="mt-6 space-y-4">
                         @forelse ($relatedArticles as $related)
                             <a href="{{ route('articles.show', $related) }}" class="block rounded-[1.5rem] bg-slate-50 px-5 py-4">
@@ -24,13 +24,13 @@
                                 <p class="mt-1 text-xs uppercase tracking-[0.2em] text-slate-500">{{ $related->created_at->format('d M Y') }}</p>
                             </a>
                         @empty
-                            <p class="text-sm text-slate-500">No related articles available.</p>
+                            <p class="text-sm text-slate-500">Belum ada artikel terkait.</p>
                         @endforelse
                     </div>
                 </div>
                 <div class="sf-panel p-6">
-                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Continue learning</p>
-                    <a href="{{ route('education') }}" class="mt-4 inline-flex font-semibold text-teal-700">Back to Food Education</a>
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Lanjut belajar</p>
+                    <a href="{{ route('education') }}" class="mt-4 inline-flex font-semibold text-teal-700">Kembali ke Edukasi</a>
                 </div>
             </aside>
         </div>

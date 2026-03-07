@@ -4,10 +4,10 @@
     <section class="sf-container">
         <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div class="space-y-6">
-                <span class="sf-chip">About SafeFood</span>
-                <h1 class="text-5xl font-bold text-slate-900">A focused digital platform for food safety education</h1>
+                <span class="sf-chip">Tentang SafeFood</span>
+                <h1 class="text-5xl font-bold text-slate-900">Platform digital terfokus untuk edukasi keamanan pangan</h1>
                 <p class="text-lg leading-8 text-slate-600">
-                    SafeFood replaces the previous plant-centered concept with an integrated learning product about food safety, HACCP, hygiene, storage, and healthy food practices.
+                    SafeFood menggantikan konsep lama yang berpusat pada tanaman menjadi produk pembelajaran terintegrasi tentang keamanan pangan, HACCP, higienitas, penyimpanan, dan praktik pangan sehat.
                 </p>
             </div>
 
@@ -23,12 +23,12 @@
 
         <div class="mt-12 grid gap-6 md:grid-cols-2">
             <div class="sf-panel p-8">
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Vision</p>
-                <p class="mt-4 text-2xl font-bold text-slate-900">Make food safety education practical, modern, and accessible.</p>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Visi</p>
+                <p class="mt-4 text-2xl font-bold text-slate-900">Menjadikan edukasi keamanan pangan lebih praktis, modern, dan mudah diakses.</p>
             </div>
             <div class="sf-panel p-8">
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Mission</p>
-                <p class="mt-4 text-2xl font-bold text-slate-900">Deliver structured content, interactive tools, and production-ready presentation quality.</p>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Misi</p>
+                <p class="mt-4 text-2xl font-bold text-slate-900">Menyajikan konten terstruktur, alat interaktif, dan kualitas presentasi yang siap ditampilkan.</p>
             </div>
         </div>
     </section>
