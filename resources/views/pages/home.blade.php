@@ -1,11 +1,35 @@
 @extends('layouts.app')
 
+@section('title', 'SafeFood | Edukasi Keamanan Pangan, HACCP, Nutrisi, dan Self Check')
+@section('meta_description', 'SafeFood adalah platform edukasi keamanan pangan untuk masyarakat umum yang membahas HACCP, higiene pangan, nutrisi, perbandingan bahan pangan, kuis, artikel edukasi, dan self-check keamanan makanan.')
+@section('canonical', route('home'))
+@section('og_title', 'SafeFood | Platform Edukasi Keamanan Pangan')
+@section('og_description', 'Pelajari keamanan pangan, HACCP, nutrisi, dan kebiasaan penanganan makanan yang aman melalui artikel, perbandingan nutrisi, kuis, dan self-check publik.')
+
+@push('head')
+    @php
+        $faqSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => collect($faqs)->map(fn (array $faq) => [
+                '@type' => 'Question',
+                'name' => $faq['question'],
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => $faq['answer'],
+                ],
+            ])->values()->all(),
+        ];
+    @endphp
+    <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+@endpush
+
 @section('content')
     <section class="sf-container pt-6">
         <div class="grid gap-10 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
             <div class="space-y-8">
                 <div class="sf-reveal space-y-5">
-                    <span class="sf-chip">Platform keamanan pangan modern untuk edukasi dan demo kompetisi</span>
+                    <span class="sf-chip">Platform keamanan pangan modern untuk edukasi dan kolaborasi antar Prodi</span>
                     <h1 class="max-w-5xl text-5xl font-bold leading-[0.96] text-slate-950 md:text-7xl dark:text-white">
                         SafeFood
                         <span class="bg-gradient-to-r from-teal-500 via-cyan-500 to-amber-400 bg-clip-text text-transparent">
@@ -43,13 +67,6 @@
             </div>
 
             <div class="sf-reveal relative">
-                <div class="absolute -left-6 top-10 hidden rounded-full border border-teal-200 bg-white/85 px-4 py-2 text-sm font-medium text-teal-700 shadow-lg lg:block dark:border-teal-500/30 dark:bg-slate-900/80 dark:text-teal-300">
-                    Siap HACCP
-                </div>
-                <div class="absolute -right-4 bottom-10 hidden rounded-full border border-amber-200 bg-white/85 px-4 py-2 text-sm font-medium text-amber-700 shadow-lg lg:block dark:border-amber-500/30 dark:bg-slate-900/80 dark:text-amber-300">
-                    Pemeriksa Cerdas
-                </div>
-
                 <div class="sf-panel relative overflow-hidden p-4 dark:bg-slate-950/70">
                     <div class="absolute inset-x-10 top-0 h-28 rounded-b-full bg-gradient-to-r from-teal-500/20 via-cyan-400/20 to-amber-400/20 blur-2xl"></div>
                     <div class="relative rounded-[2rem] bg-[linear-gradient(145deg,#082f49,#0f766e_55%,#f59e0b_140%)] p-7 text-white">
@@ -159,6 +176,32 @@
     </section>
 
     <section class="sf-container mt-24">
+        <div class="sf-reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+                <span class="sf-chip">Mulai Dari Sini</span>
+                <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Alur tercepat untuk memahami SafeFood</h2>
+            </div>
+            <p class="max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">
+                Bagian ini membuat pengunjung baru, juri, dan pengguna umum langsung paham ke mana harus mulai tanpa perlu menebak alur platform.
+            </p>
+        </div>
+
+        <div class="mt-10 grid gap-6 lg:grid-cols-3">
+            @foreach ($journeySteps as $step)
+                <article class="sf-panel sf-reveal p-8 dark:bg-slate-900/70">
+                    <p class="text-sm font-semibold uppercase tracking-[0.26em] text-teal-600 dark:text-teal-300">{{ $step['step'] }}</p>
+                    <h3 class="mt-4 text-2xl font-bold text-slate-950 dark:text-white">{{ $step['title'] }}</h3>
+                    <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ $step['description'] }}</p>
+                    <a href="{{ $step['href'] }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 transition hover:gap-3 dark:text-teal-300">
+                        {{ $step['cta'] }}
+                        <span aria-hidden="true">-></span>
+                    </a>
+                </article>
+            @endforeach
+        </div>
+    </section>
+
+    <section class="sf-container mt-24">
         <div class="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
             <div class="sf-panel sf-reveal p-8 md:p-10 dark:bg-slate-900/70">
                 <span class="sf-chip">Alat Interaktif</span>
@@ -199,6 +242,47 @@
                         <canvas id="homepageNutritionChart" height="280"></canvas>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sf-container mt-24">
+        <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <div class="sf-reveal">
+                <span class="sf-chip">Pertanyaan Umum</span>
+                <h2 class="mt-4 text-4xl font-bold text-slate-950 dark:text-white">Hal penting yang sering ditanyakan pengguna</h2>
+                <p class="mt-4 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300">
+                    FAQ singkat ini membantu pengunjung memahami konsep utama platform dengan cepat dan membuat beranda terasa lebih lengkap serta lebih meyakinkan untuk demo.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                @foreach ($faqs as $faq)
+                    <article x-data="{ open: false }" class="sf-panel sf-reveal overflow-hidden dark:bg-slate-900/70">
+                        <button
+                            type="button"
+                            @click="open = !open"
+                            class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                            :aria-expanded="open"
+                        >
+                            <span class="text-lg font-semibold text-slate-900 dark:text-white">{{ $faq['question'] }}</span>
+                            <span class="text-2xl font-light text-teal-600 dark:text-teal-300" x-text="open ? '-' : '+'"></span>
+                        </button>
+                        <div
+                            x-show="open"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 -translate-y-2"
+                            x-cloak
+                            class="border-t border-slate-200 px-6 py-5 text-sm leading-7 text-slate-600 dark:border-slate-800 dark:text-slate-300"
+                        >
+                            {{ $faq['answer'] }}
+                        </div>
+                    </article>
+                @endforeach
             </div>
         </div>
     </section>

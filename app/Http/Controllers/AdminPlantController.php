@@ -50,7 +50,7 @@ class AdminPlantController extends Controller
         ]);
 
         return redirect()->route('admin.ingredients.index')
-            ->with('success', 'Ingredient added successfully.');
+            ->with('success', 'Bahan pangan berhasil ditambahkan.');
     }
 
     public function edit(Plant $plant)
@@ -80,12 +80,12 @@ class AdminPlantController extends Controller
         ]);
 
         return redirect()->route('admin.ingredients.index')
-            ->with('success', 'Ingredient updated successfully.');
+            ->with('success', 'Bahan pangan berhasil diperbarui.');
     }
 
     public function destroy(Plant $plant)
     {
         $plant->delete();
-        return back()->with('success', 'Ingredient deleted successfully.');
+        return back()->with('success', 'Bahan pangan berhasil dihapus.');
     }
 }

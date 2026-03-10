@@ -7,29 +7,29 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
 </head>
-<body class="min-h-screen bg-[#efe7d8] text-slate-900">
+<body class="min-h-screen bg-[#efe7d8] text-slate-900 dark:bg-slate-950 dark:text-white">
     <div class="flex min-h-screen flex-col lg:flex-row">
-        <aside class="w-full border-b border-slate-200/80 bg-white/70 backdrop-blur-xl lg:w-72 lg:border-b-0 lg:border-r">
+        <aside class="w-full border-b border-slate-200/80 bg-white/70 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80 lg:w-72 lg:border-b-0 lg:border-r">
             <div class="flex items-center justify-between px-6 py-6 lg:block">
                 <a href="{{ route('home') }}" class="block">
                     <p class="text-2xl font-bold text-teal-700">SafeFood</p>
-                    <p class="text-xs uppercase tracking-[0.24em] text-slate-500">Konsol Admin</p>
+                    <p class="text-xs uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Konsol Admin</p>
                 </a>
-                <a href="{{ route('home') }}" class="text-sm font-semibold text-slate-600 lg:hidden">Kembali ke situs</a>
+                <a href="{{ route('home') }}" class="text-sm font-semibold text-slate-600 dark:text-slate-300 lg:hidden">Kembali ke situs</a>
             </div>
 
             <nav class="grid gap-2 px-4 pb-6">
-                <a href="{{ route('dashboard') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white' }}">Dasbor</a>
-                <a href="{{ route('foods.index') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('foods.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white' }}">Katalog Pangan</a>
+                <a href="{{ route('dashboard') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white dark:bg-slate-800/90 dark:text-slate-200 dark:hover:bg-slate-800' }}">Dasbor</a>
+                <a href="{{ route('foods.index') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('foods.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white dark:bg-slate-800/90 dark:text-slate-200 dark:hover:bg-slate-800' }}">Katalog Pangan</a>
                 @if (auth()->user()->role === 'admin')
-                    <a href="{{ route('admin.ingredients.index') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('admin.ingredients.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white' }}">Kelola Bahan Pangan</a>
-                    <a href="{{ route('admin.articles.index') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('admin.articles.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white' }}">Kelola Artikel</a>
-                    <a href="{{ route('admin.users.index') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('admin.users.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white' }}">Kelola Pengguna</a>
+                    <a href="{{ route('admin.ingredients.index') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('admin.ingredients.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white dark:bg-slate-800/90 dark:text-slate-200 dark:hover:bg-slate-800' }}">Kelola Bahan Pangan</a>
+                    <a href="{{ route('admin.articles.index') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('admin.articles.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white dark:bg-slate-800/90 dark:text-slate-200 dark:hover:bg-slate-800' }}">Kelola Artikel</a>
+                    <a href="{{ route('admin.users.index') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('admin.users.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white dark:bg-slate-800/90 dark:text-slate-200 dark:hover:bg-slate-800' }}">Kelola Pengguna</a>
                 @endif
-                <a href="{{ route('profile.edit') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('profile.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white' }}">Pengaturan Profil</a>
+                <a href="{{ route('profile.edit') }}" class="rounded-2xl px-4 py-3 {{ request()->routeIs('profile.*') ? 'bg-teal-700 text-white' : 'bg-white/80 text-slate-700 hover:bg-white dark:bg-slate-800/90 dark:text-slate-200 dark:hover:bg-slate-800' }}">Pengaturan Profil</a>
             </nav>
 
-            <div class="border-t border-slate-200 px-4 py-6">
+            <div class="border-t border-slate-200 px-4 py-6 dark:border-slate-800">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button class="w-full rounded-2xl bg-[#7f1d1d] px-4 py-3 text-left text-sm font-semibold text-white">Keluar</button>
@@ -38,19 +38,19 @@
         </aside>
 
         <div class="flex-1">
-            <header class="border-b border-slate-200/80 bg-white/60 px-6 py-5 backdrop-blur-xl sm:px-8">
+            <header class="border-b border-slate-200/80 bg-white/60 px-6 py-5 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/70 sm:px-8">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <p class="text-sm uppercase tracking-[0.28em] text-slate-500">Operasional</p>
-                        <h1 class="text-2xl font-bold">Dasbor SafeFood</h1>
+                        <p class="text-sm uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">Operasional</p>
+                        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Dasbor SafeFood</h1>
                     </div>
-                    <div class="flex items-center gap-3 rounded-full bg-white px-4 py-2 shadow-sm">
+                    <div class="flex items-center gap-3 rounded-full bg-white px-4 py-2 shadow-sm dark:bg-slate-800">
                         <div class="flex h-10 w-10 items-center justify-center rounded-full bg-teal-700 font-bold text-white">
                             {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                         </div>
                         <div>
-                            <p class="text-sm font-semibold">{{ Auth::user()->name }}</p>
-                            <p class="text-xs text-slate-500">{{ auth()->user()->role }}</p>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">{{ auth()->user()->role }}</p>
                         </div>
                     </div>
                 </div>

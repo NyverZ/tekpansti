@@ -64,6 +64,7 @@ class Plant extends Model
             'nutrient_id'
         )
             ->withPivot(['amount', 'notes'])
+            ->orderBy('nutrients.name')
             ->withTimestamps();
     }
 

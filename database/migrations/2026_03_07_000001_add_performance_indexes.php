@@ -8,25 +8,43 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('articles', function (Blueprint $table) {
-            $table->index('slug');
-            $table->index(['is_published', 'created_at']);
-        });
+        if (Schema::hasTable('articles') && ! Schema::hasIndex('articles', 'articles_slug_index')) {
+            Schema::table('articles', function (Blueprint $table) {
+                $table->index('slug');
+            });
+        }
 
-        Schema::table('suggestions', function (Blueprint $table) {
-            $table->index('status');
-        });
+        if (Schema::hasTable('articles') && ! Schema::hasIndex('articles', 'articles_is_published_created_at_index')) {
+            Schema::table('articles', function (Blueprint $table) {
+                $table->index(['is_published', 'created_at']);
+            });
+        }
+
+        if (Schema::hasTable('suggestions') && ! Schema::hasIndex('suggestions', 'suggestions_status_index')) {
+            Schema::table('suggestions', function (Blueprint $table) {
+                $table->index('status');
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('articles', function (Blueprint $table) {
-            $table->dropIndex(['slug']);
-            $table->dropIndex(['is_published', 'created_at']);
-        });
+        if (Schema::hasTable('articles') && Schema::hasIndex('articles', 'articles_slug_index')) {
+            Schema::table('articles', function (Blueprint $table) {
+                $table->dropIndex('articles_slug_index');
+            });
+        }
 
-        Schema::table('suggestions', function (Blueprint $table) {
-            $table->dropIndex(['status']);
-        });
+        if (Schema::hasTable('articles') && Schema::hasIndex('articles', 'articles_is_published_created_at_index')) {
+            Schema::table('articles', function (Blueprint $table) {
+                $table->dropIndex('articles_is_published_created_at_index');
+            });
+        }
+
+        if (Schema::hasTable('suggestions') && Schema::hasIndex('suggestions', 'suggestions_status_index')) {
+            Schema::table('suggestions', function (Blueprint $table) {
+                $table->dropIndex('suggestions_status_index');
+            });
+        }
     }
 };

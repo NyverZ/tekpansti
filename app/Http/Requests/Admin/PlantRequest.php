@@ -15,9 +15,13 @@ class PlantRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if (!$this->filled('slug') && $this->filled('local_name')) {
+        if (! $this->filled('slug') && $this->filled('local_name')) {
             $this->merge(['slug' => Str::slug($this->local_name)]);
         }
+
+        $this->merge([
+            'is_published' => $this->boolean('is_published'),
+        ]);
     }
 
     public function rules(): array
@@ -35,10 +39,11 @@ class PlantRequest extends FormRequest
             'is_published' => ['nullable', 'boolean'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
 
-            'nutrients' => ['nullable', 'array'],
-            'nutrients.*.id' => ['required', 'integer', 'exists:nutrients,id'],
-            'nutrients.*.amount' => ['required', 'numeric', 'min:0'],
-            'nutrients.*.notes' => ['nullable', 'string', 'max:255'],
+            'nutrient_values' => ['nullable', 'array'],
+            'nutrient_values.carbohydrate' => ['nullable', 'numeric', 'min:0'],
+            'nutrient_values.protein' => ['nullable', 'numeric', 'min:0'],
+            'nutrient_values.fat' => ['nullable', 'numeric', 'min:0'],
+            'nutrient_values.calcium' => ['nullable', 'numeric', 'min:0'],
 
             'regions' => ['nullable', 'array'],
             'regions.*.id' => ['required', 'integer', 'exists:regions,id'],

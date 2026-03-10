@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\Category;
 use App\Models\Plant;
+use App\Models\Nutrient;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -53,13 +54,7 @@ class PlantCatalogController extends Controller
     {
         $plant->load(['category', 'nutrients']);
 
-        $chartData = $plant->nutrients
-            ->map(fn ($nutrient) => [
-                'label' => $nutrient->name,
-                'value' => (float) $nutrient->pivot->amount,
-                'unit' => $nutrient->unit,
-            ])
-            ->values();
+        $chartData = $this->buildNutrientRows($plant);
 
         return view('plants.show', [
             'food' => $plant,
@@ -104,26 +99,63 @@ class PlantCatalogController extends Controller
         if (! $foodA || ! $foodB) {
             return redirect()
                 ->route('foods.compare')
-                ->with('error', 'Selected ingredients could not be found.');
+                ->with('error', 'Bahan pangan yang dipilih tidak ditemukan.');
         }
 
-        $comparisonRows = $foodA->nutrients
-            ->merge($foodB->nutrients)
-            ->pluck('name')
-            ->unique()
-            ->values()
-            ->map(function (string $label) use ($foodA, $foodB) {
-                $nutrientA = $foodA->nutrients->firstWhere('name', $label);
-                $nutrientB = $foodB->nutrients->firstWhere('name', $label);
-
-                return [
-                    'label' => $label,
-                    'unit' => $nutrientA?->unit ?? $nutrientB?->unit ?? '',
-                    'food_a' => (float) ($nutrientA?->pivot->amount ?? 0),
-                    'food_b' => (float) ($nutrientB?->pivot->amount ?? 0),
-                ];
-            });
+        $comparisonRows = $this->buildComparisonRows($foodA, $foodB);
 
         return view('plants.compare', compact('foods', 'foodA', 'foodB', 'comparisonRows'));
+    }
+
+    private function nutrientDefinitions()
+    {
+        $definitions = collect(Nutrient::foodCompositionDefinitions());
+        $existing = Nutrient::query()
+            ->whereIn('slug', $definitions->keys())
+            ->get()
+            ->keyBy('slug');
+
+        return $definitions->map(function (array $definition, string $slug) use ($existing) {
+            $nutrient = $existing->get($slug);
+
+            return (object) [
+                'slug' => $slug,
+                'name' => $nutrient?->name ?? $definition['name'],
+                'unit' => $nutrient?->unit ?? $definition['unit'],
+            ];
+        })->values();
+    }
+
+    private function buildNutrientRows(Plant $plant)
+    {
+        return $this->nutrientDefinitions()
+            ->map(function (object $nutrient) use ($plant) {
+                $current = $plant->nutrients->firstWhere('slug', $nutrient->slug);
+
+                return [
+                    'label' => $nutrient->name,
+                    'slug' => $nutrient->slug,
+                    'value' => (float) ($current?->pivot->amount ?? 0),
+                    'unit' => $current?->unit ?? $nutrient->unit,
+                ];
+            })
+            ->values();
+    }
+
+    private function buildComparisonRows(Plant $foodA, Plant $foodB)
+    {
+        $nutrients = $this->nutrientDefinitions();
+
+        return $nutrients->map(function (object $nutrient) use ($foodA, $foodB) {
+            $nutrientA = $foodA->nutrients->firstWhere('slug', $nutrient->slug);
+            $nutrientB = $foodB->nutrients->firstWhere('slug', $nutrient->slug);
+
+            return [
+                'label' => $nutrient->name,
+                'unit' => $nutrient->unit,
+                'food_a' => (float) ($nutrientA?->pivot->amount ?? 0),
+                'food_b' => (float) ($nutrientB?->pivot->amount ?? 0),
+            ];
+        })->values();
     }
 }

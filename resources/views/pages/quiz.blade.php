@@ -5,14 +5,14 @@
         <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div class="space-y-6">
                 <span class="sf-chip">Quiz Keamanan Pangan</span>
-                <h1 class="text-5xl font-bold text-slate-900">Uji pengetahuan dasar keamanan pangan dalam tiga pertanyaan</h1>
-                <p class="text-lg leading-8 text-slate-600">
+                <h1 class="text-5xl font-bold text-slate-900 dark:text-white">Uji pengetahuan dasar keamanan pangan dalam tiga pertanyaan</h1>
+                <p class="text-lg leading-8 text-slate-600 dark:text-slate-300">
                     Quiz ini ringan, cocok untuk presentasi kompetisi, dan dirancang untuk memperkuat aturan higienitas serta penyimpanan yang paling penting.
                 </p>
                 <div id="quiz-result-panel" class="sf-panel hidden p-8">
-                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Hasil</p>
-                    <h2 id="quiz-score" class="mt-3 text-4xl font-bold text-slate-900"></h2>
-                    <p id="quiz-feedback" class="mt-4 text-sm leading-7 text-slate-600"></p>
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Hasil</p>
+                    <h2 id="quiz-score" class="mt-3 text-4xl font-bold text-slate-900 dark:text-white"></h2>
+                    <p id="quiz-feedback" class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"></p>
                 </div>
             </div>
 
@@ -20,10 +20,10 @@
                 <form id="safefood-quiz" class="space-y-6">
                     @foreach ($questions as $index => $question)
                         <fieldset class="rounded-[1.75rem] bg-slate-50 p-5">
-                            <legend class="text-base font-semibold text-slate-900">{{ $index + 1 }}. {{ $question['question'] }}</legend>
+                            <legend class="text-base font-semibold text-slate-900 dark:text-white">{{ $index + 1 }}. {{ $question['question'] }}</legend>
                             <div class="mt-4 grid gap-3">
                                 @foreach ($question['options'] as $optionIndex => $option)
-                                    <label class="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-sm text-slate-700">
+                                    <label class="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-200">
                                         <input type="radio" name="question_{{ $index }}" value="{{ $optionIndex }}">
                                         <span>{{ $option }}</span>
                                     </label>

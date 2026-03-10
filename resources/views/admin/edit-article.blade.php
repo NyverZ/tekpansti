@@ -18,7 +18,7 @@
 <input type="text" name="image" value="{{ $article->image }}" class="border p-2 w-full mb-4">
 
 <button class="bg-green-600 text-white px-4 py-2 rounded">
-Update Artikel
+Perbarui Artikel
 </button>
 
 </form>

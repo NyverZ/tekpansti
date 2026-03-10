@@ -13,32 +13,32 @@
         <div class="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             @foreach ($principles as $index => $principle)
                 <article class="sf-panel p-8">
-                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Prinsip {{ $index + 1 }}</p>
-                    <p class="mt-4 text-lg leading-8 text-slate-700">{{ $principle }}</p>
+                    <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Prinsip {{ $index + 1 }}</p>
+                    <p class="mt-4 text-lg leading-8 text-slate-700 dark:text-slate-300">{{ $principle }}</p>
                 </article>
             @endforeach
         </div>
 
         <div class="mt-12 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
             <div class="sf-panel p-8">
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Contoh penerapan</p>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Contoh penerapan</p>
                 <div class="mt-6 space-y-5">
                     @foreach ($examples as $example)
                         <div class="rounded-[1.75rem] bg-slate-50 p-6">
-                            <h2 class="text-2xl font-bold text-slate-900">{{ $example['title'] }}</h2>
-                            <p class="mt-4 text-sm leading-7 text-slate-600"><strong>Bahaya:</strong> {{ $example['hazard'] }}</p>
-                            <p class="mt-2 text-sm leading-7 text-slate-600"><strong>CCP:</strong> {{ $example['ccp'] }}</p>
-                            <p class="mt-2 text-sm leading-7 text-slate-600"><strong>Batas Kritis:</strong> {{ $example['limit'] }}</p>
+                            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">{{ $example['title'] }}</h2>
+                            <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"><strong>Bahaya:</strong> {{ $example['hazard'] }}</p>
+                            <p class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300"><strong>CCP:</strong> {{ $example['ccp'] }}</p>
+                            <p class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300"><strong>Batas Kritis:</strong> {{ $example['limit'] }}</p>
                         </div>
                     @endforeach
                 </div>
             </div>
 
             <div class="sf-panel p-8">
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Checklist praktis</p>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Checklist praktis</p>
                 <div class="mt-6 space-y-4">
                     @foreach ($checklist as $item)
-                        <div class="rounded-[1.5rem] bg-slate-50 px-5 py-4 text-sm leading-7 text-slate-700">{{ $item }}</div>
+                        <div class="rounded-[1.5rem] bg-slate-50 px-5 py-4 text-sm leading-7 text-slate-700 dark:bg-slate-800 dark:text-slate-300">{{ $item }}</div>
                     @endforeach
                 </div>
             </div>

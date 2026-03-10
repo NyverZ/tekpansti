@@ -2,28 +2,26 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
         $this->call([
+            CategorySeeder::class,
             NutrientSeeder::class,
             IngredientSeeder::class,
+            PlantNutrientSeeder::class,
             ArticleSeeder::class,
+            AdminSeeder::class,
         ]);
 
-        User::updateOrCreate(
-            ['email' => 'admin@admin.local'],
-            [
-                'name' => 'Super Admin',
-                'password' => Hash::make('12345678'),
-                'role' => 'admin',
-                'is_admin' => true,
-            ]
-        );
+        Cache::forget('safefood.categories.options');
+        Cache::forget('safefood.compare.food-options');
+        Cache::forget('safefood.home.stats');
+        Cache::forget('safefood.home.latest-articles');
+        Cache::forget('safefood.education.featured-articles');
     }
 }

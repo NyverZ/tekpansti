@@ -8,6 +8,9 @@ class PlantSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call(IngredientSeeder::class);
+        $this->call([
+            IngredientSeeder::class,
+            PlantNutrientSeeder::class,
+        ]);
     }
 }

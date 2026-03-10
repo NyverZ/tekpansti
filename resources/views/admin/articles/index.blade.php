@@ -4,15 +4,15 @@
     <section class="space-y-6">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Artikel Admin</p>
-                <h2 class="mt-2 text-4xl font-bold text-slate-900">Kelola artikel edukasi</h2>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Artikel Admin</p>
+                <h2 class="mt-2 text-4xl font-bold text-slate-900 dark:text-white">Kelola artikel edukasi</h2>
             </div>
             <a href="{{ route('admin.articles.create') }}" class="sf-button-primary">Buat Artikel</a>
         </div>
 
         <div class="sf-panel p-6">
             <form method="GET" action="{{ route('admin.articles.index') }}" class="flex flex-col gap-4 md:flex-row">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul atau isi..." class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 md:max-w-md">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul atau isi..." class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 md:max-w-md dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
                 <button class="sf-button-secondary">Cari</button>
             </form>
         </div>
@@ -24,7 +24,7 @@
         <div class="sf-panel overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full text-left text-sm">
-                    <thead class="bg-slate-50 text-slate-500">
+                    <thead class="bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                         <tr>
                             <th class="px-6 py-4 font-semibold">Judul</th>
                             <th class="px-6 py-4 font-semibold">Slug</th>
@@ -36,14 +36,14 @@
                     <tbody class="divide-y divide-slate-100">
                         @forelse ($articles as $article)
                             <tr>
-                                <td class="px-6 py-4 font-medium text-slate-900">{{ $article->title }}</td>
-                                <td class="px-6 py-4 text-slate-500">{{ $article->slug }}</td>
+                                <td class="px-6 py-4 font-medium text-slate-900 dark:text-white">{{ $article->title }}</td>
+                                <td class="px-6 py-4 text-slate-500 dark:text-slate-400">{{ $article->slug }}</td>
                                 <td class="px-6 py-4">
                                     <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $article->is_published ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">
-                                        {{ $article->is_published ? 'Dipublikasikan' : 'Draft' }}
+                                        {{ $article->is_published ? 'Dipublikasikan' : 'Draf' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-slate-500">{{ $article->created_at->format('d M Y') }}</td>
+                                <td class="px-6 py-4 text-slate-500 dark:text-slate-400">{{ $article->created_at->format('d M Y') }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-3">
                                         <a href="{{ route('admin.articles.edit', $article) }}" class="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">Ubah</a>
@@ -57,7 +57,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-8 text-center text-slate-500">Tidak ada artikel ditemukan.</td>
+                                <td colspan="5" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">Tidak ada artikel ditemukan.</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -4,8 +4,8 @@
     <section class="space-y-6">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Bahan Pangan</p>
-                <h2 class="mt-2 text-4xl font-bold text-slate-900">Kelola bahan pangan SafeFood</h2>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Bahan Pangan</p>
+                <h2 class="mt-2 text-4xl font-bold text-slate-900 dark:text-white">Kelola bahan pangan SafeFood</h2>
             </div>
             <a href="{{ route('admin.ingredients.create') }}" class="sf-button-primary">Tambah Bahan Pangan</a>
         </div>
@@ -17,7 +17,7 @@
         <div class="sf-panel overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full text-left text-sm">
-                    <thead class="bg-slate-50 text-slate-500">
+                    <thead class="bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                         <tr>
                             <th class="px-6 py-4 font-semibold">Bahan Pangan</th>
                             <th class="px-6 py-4 font-semibold">Kategori</th>
@@ -29,12 +29,12 @@
                     <tbody class="divide-y divide-slate-100">
                         @foreach ($plants as $plant)
                             <tr>
-                                <td class="px-6 py-4 font-medium text-slate-900">{{ $plant->local_name }}</td>
-                                <td class="px-6 py-4 text-slate-500">{{ $plant->category?->name ?? '-' }}</td>
-                                <td class="px-6 py-4 text-slate-500">{{ $plant->slug }}</td>
+                                <td class="px-6 py-4 font-medium text-slate-900 dark:text-white">{{ $plant->local_name }}</td>
+                                <td class="px-6 py-4 text-slate-500 dark:text-slate-400">{{ $plant->category?->name ?? '-' }}</td>
+                                <td class="px-6 py-4 text-slate-500 dark:text-slate-400">{{ $plant->slug }}</td>
                                 <td class="px-6 py-4">
                                     <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $plant->is_published ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">
-                                        {{ $plant->is_published ? 'Dipublikasikan' : 'Draft' }}
+                                        {{ $plant->is_published ? 'Dipublikasikan' : 'Draf' }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">

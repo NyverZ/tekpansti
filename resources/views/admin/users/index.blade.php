@@ -4,9 +4,9 @@
     <section class="space-y-6">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500">Admin Pengguna</p>
-                <h2 class="mt-2 text-4xl font-bold text-slate-900">Kelola pengguna SafeFood</h2>
-                <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Admin Pengguna</p>
+                <h2 class="mt-2 text-4xl font-bold text-slate-900 dark:text-white">Kelola pengguna SafeFood</h2>
+                <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">
                     Pantau akun yang sudah terdaftar, cari pengguna dengan cepat, dan kelola akses dari satu tabel admin yang ringkas.
                 </p>
             </div>
@@ -19,20 +19,20 @@
         <div class="sf-panel p-6">
             <form method="GET" action="{{ route('admin.users.index') }}" class="flex flex-col gap-4 lg:flex-row lg:items-center">
                 <div class="flex-1">
-                    <label for="search" class="mb-2 block text-sm font-semibold text-slate-700">Cari pengguna</label>
+                    <label for="search" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">Cari pengguna</label>
                     <input
                         id="search"
                         type="text"
                         name="search"
                         value="{{ request('search') }}"
-                        placeholder="Cari nama, email, atau role..."
-                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-teal-500 focus:ring-4 focus:ring-teal-100"
+                        placeholder="Cari nama, email, atau peran..."
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-teal-500 focus:ring-4 focus:ring-teal-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-teal-900/40"
                     >
                 </div>
                 <div class="flex gap-3 lg:self-end">
                     <button class="sf-button-secondary">Cari</button>
                     @if (request()->filled('search'))
-                        <a href="{{ route('admin.users.index') }}" class="rounded-full border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Reset</a>
+                        <a href="{{ route('admin.users.index') }}" class="rounded-full border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Atur Ulang</a>
                     @endif
                 </div>
             </form>
@@ -49,17 +49,17 @@
         <div class="sf-panel overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-                    <thead class="bg-slate-50 text-slate-500">
+                    <thead class="bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                         <tr>
                             <th class="px-6 py-4 font-semibold">Avatar</th>
                             <th class="px-6 py-4 font-semibold">Nama</th>
-                            <th class="px-6 py-4 font-semibold">Email</th>
-                            <th class="px-6 py-4 font-semibold">Role</th>
+                            <th class="px-6 py-4 font-semibold">Alamat Email</th>
+                            <th class="px-6 py-4 font-semibold">Peran</th>
                             <th class="px-6 py-4 font-semibold">Terdaftar</th>
                             <th class="px-6 py-4 font-semibold text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 bg-white">
+                    <tbody class="divide-y divide-slate-100 bg-white dark:divide-slate-800 dark:bg-slate-900/80">
                         @forelse ($users as $user)
                             <tr class="align-middle">
                                 <td class="px-6 py-4">
@@ -69,22 +69,22 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div>
-                                        <p class="font-semibold text-slate-900">{{ $user->name }}</p>
+                                        <p class="font-semibold text-slate-900 dark:text-white">{{ $user->name }}</p>
                                         @if (auth()->id() === $user->id)
                                             <p class="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-teal-700">Akun Anda</p>
                                         @endif
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-slate-600">{{ $user->email }}</td>
+                                <td class="px-6 py-4 text-slate-600 dark:text-slate-300">{{ $user->email }}</td>
                                 <td class="px-6 py-4">
-                                    <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $user->role === 'admin' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700' }}">
-                                        {{ ucfirst($user->role ?? 'user') }}
+                                    <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $user->role === 'admin' ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300' }}">
+                                        {{ $user->role === 'admin' ? 'Admin' : 'Pengguna' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-slate-500">{{ optional($user->created_at)->format('d M Y') }}</td>
+                                <td class="px-6 py-4 text-slate-500 dark:text-slate-400">{{ optional($user->created_at)->format('d M Y') }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-3">
-                                        <a href="mailto:{{ $user->email }}" class="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">Email</a>
+                                        <a href="mailto:{{ $user->email }}" class="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Kirim Email</a>
                                         @if (auth()->id() !== $user->id)
                                             <form method="POST" action="{{ route('admin.users.destroy', $user) }}">
                                                 @csrf
@@ -97,7 +97,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-10 text-center text-slate-500">Tidak ada pengguna yang sesuai dengan pencarian.</td>
+                                <td colspan="6" class="px-6 py-10 text-center text-slate-500 dark:text-slate-400">Tidak ada pengguna yang sesuai dengan pencarian.</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -5,35 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Nutrient;
 use App\Models\Plant;
-use App\Models\Suggestion;
 use App\Models\User;
 use App\Services\SafeFoodContentService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
     public function __construct(
         private readonly SafeFoodContentService $safeFoodContentService
-    ) {
-    }
+    ) {}
 
     public function index(): View
     {
-        $isAdmin = auth()->user()?->role === 'admin';
+        $isAdmin = Auth::user()?->role === 'admin';
 
         return view('dashboard', [
-            'stats' => Cache::remember('safefood.dashboard.stats', now()->addMinutes(5), fn (): array => [
+            'stats' => Cache::remember('safefood.dashboard.stats', now()->addMinutes(5), fn(): array => [
                 'ingredients' => Plant::count(),
                 'nutrients' => Nutrient::count(),
                 'articles' => Article::count(),
                 'users' => User::count(),
-                'pendingSuggestions' => Suggestion::query()->where('status', 'pending')->count(),
             ]),
             'latestArticles' => Article::query()
                 ->when(
                     ! $isAdmin,
-                    fn ($query) => $query->published()
+                    fn($query) => $query->published()
                 )
                 ->latest()
                 ->select(['id', 'slug', 'title', 'created_at', 'is_published'])

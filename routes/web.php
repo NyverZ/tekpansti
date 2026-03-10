@@ -1,13 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminArticleController;
-use App\Http\Controllers\AdminPlantController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\Admin\PlantController as AdminPlantResourceController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SafeFoodController;
-use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\Web\PlantCatalogController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,8 +29,7 @@ Route::post('/nutrition-comparison', [PlantCatalogController::class, 'compareRes
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 
-Route::get('/suggest', [SuggestionController::class, 'form'])->name('suggest.form');
-Route::post('/suggest', [SuggestionController::class, 'store'])->name('suggest.store');
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -50,7 +48,7 @@ Route::middleware(['auth', 'admin'])
         Route::resource('articles', AdminArticleController::class)->except('show');
         Route::resource('users', AdminUserController::class)->only(['index', 'destroy']);
 
-        Route::resource('ingredients', AdminPlantController::class)
+        Route::resource('ingredients', AdminPlantResourceController::class)
             ->except('show')
             ->parameters(['ingredients' => 'plant'])
             ->names('ingredients');

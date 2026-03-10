@@ -1,60 +1,86 @@
 @extends('layouts.app')
 
 @section('content')
-    @php
-        $result = session('checker_result');
-    @endphp
-
     <section class="sf-container">
-        <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div class="space-y-6">
                 <span class="sf-chip">Cek Keamanan Makanan</span>
-                <h1 class="text-5xl font-bold text-slate-900">Lakukan pemeriksaan singkat pada kebiasaan penanganan makanan Anda</h1>
-                <p class="text-lg leading-8 text-slate-600">
-                    Pemeriksaan interaktif ini menggantikan formulir lama dengan alur SafeFood yang menilai praktik keamanan dan menghasilkan rekomendasi.
+
+                <h1 class="text-5xl font-bold text-slate-900 dark:text-white">
+                    Isi self-check keamanan pangan melalui formulir yang mudah diakses
+                </h1>
+
+                <p class="text-lg leading-8 text-slate-600 dark:text-slate-300">
+                    SafeFood menggunakan Google Form agar masyarakat dapat mengisi self-check dengan mudah, stabil,
+                    dan nyaman di berbagai perangkat. Formulir ini membantu mengumpulkan evaluasi kebiasaan keamanan
+                    pangan secara praktis untuk kebutuhan edukasi publik.
                 </p>
 
-                @if ($result)
-                    <div class="sf-panel bg-[linear-gradient(140deg,#102033,#0f766e)] p-8 text-white">
-                        <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Hasil</p>
-                        <h2 class="mt-3 text-4xl font-bold">{{ $result['score'] }}/100</h2>
-                        <p class="mt-2 text-lg text-slate-100">{{ $result['status'] }}</p>
-
-                        @if (! empty($result['recommendations']))
-                            <div class="mt-6 space-y-3">
-                                @foreach ($result['recommendations'] as $recommendation)
-                                    <p class="rounded-2xl bg-white/10 px-4 py-3 text-sm leading-7 text-slate-100">{{ $recommendation }}</p>
-                                @endforeach
-                            </div>
-                        @endif
+                <div class="sf-panel bg-[linear-gradient(140deg,#102033,#0f766e)] p-8 text-white">
+                    <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Panduan Pengisian</p>
+                    <div class="mt-4 space-y-3 text-sm leading-7 text-slate-100">
+                        <p>Isi semua pertanyaan berdasarkan kebiasaan Anda saat menangani, menyimpan, dan menyajikan makanan.</p>
+                        <p>Jawaban yang jujur akan membantu menghasilkan gambaran praktik keamanan pangan yang lebih akurat.</p>
+                        <p>Formulir ini dirancang agar mudah digunakan oleh masyarakat umum, baik melalui ponsel maupun desktop.</p>
                     </div>
-                @endif
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div class="sf-panel p-5 dark:bg-slate-900/70">
+                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Kelebihan Formulir</p>
+                        <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                            Lebih mudah diakses, ringan, dan familiar bagi banyak pengguna yang mengisi melalui ponsel.
+                        </p>
+                    </div>
+                    <div class="sf-panel p-5 dark:bg-slate-900/70">
+                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Untuk Pengguna Publik</p>
+                        <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                            Cocok untuk edukasi masyarakat karena tidak memerlukan login dan tetap mudah digunakan kapan saja.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 sm:flex-row">
+                    <a
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSdBhrzbbg8G93dHEAjhd0dalVIeWsmhBdbs5RqHJimJjg1oZg/viewform?usp=publish-editor"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="sf-button-primary justify-center"
+                    >
+                        Buka Google Form
+                    </a>
+                    <a href="{{ route('education') }}" class="sf-button-secondary justify-center">Kembali ke Edukasi</a>
+                </div>
             </div>
 
-            <div class="sf-panel p-8">
-                <form method="POST" action="{{ route('safety-checker.submit') }}" class="space-y-6">
-                    @csrf
-                    @foreach ($questions as $question)
-                        <fieldset class="rounded-[1.75rem] bg-slate-50 p-5">
-                            <legend class="text-base font-semibold text-slate-900">{{ $question['question'] }}</legend>
-                            <div class="mt-4 flex flex-wrap gap-3">
-                                <label class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-slate-700">
-                                    <input type="radio" name="{{ $question['key'] }}" value="1" @checked(old($question['key']) === '1')>
-                                    Ya
-                                </label>
-                                <label class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-slate-700">
-                                    <input type="radio" name="{{ $question['key'] }}" value="0" @checked(old($question['key']) === '0')>
-                                    Tidak
-                                </label>
-                            </div>
-                            @error($question['key'])
-                                <p class="mt-3 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </fieldset>
-                    @endforeach
+            <div class="sf-panel overflow-hidden p-4 dark:bg-slate-900/70">
+                <div class="rounded-[1.75rem] border border-slate-200 bg-white/80 p-4 dark:border-slate-800 dark:bg-slate-950/80">
+                    <div class="flex flex-col gap-2 border-b border-slate-200 pb-4 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Formulir Publik</p>
+                            <h2 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Self-check keamanan pangan</h2>
+                        </div>
+                        <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+                            Google Form
+                        </span>
+                    </div>
 
-                    <button class="sf-button-primary">Hitung Skor Keamanan</button>
-                </form>
+                    <div class="mt-4 overflow-hidden rounded-[1.5rem] bg-slate-50 dark:bg-slate-950">
+                        <iframe
+                            src="https://docs.google.com/forms/d/e/1FAIpQLSdBhrzbbg8G93dHEAjhd0dalVIeWsmhBdbs5RqHJimJjg1oZg/viewform?usp=pp_url&embedded=true"
+                            width="100%"
+                            height="980"
+                            frameborder="0"
+                            marginheight="0"
+                            marginwidth="0"
+                            loading="lazy"
+                            title="Formulir Self-check Keamanan Pangan SafeFood"
+                            class="w-full rounded-[1.5rem]"
+                        >
+                            Memuat formulir...
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

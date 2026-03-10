@@ -7,12 +7,12 @@ class SafeFoodContentService
     public function tips(): array
     {
         return [
-            'Do not thaw frozen meat at room temperature.',
-            'Separate raw proteins from ready-to-eat foods to avoid cross contamination.',
-            'Store leftovers below 5 C and reheat them thoroughly before serving.',
-            'Use clean cutting boards for fresh produce and different boards for raw meat.',
-            'Wash hands with soap for at least 20 seconds before handling food.',
-            'Check food labels and expiry dates before cooking or serving.',
+            'Jangan mencairkan daging beku pada suhu ruang.',
+            'Pisahkan bahan pangan mentah berprotein dari makanan siap santap untuk mencegah kontaminasi silang.',
+            'Simpan makanan sisa di bawah 5 C dan panaskan kembali hingga benar-benar matang sebelum disajikan.',
+            'Gunakan talenan yang bersih untuk bahan segar dan talenan terpisah untuk daging mentah.',
+            'Cuci tangan dengan sabun setidaknya selama 20 detik sebelum menangani makanan.',
+            'Periksa label pangan dan tanggal kedaluwarsa sebelum memasak atau menyajikan makanan.',
         ];
     }
 
@@ -27,19 +27,19 @@ class SafeFoodContentService
     {
         return [
             [
-                'title' => 'Food Safety Basics',
-                'description' => 'Understand biological, chemical, and physical hazards in daily food preparation.',
-                'items' => ['Safe temperatures', 'Cross contamination risks', 'Personal hygiene'],
+                'title' => 'Dasar Keamanan Pangan',
+                'description' => 'Pahami bahaya biologis, kimia, dan fisik dalam proses pengolahan makanan sehari-hari.',
+                'items' => ['Suhu aman', 'Risiko kontaminasi silang', 'Kebersihan diri'],
             ],
             [
-                'title' => 'Healthy Storage Practices',
-                'description' => 'Learn how refrigeration, labeling, and stock rotation keep food safe and nutritious.',
-                'items' => ['Cold chain awareness', 'FIFO storage', 'Safe thawing methods'],
+                'title' => 'Praktik Penyimpanan yang Aman',
+                'description' => 'Pelajari bagaimana pendinginan, pelabelan, dan rotasi stok menjaga makanan tetap aman dan bernutrisi.',
+                'items' => ['Pemahaman rantai dingin', 'Penyimpanan FIFO', 'Metode pencairan yang aman'],
             ],
             [
-                'title' => 'Nutrition Literacy',
-                'description' => 'Compare food ingredients by protein, fiber, calories, and supporting micronutrients.',
-                'items' => ['Balanced plate guidance', 'Protein sources', 'Reading nutrition facts'],
+                'title' => 'Literasi Nutrisi',
+                'description' => 'Bandingkan bahan pangan berdasarkan protein, serat, kalori, dan mikronutrien pendukung.',
+                'items' => ['Panduan isi piring seimbang', 'Sumber protein', 'Membaca informasi nilai gizi'],
             ],
         ];
     }
@@ -49,28 +49,28 @@ class SafeFoodContentService
         return [
             [
                 'key' => 'wash_hands',
-                'question' => 'Did you wash your hands with soap before cooking?',
-                'recommendation' => 'Wash hands before touching ingredients, after handling raw food, and after touching surfaces.',
+                'question' => 'Apakah Anda sudah mencuci tangan dengan sabun sebelum memasak?',
+                'recommendation' => 'Cuci tangan sebelum menyentuh bahan pangan, setelah memegang makanan mentah, dan setelah menyentuh permukaan dapur.',
             ],
             [
                 'key' => 'clean_utensils',
-                'question' => 'Are your cooking utensils and cutting boards clean before use?',
-                'recommendation' => 'Sanitize cutting boards, knives, and prep surfaces before and after use.',
+                'question' => 'Apakah peralatan masak dan talenan Anda sudah bersih sebelum digunakan?',
+                'recommendation' => 'Sanitasi talenan, pisau, dan permukaan persiapan sebelum serta sesudah digunakan.',
             ],
             [
                 'key' => 'separate_raw_food',
-                'question' => 'Do you separate raw animal products from ready-to-eat food?',
-                'recommendation' => 'Use separate containers or dedicated prep zones to prevent cross contamination.',
+                'question' => 'Apakah Anda memisahkan produk hewani mentah dari makanan siap santap?',
+                'recommendation' => 'Gunakan wadah terpisah atau area persiapan khusus untuk mencegah kontaminasi silang.',
             ],
             [
                 'key' => 'cold_storage',
-                'question' => 'Do you store perishable food in the refrigerator promptly?',
-                'recommendation' => 'Move perishable food to cold storage within two hours, or one hour in hot conditions.',
+                'question' => 'Apakah Anda segera menyimpan makanan mudah rusak ke dalam lemari pendingin?',
+                'recommendation' => 'Pindahkan makanan mudah rusak ke penyimpanan dingin dalam dua jam, atau satu jam saat cuaca panas.',
             ],
             [
                 'key' => 'cook_thoroughly',
-                'question' => 'Do you make sure food is cooked thoroughly before serving?',
-                'recommendation' => 'Use a food thermometer for high-risk foods and verify safe internal temperatures.',
+                'question' => 'Apakah Anda memastikan makanan dimasak hingga matang sempurna sebelum disajikan?',
+                'recommendation' => 'Gunakan termometer makanan untuk pangan berisiko tinggi dan pastikan suhu bagian dalam sudah aman.',
             ],
         ];
     }
@@ -82,10 +82,10 @@ class SafeFoodContentService
         $score = (int) round(($positiveAnswers / max($questions->count(), 1)) * 100);
 
         $status = match (true) {
-            $score >= 85 => 'Excellent',
-            $score >= 65 => 'Good',
-            $score >= 45 => 'Needs Improvement',
-            default => 'High Risk',
+            $score >= 85 => 'Sangat Baik',
+            $score >= 65 => 'Baik',
+            $score >= 45 => 'Perlu Peningkatan',
+            default => 'Risiko Tinggi',
         };
 
         $recommendations = $questions
@@ -104,13 +104,13 @@ class SafeFoodContentService
     public function haccpPrinciples(): array
     {
         return [
-            'Conduct a hazard analysis to identify biological, chemical, and physical risks.',
-            'Determine critical control points where risks can be prevented or reduced.',
-            'Establish critical limits such as time, temperature, or pH targets.',
-            'Create monitoring procedures for each critical control point.',
-            'Define corrective actions when monitoring shows a deviation.',
-            'Verify the HACCP system regularly using audits, testing, and review.',
-            'Maintain clear records and documentation for traceability.',
+            'Lakukan analisis bahaya untuk mengidentifikasi risiko biologis, kimia, dan fisik.',
+            'Tentukan titik kendali kritis tempat risiko dapat dicegah atau dikurangi.',
+            'Tetapkan batas kritis seperti target waktu, suhu, atau pH.',
+            'Buat prosedur pemantauan untuk setiap titik kendali kritis.',
+            'Tentukan tindakan korektif ketika hasil pemantauan menunjukkan penyimpangan.',
+            'Verifikasi sistem HACCP secara berkala melalui audit, pengujian, dan peninjauan.',
+            'Simpan catatan dan dokumentasi yang jelas untuk kebutuhan penelusuran.',
         ];
     }
 
@@ -118,16 +118,16 @@ class SafeFoodContentService
     {
         return [
             [
-                'title' => 'Chicken Rice Meal Service',
-                'hazard' => 'Salmonella growth during undercooking or hot holding failure.',
-                'ccp' => 'Cooking and hot holding stage.',
-                'limit' => 'Core temperature reaches 75 C and hot holding remains above 60 C.',
+                'title' => 'Penyajian Nasi Ayam',
+                'hazard' => 'Pertumbuhan Salmonella akibat proses pemasakan yang kurang matang atau kegagalan menjaga suhu panas.',
+                'ccp' => 'Tahap pemasakan dan penahanan panas.',
+                'limit' => 'Suhu inti mencapai 75 C dan suhu penahanan panas tetap di atas 60 C.',
             ],
             [
-                'title' => 'Fresh Fruit Cup Preparation',
-                'hazard' => 'Cross contamination from knives, hands, or unclean packaging.',
-                'ccp' => 'Washing, cutting, and packaging area sanitation.',
-                'limit' => 'Sanitized equipment, potable wash water, and chilled storage below 5 C.',
+                'title' => 'Persiapan Potongan Buah Segar',
+                'hazard' => 'Kontaminasi silang dari pisau, tangan, atau kemasan yang tidak bersih.',
+                'ccp' => 'Sanitasi area pencucian, pemotongan, dan pengemasan.',
+                'limit' => 'Peralatan telah disanitasi, air pencuci layak pakai, dan penyimpanan dingin di bawah 5 C.',
             ],
         ];
     }
@@ -135,12 +135,12 @@ class SafeFoodContentService
     public function haccpChecklist(): array
     {
         return [
-            'List all ingredients, suppliers, and storage requirements.',
-            'Map every processing step from receiving to serving.',
-            'Identify critical temperatures, allergens, and contamination risks.',
-            'Prepare monitoring logs for cooking, cooling, and storage.',
-            'Train staff on hygiene, sanitation, and corrective action procedures.',
-            'Review records weekly and verify the process with internal audits.',
+            'Daftarkan semua bahan, pemasok, dan kebutuhan penyimpanannya.',
+            'Petakan setiap tahap proses dari penerimaan hingga penyajian.',
+            'Identifikasi suhu kritis, alergen, dan risiko kontaminasi.',
+            'Siapkan log pemantauan untuk proses memasak, pendinginan, dan penyimpanan.',
+            'Latih petugas mengenai kebersihan, sanitasi, dan prosedur tindakan korektif.',
+            'Tinjau catatan setiap minggu dan verifikasi proses melalui audit internal.',
         ];
     }
 
@@ -148,18 +148,18 @@ class SafeFoodContentService
     {
         return [
             [
-                'question' => 'What is the first step before handling food?',
-                'options' => ['Prepare the plate', 'Wash hands with soap', 'Taste the ingredients'],
+                'question' => 'Apa langkah pertama sebelum menangani makanan?',
+                'options' => ['Menyiapkan piring', 'Mencuci tangan dengan sabun', 'Mencicipi bahan makanan'],
                 'answer' => 1,
             ],
             [
-                'question' => 'Why should raw chicken be stored separately?',
-                'options' => ['To save shelf space', 'To keep it colder', 'To prevent cross contamination'],
+                'question' => 'Mengapa ayam mentah harus disimpan terpisah?',
+                'options' => ['Agar menghemat ruang rak', 'Agar tetap lebih dingin', 'Untuk mencegah kontaminasi silang'],
                 'answer' => 2,
             ],
             [
-                'question' => 'Where should leftovers be stored after cooling slightly?',
-                'options' => ['At room temperature', 'In the refrigerator', 'Near the stove'],
+                'question' => 'Di mana makanan sisa sebaiknya disimpan setelah sedikit mendingin?',
+                'options' => ['Pada suhu ruang', 'Di dalam lemari pendingin', 'Dekat kompor'],
                 'answer' => 1,
             ],
         ];
@@ -178,16 +178,16 @@ class SafeFoodContentService
     {
         return [
             [
-                'title' => 'Cross-discipline Team',
-                'description' => 'Built by food technology and information systems students to merge scientific accuracy with accessible UX.',
+                'title' => 'Tim Lintas Disiplin',
+                'description' => 'Dikembangkan oleh mahasiswa teknologi pangan dan sistem informasi untuk menggabungkan akurasi ilmiah dengan UX yang mudah diakses.',
             ],
             [
-                'title' => 'Competition-ready Focus',
-                'description' => 'The platform is designed to communicate educational value, measurable impact, and technical stability.',
+                'title' => 'Fokus Siap Kompetisi',
+                'description' => 'Platform ini dirancang untuk menampilkan nilai edukasi, dampak terukur, dan stabilitas teknis.',
             ],
             [
-                'title' => 'Scalable Learning Hub',
-                'description' => 'SafeFood is structured to expand into richer diagnostics, case studies, and community engagement features.',
+                'title' => 'Pusat Pembelajaran yang Skalabel',
+                'description' => 'SafeFood disusun agar mudah dikembangkan menjadi platform dengan diagnostik yang lebih kaya, studi kasus, dan fitur keterlibatan komunitas.',
             ],
         ];
     }

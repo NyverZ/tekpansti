@@ -2,7 +2,7 @@
 
 @section('content')
     @php
-        $chartValues = [$stats['ingredients'], $stats['nutrients'], $stats['articles'], $stats['users'], $stats['pendingSuggestions']];
+        $chartValues = [$stats['ingredients'], $stats['nutrients'], $stats['articles'], $stats['users']];
     @endphp
 
     <section class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
@@ -26,51 +26,47 @@
 
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 <div class="sf-panel p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Bahan Pangan</p>
-                    <p class="mt-3 text-4xl font-bold">{{ $stats['ingredients'] }}</p>
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Bahan Pangan</p>
+                    <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['ingredients'] }}</p>
                 </div>
                 <div class="sf-panel p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Nutrisi</p>
-                    <p class="mt-3 text-4xl font-bold">{{ $stats['nutrients'] }}</p>
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Nutrisi</p>
+                    <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['nutrients'] }}</p>
                 </div>
                 <div class="sf-panel p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Artikel</p>
-                    <p class="mt-3 text-4xl font-bold">{{ $stats['articles'] }}</p>
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Artikel</p>
+                    <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['articles'] }}</p>
                 </div>
                 <div class="sf-panel p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Pengguna</p>
-                    <p class="mt-3 text-4xl font-bold">{{ $stats['users'] }}</p>
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Pengguna</p>
+                    <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['users'] }}</p>
                 </div>
                 <div class="sf-panel p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Saran Tertunda</p>
-                    <p class="mt-3 text-4xl font-bold">{{ $stats['pendingSuggestions'] }}</p>
-                </div>
-                <div class="sf-panel p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Tips Harian</p>
-                    <p class="mt-3 text-sm leading-7 text-slate-600">{{ $dailyTip }}</p>
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Tips Harian</p>
+                    <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ $dailyTip }}</p>
                 </div>
             </div>
         </div>
 
         <div class="space-y-6">
             <div class="sf-panel p-6">
-                <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Komposisi data</p>
-                <h3 class="mt-2 text-2xl font-bold">Metrik SafeFood</h3>
+                <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Komposisi data</p>
+                <h3 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Metrik SafeFood</h3>
                 <div class="mt-6">
                     <canvas id="dashboardMetricsChart" height="260"></canvas>
                 </div>
             </div>
 
             <div class="sf-panel p-6">
-                <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Konten terbaru</p>
-                <h3 class="mt-2 text-2xl font-bold">Artikel terbaru</h3>
+                <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Konten terbaru</p>
+                <h3 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Artikel terbaru</h3>
                 <div class="mt-6 space-y-4">
                     @forelse ($latestArticles as $article)
-                        <div class="rounded-[1.5rem] bg-slate-50 px-5 py-4">
+                        <div class="rounded-[1.5rem] bg-slate-50 px-5 py-4 dark:bg-slate-800/80">
                             <div class="flex items-start justify-between gap-4">
                                 <div>
-                                    <p class="text-sm font-semibold text-slate-900">{{ $article->title }}</p>
-                                    <p class="mt-1 text-xs uppercase tracking-[0.2em] text-slate-500">{{ $article->created_at->format('d M Y') }}</p>
+                                    <p class="text-sm font-semibold text-slate-900 dark:text-white">{{ $article->title }}</p>
+                                    <p class="mt-1 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">{{ $article->created_at->format('d M Y') }}</p>
                                 </div>
                                 @if (auth()->user()->role === 'admin')
                                     <a href="{{ route('admin.articles.edit', $article) }}" class="text-sm font-semibold text-teal-700">Ubah</a>
@@ -80,7 +76,7 @@
                             </div>
                         </div>
                     @empty
-                        <p class="text-sm text-slate-500">Belum ada artikel yang dipublikasikan.</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Belum ada artikel yang dipublikasikan.</p>
                     @endforelse
                 </div>
             </div>
@@ -93,7 +89,7 @@
             new Chart(document.getElementById('dashboardMetricsChart'), {
                 type: 'bar',
                 data: {
-                    labels: ['Bahan', 'Nutrisi', 'Artikel', 'Pengguna', 'Tertunda'],
+                    labels: ['Bahan', 'Nutrisi', 'Artikel', 'Pengguna'],
                     datasets: [{
                         data: @json($chartValues),
                         backgroundColor: ['#0f766e', '#155e75', '#d97706', '#334155', '#dc2626'],

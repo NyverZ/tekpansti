@@ -9,7 +9,7 @@
 
 <div class="flex items-center gap-6">
 
-<div class="w-24 h-24 rounded-full bg-white text-emerald-600 flex items-center justify-center text-4xl font-bold shadow-lg">
+<div class="w-24 h-24 rounded-full bg-white text-emerald-600 flex items-center justify-center text-4xl font-bold shadow-lg dark:bg-slate-900 dark:text-emerald-300">
 {{ strtoupper(substr(Auth::user()->name,0,1)) }}
 </div>
 
@@ -81,7 +81,7 @@ Nama
 </p>
 
 <p class="text-gray-500 dark:text-gray-400 mt-3">
-Email
+Alamat Email
 </p>
 
 <p class="font-medium text-gray-800 dark:text-white">

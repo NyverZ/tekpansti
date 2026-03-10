@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'SafeFood') }}</title>
+    <title>@yield('title', config('app.name', 'SafeFood'))</title>
+    <meta name="description" content="@yield('meta_description', 'Akses akun SafeFood untuk masuk ke platform edukasi keamanan pangan, HACCP, dan nutrisi.')">
+    <meta name="robots" content="@yield('meta_robots', 'noindex,follow')">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
     <script>
         (() => {
             const storedTheme = localStorage.getItem('theme');

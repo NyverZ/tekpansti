@@ -12,7 +12,6 @@
         ['label' => 'Artikel Edukasi', 'route' => 'articles.index'],
         ['label' => 'Perbandingan Nutrisi', 'route' => 'foods.compare'],
         ['label' => 'Konsultasi', 'route' => 'consultation'],
-        ['label' => 'Suggest', 'route' => 'suggest.form'],
         ['label' => 'Tentang Kami', 'route' => 'about'],
         ['label' => 'Kontak', 'route' => 'contact'],
     ];
@@ -88,8 +87,8 @@
                         <button class="sf-button-primary px-5 py-2.5">Keluar</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="sf-button-secondary">Login</a>
-                    <a href="{{ route('register') }}" class="sf-button-primary">Register</a>
+                    <a href="{{ route('login') }}" class="sf-button-secondary">Masuk</a>
+                    <a href="{{ route('register') }}" class="sf-button-primary">Daftar</a>
                 @endauth
             </div>
 
@@ -129,7 +128,10 @@
             @click.outside="open = false; mobileMore = false"
             class="absolute inset-x-4 top-[calc(100%+0.85rem)] sm:inset-x-6 lg:left-auto lg:right-8 lg:w-[26rem]"
         >
-            <div class="sf-glass rounded-[1.5rem] border border-slate-200/80 px-4 py-4 shadow-[0_22px_60px_rgba(15,23,42,0.18)] dark:border-slate-700/70 md:px-4 md:py-4">
+            <div class="sf-glass rounded-[1.5rem] border border-slate-200/80 px-4 py-4
+                        shadow-[0_22px_60px_rgba(15,23,42,0.18)]
+                        dark:border-slate-700/70 md:px-4 md:py-4
+                        max-h-[80vh] overflow-y-auto">
                 <div class="mb-3 hidden px-3 pt-1 md:block">
                     <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Navigasi</p>
                 </div>
@@ -209,8 +211,8 @@
                             <button @click="closeMenu()" class="sf-button-primary w-full justify-center">Keluar</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" @click="closeMenu()" class="sf-button-secondary justify-center">Login</a>
-                        <a href="{{ route('register') }}" @click="closeMenu()" class="sf-button-primary justify-center">Register</a>
+                        <a href="{{ route('login') }}" @click="closeMenu()" class="sf-button-secondary justify-center">Masuk</a>
+                        <a href="{{ route('register') }}" @click="closeMenu()" class="sf-button-primary justify-center">Daftar</a>
                     @endauth
                 </div>
             </div>

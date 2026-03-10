@@ -48,7 +48,7 @@ class AdminArticleController extends Controller
 
         return redirect()
             ->route('admin.articles.index')
-            ->with('success', 'Article created successfully.');
+            ->with('success', 'Artikel berhasil dibuat.');
     }
 
     public function edit(Article $article): View
@@ -68,7 +68,7 @@ class AdminArticleController extends Controller
 
         return redirect()
             ->route('admin.articles.index')
-            ->with('success', 'Article updated successfully.');
+            ->with('success', 'Artikel berhasil diperbarui.');
     }
 
     public function destroy(Article $article): RedirectResponse
@@ -77,7 +77,7 @@ class AdminArticleController extends Controller
 
         return redirect()
             ->route('admin.articles.index')
-            ->with('success', 'Article deleted successfully.');
+            ->with('success', 'Artikel berhasil dihapus.');
     }
 
     private function makeSlug(string $title, ?int $ignoreId = null): string

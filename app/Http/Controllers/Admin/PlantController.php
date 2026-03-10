@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\PlantRequest;
+use Database\Seeders\CategorySeeder;
 use App\Models\Category;
 use App\Models\Nutrient;
 use App\Models\Plant;
@@ -22,9 +23,7 @@ class PlantController extends Controller
     public function create()
     {
         return view('admin.plants.create', [
-            'categories' => Category::orderBy('name')->get(),
-            'nutrients' => Nutrient::orderBy('name')->get(),
-            'regions' => Region::orderBy('name')->get(),
+            'categories' => $this->ensureCategories(),
         ]);
     }
 
@@ -39,11 +38,11 @@ class PlantController extends Controller
 
             $plant = Plant::create($data);
 
-            $this->syncNutrients($plant, $data['nutrients'] ?? []);
+            $this->syncFoodComposition($plant, $data['nutrient_values'] ?? []);
             $this->syncRegions($plant, $data['regions'] ?? []);
         });
 
-        return redirect()->route('admin.ingredients.index')->with('success', 'Ingredient created.');
+        return redirect()->route('admin.ingredients.index')->with('success', 'Bahan pangan berhasil dibuat.');
     }
 
     public function edit(Plant $plant)
@@ -52,9 +51,7 @@ class PlantController extends Controller
 
         return view('admin.plants.edit', [
             'plant' => $plant,
-            'categories' => Category::orderBy('name')->get(),
-            'nutrients' => Nutrient::orderBy('name')->get(),
-            'regions' => Region::orderBy('name')->get(),
+            'categories' => $this->ensureCategories(),
         ]);
     }
 
@@ -72,11 +69,11 @@ class PlantController extends Controller
 
             $plant->update($data);
 
-            $this->syncNutrients($plant, $data['nutrients'] ?? []);
+            $this->syncFoodComposition($plant, $data['nutrient_values'] ?? []);
             $this->syncRegions($plant, $data['regions'] ?? []);
         });
 
-        return redirect()->route('admin.ingredients.index')->with('success', 'Ingredient updated.');
+        return redirect()->route('admin.ingredients.index')->with('success', 'Bahan pangan berhasil diperbarui.');
     }
 
     public function destroy(Plant $plant)
@@ -87,19 +84,43 @@ class PlantController extends Controller
 
         $plant->delete();
 
-        return redirect()->route('admin.ingredients.index')->with('success', 'Ingredient deleted.');
+        return redirect()->route('admin.ingredients.index')->with('success', 'Bahan pangan berhasil dihapus.');
     }
 
-    private function syncNutrients(Plant $plant, array $items): void
+    private function syncFoodComposition(Plant $plant, array $values): void
     {
-        $sync = collect($items)->mapWithKeys(fn($row) => [
-            (int) $row['id'] => [
-                'amount' => $row['amount'],
-                'notes' => $row['notes'] ?? null,
-            ],
-        ])->all();
+        $managedNutrients = collect(Nutrient::foodCompositionDefinitions())
+            ->mapWithKeys(function (array $definition, string $slug) {
+                return [
+                    $slug => Nutrient::query()->firstOrCreate(
+                        ['slug' => $slug],
+                        $definition
+                    ),
+                ];
+            });
 
-        $plant->nutrients()->sync($sync);
+        $managedIds = $managedNutrients->pluck('id')->all();
+        $plant->nutrients()->detach($managedIds);
+
+        $sync = collect($values)
+            ->filter(fn ($amount) => $amount !== null && $amount !== '')
+            ->mapWithKeys(function ($amount, string $slug) use ($managedNutrients) {
+                if (! $managedNutrients->has($slug)) {
+                    return [];
+                }
+
+                return [
+                    $managedNutrients[$slug]->id => [
+                        'amount' => (float) $amount,
+                        'notes' => 'Data komposisi gizi per 100 gram',
+                    ],
+                ];
+            })
+            ->all();
+
+        if ($sync !== []) {
+            $plant->nutrients()->syncWithoutDetaching($sync);
+        }
     }
 
     private function syncRegions(Plant $plant, array $items): void
@@ -112,5 +133,17 @@ class PlantController extends Controller
         ])->all();
 
         $plant->regions()->sync($sync);
+    }
+
+    private function ensureCategories()
+    {
+        foreach (CategorySeeder::definitions() as $category) {
+            Category::query()->updateOrCreate(
+                ['slug' => $category['slug']],
+                $category
+            );
+        }
+
+        return Category::query()->orderBy('name')->get();
     }
 }

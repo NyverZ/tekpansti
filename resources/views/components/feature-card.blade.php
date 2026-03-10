@@ -3,7 +3,7 @@
     'title',
     'description',
     'href' => '#',
-    'cta' => 'Explore',
+    'cta' => 'Jelajahi',
     'accent' => 'teal',
 ])
 
