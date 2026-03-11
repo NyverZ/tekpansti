@@ -42,7 +42,7 @@
     class="sticky top-0 z-50"
 >
     <div class="sf-container relative pt-4">
-        <div class="sf-glass flex items-center justify-between gap-4 rounded-[1.75rem] px-4 py-3 shadow-[0_18px_50px_rgba(15,23,42,0.12)] md:px-6">
+        <div class="sf-glass flex items-center justify-between gap-4 rounded-[1.75rem] px-4 py-3 shadow-[0_18px_50px_rgba(15,23,42,0.12)] transition duration-200 md:px-6">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
                 <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#0f766e,#f59e0b)] text-sm font-bold text-white shadow-lg shadow-teal-700/20">
                     SF
@@ -57,7 +57,7 @@
                 <button
                     type="button"
                     @click="toggleMenu()"
-                    class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                    class="sf-nav-toggle gap-2 hover:-translate-y-0.5"
                     aria-label="Buka menu navigasi"
                 >
                     <span>Navigasi</span>
@@ -69,7 +69,7 @@
                 <button
                     type="button"
                     @click="toggleTheme()"
-                    class="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:-translate-y-0.5 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                    class="sf-nav-toggle h-11 w-11 p-0 hover:-translate-y-0.5"
                     aria-label="Ubah mode gelap"
                 >
                     <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -96,7 +96,7 @@
                 <button
                     type="button"
                     @click="toggleTheme()"
-                    class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                    class="sf-nav-toggle h-10 w-10 p-0"
                     aria-label="Ubah mode gelap"
                 >
                     <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -110,7 +110,7 @@
                 <button
                     type="button"
                     @click="toggleMenu()"
-                    class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                    class="sf-nav-toggle h-10 w-10 p-0"
                     aria-label="Buka navigasi seluler"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -138,7 +138,7 @@
 
                 <nav class="hidden gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 md:grid md:grid-cols-2">
                     @foreach ($items as $item)
-                        <a href="{{ route($item['route']) }}" class="rounded-2xl px-4 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                        <a href="{{ route($item['route']) }}" class="sf-dropdown-item">
                             {{ $item['label'] }}
                         </a>
                     @endforeach
@@ -155,7 +155,8 @@
                             <a
                                 href="{{ route($item['route']) }}"
                                 @click="closeMenu()"
-                                class="flex items-center justify-between rounded-[1.25rem] border border-slate-200/80 bg-white/85 px-4 py-4 text-base font-semibold text-slate-800 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950/80 dark:text-slate-100 dark:hover:bg-slate-900"
+                                class="flex items-center justify-between rounded-[1.25rem] border px-4 py-4 text-base font-semibold transition duration-200 hover:-translate-y-0.5"
+                                style="border-color: var(--sf-line-strong); background: color-mix(in srgb, var(--sf-card-strong) 92%, white 8%); color: var(--sf-ink);"
                             >
                                 <span>{{ $item['label'] }}</span>
                                 <span class="text-teal-600 dark:text-teal-300" aria-hidden="true">&rarr;</span>
@@ -163,11 +164,12 @@
                         @endforeach
                     </nav>
 
-                    <div class="rounded-[1.35rem] border border-slate-200/80 bg-white/80 p-2 dark:border-slate-700 dark:bg-slate-950/75">
+                    <div class="rounded-[1.35rem] border p-2" style="border-color: var(--sf-line-strong); background: color-mix(in srgb, var(--sf-card-strong) 88%, white 12%);">
                         <button
                             type="button"
                             @click="mobileMore = !mobileMore"
-                            class="flex w-full items-center justify-between rounded-[1rem] px-3 py-3 text-left text-sm font-semibold text-slate-800 transition hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-900"
+                            class="flex w-full items-center justify-between rounded-[1rem] px-3 py-3 text-left text-sm font-semibold transition duration-200"
+                            style="color: var(--sf-ink);"
                             aria-label="Buka menu lainnya"
                             :aria-expanded="mobileMore"
                         >
@@ -194,7 +196,8 @@
                                 <a
                                     href="{{ route($item['route']) }}"
                                     @click="closeMenu()"
-                                    class="block rounded-[1rem] px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900"
+                                    class="block rounded-[1rem] px-4 py-3 text-sm font-medium transition duration-200"
+                                    style="color: var(--sf-ink);"
                                 >
                                     {{ $item['label'] }}
                                 </a>

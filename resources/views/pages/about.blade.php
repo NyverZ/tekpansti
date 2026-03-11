@@ -5,7 +5,7 @@
         <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div class="space-y-6">
                 <span class="sf-chip">Tentang SafeFood</span>
-                <h1 class="text-5xl font-bold text-slate-900 dark:text-white">Platform digital terfokus untuk edukasi keamanan pangan</h1>
+                <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">Platform digital terfokus untuk edukasi keamanan pangan</h1>
                 <p class="text-lg leading-8 text-slate-600 dark:text-slate-300">
                     SafeFood menggantikan konsep lama yang berpusat pada tanaman menjadi produk pembelajaran terintegrasi tentang keamanan pangan, HACCP, higienitas, penyimpanan, dan praktik pangan sehat.
                 </p>

@@ -55,7 +55,7 @@
             @yield('content')
         </main>
 
-        <footer class="border-t border-slate-200/70 bg-white/60 py-10 backdrop-blur dark:border-slate-800 dark:bg-slate-950/55">
+        <footer class="border-t border-slate-200/70 bg-white/60 py-10 backdrop-blur transition-colors duration-300 dark:border-slate-800 dark:bg-slate-950/55">
             <div class="sf-container flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <div class="max-w-xl">
                     <p class="text-xl font-bold text-slate-900 dark:text-white">SafeFood</p>

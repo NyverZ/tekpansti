@@ -5,7 +5,7 @@
         <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
             <div class="space-y-6">
                 <span class="sf-chip">Kontak</span>
-                <h1 class="text-5xl font-bold text-slate-900 dark:text-white">Hubungi tim SafeFood</h1>
+                <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">Hubungi tim SafeFood</h1>
                 <p class="text-lg leading-8 text-slate-600 dark:text-slate-300">
                     Gunakan saluran berikut untuk pertanyaan, kolaborasi, demo penjurian, atau komunikasi terkait edukasi keamanan pangan.
                 </p>

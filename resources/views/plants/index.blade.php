@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
                 <span class="sf-chip">Katalog Bahan Pangan</span>
-                <h1 class="mt-4 text-5xl font-bold text-slate-900 dark:text-white">Jelajahi bahan pangan dengan konteks keamanan dan nutrisi</h1>
+                <h1 class="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">Jelajahi bahan pangan dengan konteks keamanan dan nutrisi</h1>
                 <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
                     Direfaktor dari katalog tanaman lama menjadi direktori bahan pangan SafeFood yang berfokus pada data nutrisi, penanganan makanan, dan nilai edukasi praktis.
                 </p>

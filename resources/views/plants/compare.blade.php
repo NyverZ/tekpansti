@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
                 <span class="sf-chip">Perbandingan Nutrisi</span>
-                <h1 class="mt-4 text-5xl font-bold text-slate-900 dark:text-white">Bandingkan bahan pangan secara berdampingan</h1>
+                <h1 class="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">Bandingkan bahan pangan secara berdampingan</h1>
                 <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
                     Ubah perbandingan tanaman sebelumnya menjadi alat pengambilan keputusan untuk edukasi keamanan pangan, perencanaan menu, dan analisis nutrisi.
                 </p>

@@ -1,38 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="sf-container">
+    <section class="sf-container py-4 sm:py-6">
         <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div class="space-y-6">
                 <span class="sf-chip">Quiz Keamanan Pangan</span>
-                <h1 class="text-5xl font-bold text-slate-900 dark:text-white">Uji pengetahuan dasar keamanan pangan dalam tiga pertanyaan</h1>
+                <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">Uji pengetahuan dasar keamanan pangan dalam tiga pertanyaan</h1>
                 <p class="text-lg leading-8 text-slate-600 dark:text-slate-300">
                     Quiz ini ringan, cocok untuk presentasi kompetisi, dan dirancang untuk memperkuat aturan higienitas serta penyimpanan yang paling penting.
                 </p>
-                <div id="quiz-result-panel" class="sf-panel hidden p-8">
+                <div id="quiz-result-panel" class="sf-panel hidden p-6 sm:p-8">
                     <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Hasil</p>
-                    <h2 id="quiz-score" class="mt-3 text-4xl font-bold text-slate-900 dark:text-white"></h2>
+                    <h2 id="quiz-score" class="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl dark:text-white"></h2>
                     <p id="quiz-feedback" class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"></p>
                 </div>
             </div>
 
-            <div class="sf-panel p-8">
+            <div class="sf-panel p-6 sm:p-8">
                 <form id="safefood-quiz" class="space-y-6">
                     @foreach ($questions as $index => $question)
-                        <fieldset class="rounded-[1.75rem] bg-slate-50 p-5">
+                        <fieldset class="sf-surface-soft p-5">
                             <legend class="text-base font-semibold text-slate-900 dark:text-white">{{ $index + 1 }}. {{ $question['question'] }}</legend>
                             <div class="mt-4 grid gap-3">
                                 @foreach ($question['options'] as $optionIndex => $option)
-                                    <label class="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                                        <input type="radio" name="question_{{ $index }}" value="{{ $optionIndex }}">
-                                        <span>{{ $option }}</span>
+                                    <label class="sf-choice">
+                                        <input type="radio" name="question_{{ $index }}" value="{{ $optionIndex }}" class="peer sr-only">
+                                        <span class="sf-choice-indicator" aria-hidden="true"></span>
+                                        <span class="sf-choice-label">{{ $option }}</span>
                                     </label>
                                 @endforeach
                             </div>
                         </fieldset>
                     @endforeach
 
-                    <button type="button" id="quiz-submit" class="sf-button-primary">Lihat Skor Saya</button>
+                    <button type="button" id="quiz-submit" class="sf-button-primary w-full sm:w-auto">Lihat Skor Saya</button>
                 </form>
             </div>
         </div>

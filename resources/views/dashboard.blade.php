@@ -7,9 +7,9 @@
 
     <section class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <div class="space-y-6">
-            <div class="rounded-[2rem] bg-[linear-gradient(140deg,#102033,#0f766e)] px-8 py-10 text-white shadow-xl">
+            <div class="rounded-[2rem] bg-[linear-gradient(140deg,#102033,#0f766e)] px-6 py-8 text-white shadow-xl sm:px-8 sm:py-10">
                 <p class="text-sm uppercase tracking-[0.28em] text-teal-100">Ringkasan</p>
-                <h2 class="mt-4 text-4xl font-bold">Dasbor operasional SafeFood</h2>
+                <h2 class="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Dasbor operasional SafeFood</h2>
                 <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-100">
                     Pantau data bahan pangan, artikel terbit, pengguna terdaftar, dan alur masukan dari satu ruang kerja administratif yang rapi.
                 </p>
@@ -27,19 +27,19 @@
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 <div class="sf-panel p-6">
                     <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Bahan Pangan</p>
-                    <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['ingredients'] }}</p>
+                    <p class="mt-3 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">{{ $stats['ingredients'] }}</p>
                 </div>
                 <div class="sf-panel p-6">
                     <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Nutrisi</p>
-                    <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['nutrients'] }}</p>
+                    <p class="mt-3 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">{{ $stats['nutrients'] }}</p>
                 </div>
                 <div class="sf-panel p-6">
                     <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Artikel</p>
-                    <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['articles'] }}</p>
+                    <p class="mt-3 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">{{ $stats['articles'] }}</p>
                 </div>
                 <div class="sf-panel p-6">
                     <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Pengguna</p>
-                    <p class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $stats['users'] }}</p>
+                    <p class="mt-3 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">{{ $stats['users'] }}</p>
                 </div>
                 <div class="sf-panel p-6">
                     <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Tips Harian</p>

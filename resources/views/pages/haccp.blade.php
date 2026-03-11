@@ -4,7 +4,7 @@
     <section class="sf-container">
         <div class="rounded-[2.5rem] bg-[linear-gradient(135deg,#102033,#0f766e)] px-8 py-12 text-white md:px-12">
             <span class="inline-flex rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-teal-50">HACCP</span>
-            <h1 class="mt-5 text-5xl font-bold">Hazard Analysis Critical Control Point</h1>
+            <h1 class="mt-5 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">Hazard Analysis Critical Control Point</h1>
             <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-100">
                 HACCP adalah sistem keamanan pangan preventif yang digunakan untuk mengidentifikasi, mengevaluasi, dan mengendalikan bahaya pada tahap penerimaan, pengolahan, penyimpanan, hingga penyajian.
             </p>

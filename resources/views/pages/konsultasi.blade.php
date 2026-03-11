@@ -5,7 +5,7 @@
         <div class="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
             <div class="space-y-6">
                 <span class="sf-chip">Konsultasi</span>
-                <h1 class="text-5xl font-bold text-slate-900 dark:text-white">Hubungkan pembelajaran dengan dukungan keamanan pangan yang nyata</h1>
+                <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">Hubungkan pembelajaran dengan dukungan keamanan pangan yang nyata</h1>
                 <p class="text-lg leading-8 text-slate-600 dark:text-slate-300">
                     Konsultasi SafeFood memberi pengguna langkah lanjutan setelah membaca artikel, menyelesaikan pemeriksaan keamanan, atau meninjau panduan HACCP.
                 </p>

@@ -7,7 +7,7 @@
                 <div class="h-64 bg-[linear-gradient(135deg,#0f766e,#d97706)]"></div>
                 <div class="p-8 md:p-10">
                     <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">{{ $article->created_at->format('d M Y') }}</p>
-                    <h1 class="mt-4 text-5xl font-bold text-slate-900 dark:text-white">{{ $article->title }}</h1>
+                    <h1 class="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">{{ $article->title }}</h1>
                     <div class="prose prose-slate mt-8 max-w-none leading-8">
                         {!! nl2br(e($article->content)) !!}
                     </div>

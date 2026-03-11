@@ -6,7 +6,7 @@
             <div class="space-y-6">
                 <span class="sf-chip">Cek Keamanan Makanan</span>
 
-                <h1 class="text-5xl font-bold text-slate-900 dark:text-white">
+                <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">
                     Isi self-check keamanan pangan melalui formulir yang mudah diakses
                 </h1>
 
@@ -16,7 +16,7 @@
                     pangan secara praktis untuk kebutuhan edukasi publik.
                 </p>
 
-                <div class="sf-panel bg-[linear-gradient(140deg,#102033,#0f766e)] p-8 text-white">
+                <div class="sf-panel bg-[linear-gradient(140deg,#102033,#0f766e)] p-6 text-white sm:p-8">
                     <p class="text-sm uppercase tracking-[0.24em] text-teal-100">Panduan Pengisian</p>
                     <div class="mt-4 space-y-3 text-sm leading-7 text-slate-100">
                         <p>Isi semua pertanyaan berdasarkan kebiasaan Anda saat menangani, menyimpan, dan menyajikan makanan.</p>

@@ -7,7 +7,7 @@
                 <div class="h-72 bg-[linear-gradient(145deg,#0f766e,#f59e0b)]"></div>
                 <div class="p-8">
                     <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">{{ $food->category?->name ?? 'Bahan Pangan' }}</p>
-                    <h1 class="mt-3 text-4xl font-bold text-slate-900 dark:text-white">{{ $food->local_name }}</h1>
+                    <h1 class="mt-3 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl dark:text-white">{{ $food->local_name }}</h1>
                     <p class="mt-2 text-sm italic text-slate-500 dark:text-slate-400">{{ $food->scientific_name }}</p>
                     <p class="mt-5 text-sm leading-8 text-slate-600 dark:text-slate-300">{{ $food->description }}</p>
                     <div class="mt-8 grid gap-4">

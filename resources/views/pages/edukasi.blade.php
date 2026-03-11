@@ -5,7 +5,7 @@
         <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
             <div class="space-y-6">
                 <span class="sf-chip">Edukasi</span>
-                <h1 class="text-5xl font-bold text-slate-900 dark:text-white">Alur pembelajaran praktis untuk penanganan pangan yang lebih aman</h1>
+                <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">Alur pembelajaran praktis untuk penanganan pangan yang lebih aman</h1>
                 <p class="text-lg leading-8 text-slate-600 dark:text-slate-300">
                     SafeFood menyusun materi edukasi ke dalam modul yang jelas agar pengguna dapat memahami bahaya pangan, penyimpanan, literasi nutrisi, dan sanitasi tanpa terasa terlalu teknis.
                 </p>
@@ -34,7 +34,7 @@
             <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                     <span class="sf-chip">Artikel Edukasi</span>
-                    <h2 class="mt-4 text-4xl font-bold text-slate-900 dark:text-white">Dukung setiap modul dengan bacaan yang relevan</h2>
+                    <h2 class="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl dark:text-white">Dukung setiap modul dengan bacaan yang relevan</h2>
                 </div>
                 <a href="{{ route('articles.index') }}" class="sf-button-secondary">Semua Artikel</a>
             </div>
