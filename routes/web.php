@@ -14,6 +14,8 @@ Route::get('/', [SafeFoodController::class, 'home'])->name('home');
 
 Route::get('/food-education', [SafeFoodController::class, 'education'])->name('education');
 Route::get('/haccp', [SafeFoodController::class, 'haccp'])->name('haccp');
+Route::get('/higiene-sanitasi', [SafeFoodController::class, 'hygieneSanitation'])->name('hygiene.sanitation');
+Route::get('/pengolahan-penyimpanan-pangan', [SafeFoodController::class, 'foodProcessingStorage'])->name('food.processing-storage');
 Route::get('/food-safety-checker', [SafeFoodController::class, 'showSafetyChecker'])->name('safety-checker');
 Route::post('/food-safety-checker', [SafeFoodController::class, 'submitSafetyChecker'])->name('safety-checker.submit');
 Route::get('/quiz', [SafeFoodController::class, 'quiz'])->name('quiz');
@@ -55,6 +57,8 @@ Route::middleware(['auth', 'admin'])
     });
 
 Route::redirect('/edukasi', '/food-education');
+Route::redirect('/higiene-dan-sanitasi', '/higiene-sanitasi');
+Route::redirect('/pengolahan-dan-penyimpanan-pangan', '/pengolahan-penyimpanan-pangan');
 Route::redirect('/konsultasi', '/consultation');
 Route::redirect('/self-check', '/food-safety-checker');
 Route::redirect('/tentang-kami', '/about-us');

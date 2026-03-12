@@ -8,6 +8,9 @@
     <meta name="description" content="@yield('meta_description', 'Akses akun SafeFood untuk masuk ke platform edukasi keamanan pangan, HACCP, dan nutrisi.')">
     <meta name="robots" content="@yield('meta_robots', 'noindex,follow')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/safefood-mark.svg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/safefood-favicon.ico') }}?v=2">
+    <link rel="shortcut icon" href="{{ asset('images/safefood-favicon.ico') }}?v=2">
     <script>
         (() => {
             const storedTheme = localStorage.getItem('theme');
@@ -34,7 +37,7 @@
 
                     <div class="relative">
                         <a href="{{ route('home') }}" class="inline-flex items-center gap-3">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-sm font-bold tracking-[0.2em] text-white">SF</div>
+                            <x-application-logo class="h-12 w-12 shrink-0 drop-shadow-[0_10px_24px_rgba(8,47,73,0.22)]" />
                             <div>
                                 <p class="text-xl font-bold">SafeFood</p>
                                 <p class="text-xs uppercase tracking-[0.34em] text-cyan-100/80">Akses Aman</p>

@@ -197,6 +197,22 @@ class SafeFoodController extends Controller
         ]);
     }
 
+    public function hygieneSanitation(): View
+    {
+        return view('pages.higiene-sanitasi', [
+            'sections' => $this->safeFoodContentService->hygieneSanitationSections(),
+            'dailyChecklist' => $this->safeFoodContentService->hygieneSanitationChecklist(),
+        ]);
+    }
+
+    public function foodProcessingStorage(): View
+    {
+        return view('pages.pengolahan-penyimpanan-pangan', [
+            'sections' => $this->safeFoodContentService->foodProcessingStorageSections(),
+            'criticalPoints' => $this->safeFoodContentService->foodProcessingStorageCriticalPoints(),
+        ]);
+    }
+
     public function showSafetyChecker(): View
     {
         return view('pages.selfcheck', [

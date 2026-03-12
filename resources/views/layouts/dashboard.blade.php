@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'SafeFood') }} Dasbor</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/safefood-mark.svg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/safefood-favicon.ico') }}?v=2">
+    <link rel="shortcut icon" href="{{ asset('images/safefood-favicon.ico') }}?v=2">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
 </head>
@@ -11,9 +14,12 @@
     <div class="flex min-h-screen flex-col lg:flex-row">
         <aside class="w-full border-b border-slate-200/80 bg-white/70 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80 lg:w-72 lg:border-b-0 lg:border-r">
             <div class="flex items-center justify-between px-6 py-6 lg:block">
-                <a href="{{ route('home') }}" class="block">
-                    <p class="text-2xl font-bold text-teal-700">SafeFood</p>
-                    <p class="text-xs uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Konsol Admin</p>
+                <a href="{{ route('home') }}" class="flex items-center gap-3">
+                    <x-application-logo class="h-11 w-11 shrink-0 drop-shadow-[0_10px_20px_rgba(15,118,110,0.18)]" />
+                    <span>
+                        <p class="text-2xl font-bold text-teal-700">SafeFood</p>
+                        <p class="text-xs uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Konsol Admin</p>
+                    </span>
                 </a>
                 <a href="{{ route('home') }}" class="text-sm font-semibold text-slate-600 dark:text-slate-300 lg:hidden">Kembali ke situs</a>
             </div>

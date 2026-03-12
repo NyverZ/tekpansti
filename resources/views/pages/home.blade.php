@@ -24,6 +24,21 @@
     <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
 @endpush
 
+@php
+    $heroStatCards = [
+        ['label' => 'Bahan Pangan', 'value' => $stats['ingredients']],
+        ['label' => 'Poin Nutrisi', 'value' => $stats['nutritionPoints']],
+        ['label' => 'Artikel', 'value' => $stats['articles']],
+        ['label' => 'Tips Harian', 'value' => $stats['tips']],
+    ];
+
+    $judgeHighlights = [
+        ['value' => '5', 'label' => 'Core Features'],
+        ['value' => '3', 'label' => 'Interactive Flow'],
+        ['value' => '1', 'label' => 'Unified Platform'],
+    ];
+@endphp
+
 @section('content')
     <section class="min-h-screen py-16 sm:py-20 lg:py-24">
         <div class="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-[1.04fr_0.96fr] lg:items-center lg:px-8">
@@ -37,7 +52,9 @@
                         </span>
                     </h1>
                     <p class="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 dark:text-slate-300">
-                        SafeFood menggabungkan edukasi HACCP, alat pemeriksaan mandiri, perbandingan nutrisi, Quiz, dan artikel modern dalam satu platform yang dirancang untuk menarik perhatian juri sekaligus membantu pengguna bertindak lebih aman.
+                        SafeFood merupakan platform edukasi digital yang menghadirkan solusi pembelajaran keamanan pangan secara modern dan interaktif.
+                        Dengan integrasi materi HACCP, fitur pengecekan keamanan makanan, analisis nutrisi, kuis pembelajaran, dan artikel edukatif,
+                        SafeFood membantu mahasiswa dan masyarakat memahami serta menerapkan praktik keamanan pangan yang lebih aman, cerdas, dan berkelanjutan.
                     </p>
                 </div>
 
@@ -47,71 +64,73 @@
                 </div>
 
                 <div class="sf-reveal grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                    <div class="sf-stat-card p-5 md:p-6 dark:bg-slate-900/70">
-                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Bahan Pangan</p>
-                        <p class="mt-3 text-3xl font-bold text-slate-900 md:text-4xl dark:text-white">{{ $stats['ingredients'] }}</p>
-                    </div>
-                    <div class="sf-stat-card p-5 md:p-6 dark:bg-slate-900/70">
-                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Poin Nutrisi</p>
-                        <p class="mt-3 text-3xl font-bold text-slate-900 md:text-4xl dark:text-white">{{ $stats['nutritionPoints'] }}</p>
-                    </div>
-                    <div class="sf-stat-card p-5 md:p-6 dark:bg-slate-900/70">
-                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Artikel</p>
-                        <p class="mt-3 text-3xl font-bold text-slate-900 md:text-4xl dark:text-white">{{ $stats['articles'] }}</p>
-                    </div>
-                    <div class="sf-stat-card p-5 md:p-6 dark:bg-slate-900/70">
-                        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Tips Harian</p>
-                        <p class="mt-3 text-3xl font-bold text-slate-900 md:text-4xl dark:text-white">{{ $stats['tips'] }}</p>
-                    </div>
+                    @foreach ($heroStatCards as $card)
+                        <div class="sf-stat-card p-5 md:p-6 dark:bg-slate-900/70">
+                            <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">{{ $card['label'] }}</p>
+                            <p class="mt-3 text-3xl font-bold text-slate-900 md:text-4xl dark:text-white">{{ $card['value'] }}</p>
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
             <div class="sf-reveal relative">
-                <div class="sf-panel relative overflow-hidden p-3 sm:p-4 dark:bg-slate-950/70">
-                    <div class="absolute inset-x-8 top-0 h-24 rounded-b-full bg-gradient-to-r from-teal-500/20 via-cyan-400/20 to-amber-400/20 blur-2xl sm:inset-x-10 sm:h-28"></div>
-                    <div class="relative rounded-[2rem] bg-[linear-gradient(145deg,#082f49,#0f766e_55%,#f59e0b_140%)] p-5 text-white sm:p-7">
-                        <div class="flex items-start justify-between gap-4">
+                <div class="sf-panel relative overflow-hidden rounded-[2.5rem] border border-white/20 bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950 p-4 shadow-[0_40px_120px_rgba(2,8,23,0.8)] sm:p-6">
+                    <div class="absolute -left-20 -top-20 h-72 w-72 bg-teal-500/20 blur-[120px]"></div>
+                    <div class="absolute -bottom-24 -right-24 h-80 w-80 bg-amber-400/20 blur-[140px]"></div>
+
+                    <div class="relative rounded-[2rem] bg-gradient-to-br from-[#0b2239] via-[#0f766e] to-[#f59e0b] p-6 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:p-8">
+                        <div class="flex items-start justify-between gap-6">
                             <div>
-                                <p class="text-sm uppercase tracking-[0.24em] text-cyan-100">SafeFood Console</p>
-                                <h2 class="mt-3 text-2xl font-bold leading-tight sm:text-3xl">Pelajari. Cek. Bandingkan.</h2>
+                                <p class="text-xs uppercase tracking-[0.35em] text-cyan-200">SafeFood Console</p>
+                                <h2 class="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Pelajari. Cek. Bandingkan.</h2>
+                                <p class="mt-3 max-w-md text-white/70">
+                                    Platform edukasi keamanan pangan modern dengan tools interaktif untuk membantu masyarakat memahami praktik food safety secara nyata.
+                                </p>
                             </div>
-                            <div class="rounded-full bg-white/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80 sm:px-4 sm:text-xs">
-                                UI Kompetisi
+
+                            <div class="hidden items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs uppercase tracking-wider backdrop-blur sm:flex">
+                                <span aria-hidden="true">&#9733;</span>
+                                <span>Competition Ready</span>
                             </div>
                         </div>
 
-                        <div class="mt-8 grid gap-4 sm:grid-cols-[0.95fr_1.05fr]">
-                            <div class="rounded-[1.75rem] bg-white/10 p-5 backdrop-blur">
-                                <p class="text-sm text-white/70">Fokus hari ini</p>
-                                <p class="mt-3 text-xl font-semibold leading-8 sm:text-2xl">"{{ $dailyTip }}"</p>
+                        <div class="mt-10 grid gap-5 lg:grid-cols-[1fr_1.2fr]">
+                            <div class="rounded-[1.8rem] border border-white/15 bg-white/10 p-6 backdrop-blur-xl transition hover:bg-white/15">
+                                <p class="text-xs uppercase tracking-widest text-white/60">Daily Safety Insight</p>
+                                <p class="mt-4 text-2xl font-semibold leading-9">"{{ $dailyTip }}"</p>
+                                <div class="mt-6 flex items-center gap-2 text-xs text-white/60">
+                                    <div class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></div>
+                                    <span>Live recommendation system</span>
+                                </div>
                             </div>
 
-                            <div class="space-y-4">
-                                <div class="rounded-[1.75rem] bg-slate-950/35 p-5 backdrop-blur">
+                            <div class="grid gap-5">
+                                <div class="rounded-[1.8rem] border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
                                     <div class="flex items-center justify-between">
-                                        <p class="text-sm text-white/70">Skor Keamanan Pangan</p>
-                                        <span class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-semibold text-emerald-200">Pratinjau Langsung</span>
+                                        <p class="text-sm text-white/70">Food Safety Score</p>
+                                        <span class="rounded-full bg-emerald-400/20 px-3 py-1 text-xs font-semibold text-emerald-300">Realtime</span>
                                     </div>
-                                    <div class="mt-4 flex items-end gap-3">
-                                        <p class="text-4xl font-bold sm:text-5xl">92</p>
-                                        <p class="pb-1 text-sm text-white/70">Praktik sangat baik</p>
+
+                                    <div class="mt-6 flex items-end gap-4">
+                                        <p class="text-5xl font-bold tracking-tight">92</p>
+                                        <p class="pb-2 text-sm text-white/60">Excellent hygiene practice</p>
+                                    </div>
+
+                                    <div class="mt-5 h-2 overflow-hidden rounded-full bg-white/10">
+                                        <div class="h-full w-[92%] bg-gradient-to-r from-emerald-400 to-teal-400"></div>
                                     </div>
                                 </div>
-                                <div class="rounded-[1.75rem] bg-slate-950/35 p-5 backdrop-blur">
-                                    <p class="text-sm text-white/70">Alasan juri memperhatikannya</p>
-                                    <div class="mt-4 grid grid-cols-3 gap-3 text-center text-sm">
-                                        <div class="rounded-2xl bg-white/10 px-3 py-3">
-                                            <p class="font-bold">5</p>
-                                            <p class="mt-1 text-white/70">Fitur inti</p>
-                                        </div>
-                                        <div class="rounded-2xl bg-white/10 px-3 py-3">
-                                            <p class="font-bold">3</p>
-                                            <p class="mt-1 text-white/70">Alur interaktif</p>
-                                        </div>
-                                        <div class="rounded-2xl bg-white/10 px-3 py-3">
-                                            <p class="font-bold">1</p>
-                                            <p class="mt-1 text-white/70">Platform terpadu</p>
-                                        </div>
+
+                                <div class="rounded-[1.8rem] border border-white/10 bg-white/5 p-6 backdrop-blur">
+                                    <p class="text-sm text-white/70">Why judges notice this platform</p>
+
+                                    <div class="mt-5 grid grid-cols-3 gap-4 text-center">
+                                        @foreach ($judgeHighlights as $highlight)
+                                            <div class="rounded-2xl bg-white/10 p-4 transition hover:bg-white/20">
+                                                <p class="text-xl font-bold">{{ $highlight['value'] }}</p>
+                                                <p class="mt-1 text-xs text-white/60">{{ $highlight['label'] }}</p>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +213,7 @@
                     <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ $step['description'] }}</p>
                     <a href="{{ $step['href'] }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 transition hover:gap-3 dark:text-teal-300">
                         {{ $step['cta'] }}
-                        <span aria-hidden="true">-></span>
+                        <span aria-hidden="true">-&gt;</span>
                     </a>
                 </article>
             @endforeach
@@ -220,7 +239,7 @@
                                 </div>
                                 <p class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ $tool['description'] }}</p>
                             </div>
-                            <span class="text-lg font-semibold text-teal-600 transition group-hover:translate-x-1 dark:text-teal-300">-></span>
+                            <span class="text-lg font-semibold text-teal-600 transition group-hover:translate-x-1 dark:text-teal-300">-&gt;</span>
                         </a>
                     @endforeach
                 </div>
@@ -310,7 +329,7 @@
                         <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ \Illuminate\Support\Str::limit(strip_tags($article->content), 130) }}</p>
                         <a href="{{ route('articles.show', $article) }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 transition hover:gap-3 dark:text-teal-300">
                             Baca Selengkapnya
-                            <span aria-hidden="true">-></span>
+                            <span aria-hidden="true">-&gt;</span>
                         </a>
                     </div>
                 </article>

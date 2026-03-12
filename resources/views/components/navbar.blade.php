@@ -9,6 +9,8 @@
     ];
 
     $mobileSecondaryItems = [
+        ['label' => 'Higiene dan Sanitasi', 'route' => 'hygiene.sanitation'],
+        ['label' => 'Pengolahan dan Penyimpanan Pangan', 'route' => 'food.processing-storage'],
         ['label' => 'Artikel Edukasi', 'route' => 'articles.index'],
         ['label' => 'Perbandingan Nutrisi', 'route' => 'foods.compare'],
         ['label' => 'Konsultasi', 'route' => 'consultation'],
@@ -44,9 +46,7 @@
     <div class="sf-container relative pt-4">
         <div class="sf-glass flex items-center justify-between gap-4 rounded-[1.75rem] px-4 py-3 shadow-[0_18px_50px_rgba(15,23,42,0.12)] transition duration-200 md:px-6">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#0f766e,#f59e0b)] text-sm font-bold text-white shadow-lg shadow-teal-700/20">
-                    SF
-                </div>
+                <x-application-logo class="h-11 w-11 shrink-0 drop-shadow-[0_10px_22px_rgba(15,118,110,0.28)]" />
                 <div>
                     <p class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">SafeFood</p>
                     <p class="text-[11px] uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Platform Edukasi</p>
