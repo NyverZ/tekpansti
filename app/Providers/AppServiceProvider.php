@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,46 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        RateLimiter::for('register', function (Request $request) {
+            $email = (string) $request->input('email');
+
+            return Limit::perMinute(10)
+                ->by($request->ip() . '|' . mb_strtolower($email))
+                ->response(function () use ($request) {
+                    return back()
+                        ->withInput($request->except(['password', 'password_confirmation']))
+                        ->withErrors([
+                            'email' => 'Terlalu banyak percobaan pendaftaran. Silakan tunggu sekitar 1 menit lalu coba lagi.',
+                        ]);
+                });
+        });
+
+        RateLimiter::for('login', function (Request $request) {
+            $email = (string) $request->input('email');
+
+            return Limit::perMinute(10)
+                ->by($request->ip() . '|' . mb_strtolower($email))
+                ->response(function () use ($request) {
+                    return back()
+                        ->withInput($request->only(['email', 'remember']))
+                        ->withErrors([
+                            'email' => 'Terlalu banyak percobaan masuk. Silakan tunggu sekitar 1 menit lalu coba lagi.',
+                        ]);
+                });
+        });
+
+        RateLimiter::for('password-reset', function (Request $request) {
+            $email = (string) $request->input('email');
+
+            return Limit::perMinute(10)
+                ->by($request->ip() . '|' . mb_strtolower($email))
+                ->response(function () use ($request) {
+                    return back()
+                        ->withInput($request->only('email'))
+                        ->withErrors([
+                            'email' => 'Terlalu banyak permintaan reset kata sandi. Silakan tunggu sekitar 1 menit lalu coba lagi.',
+                        ]);
+                });
+        });
     }
 }

@@ -37,8 +37,17 @@ class PasswordResetLinkController extends Controller
         );
 
         return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
+                    ? back()->with('status', 'Tautan reset kata sandi telah kami kirim ke email Anda.')
                     : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);
+                        ->withErrors(['email' => $this->passwordResetMessage($status)]);
+    }
+
+    protected function passwordResetMessage(string $status): string
+    {
+        return match ($status) {
+            Password::INVALID_USER => 'Kami tidak menemukan pengguna dengan alamat email tersebut.',
+            Password::RESET_THROTTLED => 'Silakan tunggu sebentar sebelum mencoba lagi.',
+            default => 'Permintaan reset kata sandi tidak dapat diproses saat ini. Silakan coba lagi.',
+        };
     }
 }
