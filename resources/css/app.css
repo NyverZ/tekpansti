@@ -51,6 +51,15 @@
         display: none !important;
     }
 
+    @keyframes sf-shimmer {
+        0% {
+            background-position: 120% 0;
+        }
+        100% {
+            background-position: -120% 0;
+        }
+    }
+
     body {
         font-family: 'DM Sans', sans-serif;
         color: var(--sf-ink);
@@ -314,5 +323,16 @@
     .sf-reveal.is-visible {
         opacity: 1;
         transform: translateY(0);
+    }
+
+    .sf-skeleton {
+        background: linear-gradient(
+            100deg,
+            color-mix(in srgb, var(--sf-soft) 72%, transparent) 10%,
+            color-mix(in srgb, var(--sf-card) 95%, white 5%) 40%,
+            color-mix(in srgb, var(--sf-soft) 72%, transparent) 70%
+        );
+        background-size: 220% 100%;
+        animation: sf-shimmer 1.2s linear infinite;
     }
 }

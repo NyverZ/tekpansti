@@ -63,5 +63,25 @@ class AppServiceProvider extends ServiceProvider
                         ]);
                 });
         });
+
+        RateLimiter::for('notifications-poll', function (Request $request) {
+            $key = ($request->user()?->id ?? 'guest') . '|' . $request->ip();
+
+            return Limit::perMinute(60)
+                ->by($key)
+                ->response(fn () => response()->json([
+                    'message' => 'Terlalu banyak permintaan notifikasi. Coba lagi sebentar.',
+                ], 429));
+        });
+
+        RateLimiter::for('notifications-action', function (Request $request) {
+            $key = ($request->user()?->id ?? 'guest') . '|' . $request->ip();
+
+            return Limit::perMinute(30)
+                ->by($key)
+                ->response(fn () => response()->json([
+                    'message' => 'Aksi notifikasi terlalu sering. Silakan tunggu sebentar.',
+                ], 429));
+        });
     }
 }

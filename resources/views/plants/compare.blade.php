@@ -69,7 +69,8 @@
                         Grafik menggunakan skala relatif per komponen agar karbohidrat, protein, lemak, dan kalsium tetap terlihat jelas meskipun memiliki satuan berbeda.
                     </p>
                     <div class="relative mt-8 h-80">
-                        <canvas id="comparisonChart" height="300"></canvas>
+                        <div id="comparisonChartSkeleton" class="sf-skeleton h-full rounded-[1rem]"></div>
+                        <canvas id="comparisonChart" height="300" class="hidden"></canvas>
                     </div>
                 </div>
 
@@ -95,133 +96,148 @@
             </div>
 
             @push('scripts')
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 <script>
-                    const comparisonRows = @json($comparisonRows);
-                    const comparisonChartElement = document.getElementById('comparisonChart');
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const comparisonRows = @json($comparisonRows);
+                        const comparisonChartElement = document.getElementById('comparisonChart');
+                        const comparisonChartSkeleton = document.getElementById('comparisonChartSkeleton');
+                        const revealComparisonChart = () => {
+                            comparisonChartSkeleton?.classList.add('hidden');
+                            comparisonChartElement?.classList.remove('hidden');
+                        };
+                        const chartSkeletonDelay = window.safeFoodSkeletonTimeout?.(850, 3000) ?? 1200;
+                        const skeletonTimeout = window.setTimeout(revealComparisonChart, chartSkeletonDelay);
 
-                    if (comparisonChartElement && window.Chart && comparisonRows.length) {
-                        const isDarkMode = document.documentElement.classList.contains('dark');
-                        const tickColor = isDarkMode ? '#cbd5e1' : '#475569';
-                        const gridColor = isDarkMode ? 'rgba(148, 163, 184, 0.18)' : 'rgba(15, 23, 42, 0.08)';
-                        const tooltipBackground = isDarkMode ? '#0f172a' : '#111827';
-                        const ctx = comparisonChartElement.getContext('2d');
+                        if (comparisonChartElement && window.Chart && comparisonRows.length) {
+                            const isDarkMode = document.documentElement.classList.contains('dark');
+                            const tickColor = isDarkMode ? '#cbd5e1' : '#475569';
+                            const gridColor = isDarkMode ? 'rgba(148, 163, 184, 0.18)' : 'rgba(15, 23, 42, 0.08)';
+                            const tooltipBackground = isDarkMode ? '#0f172a' : '#111827';
+                            const ctx = comparisonChartElement.getContext('2d');
 
-                        const gradientA = ctx.createLinearGradient(0, 0, 0, 320);
-                        gradientA.addColorStop(0, '#2dd4bf');
-                        gradientA.addColorStop(1, '#0f766e');
+                            const gradientA = ctx.createLinearGradient(0, 0, 0, 320);
+                            gradientA.addColorStop(0, '#2dd4bf');
+                            gradientA.addColorStop(1, '#0f766e');
 
-                        const gradientB = ctx.createLinearGradient(0, 0, 0, 320);
-                        gradientB.addColorStop(0, '#fbbf24');
-                        gradientB.addColorStop(1, '#d97706');
+                            const gradientB = ctx.createLinearGradient(0, 0, 0, 320);
+                            gradientB.addColorStop(0, '#fbbf24');
+                            gradientB.addColorStop(1, '#d97706');
 
-                        const normalizedFoodA = comparisonRows.map((row) => {
-                            const maxValue = Math.max(Number(row.food_a) || 0, Number(row.food_b) || 0, 1);
+                            const normalizedFoodA = comparisonRows.map((row) => {
+                                const maxValue = Math.max(Number(row.food_a) || 0, Number(row.food_b) || 0, 1);
 
-                            return Number((((Number(row.food_a) || 0) / maxValue) * 100).toFixed(1));
-                        });
+                                return Number((((Number(row.food_a) || 0) / maxValue) * 100).toFixed(1));
+                            });
 
-                        const normalizedFoodB = comparisonRows.map((row) => {
-                            const maxValue = Math.max(Number(row.food_a) || 0, Number(row.food_b) || 0, 1);
+                            const normalizedFoodB = comparisonRows.map((row) => {
+                                const maxValue = Math.max(Number(row.food_a) || 0, Number(row.food_b) || 0, 1);
 
-                            return Number((((Number(row.food_b) || 0) / maxValue) * 100).toFixed(1));
-                        });
+                                return Number((((Number(row.food_b) || 0) / maxValue) * 100).toFixed(1));
+                            });
 
-                        window.safeFoodComparisonChart?.destroy();
+                            window.safeFoodComparisonChart?.destroy();
 
-                        window.safeFoodComparisonChart = new Chart(comparisonChartElement, {
-                            type: 'bar',
-                            data: {
-                                labels: comparisonRows.map((row) => `${row.label} (${row.unit || 'tanpa satuan'})`),
-                                datasets: [
-                                    {
-                                        label: @json($foodA->local_name),
-                                        data: normalizedFoodA,
-                                        rawValues: comparisonRows.map((row) => Number(row.food_a) || 0),
-                                        backgroundColor: gradientA,
-                                        borderRadius: 12,
-                                        barThickness: 24,
-                                    },
-                                    {
-                                        label: @json($foodB->local_name),
-                                        data: normalizedFoodB,
-                                        rawValues: comparisonRows.map((row) => Number(row.food_b) || 0),
-                                        backgroundColor: gradientB,
-                                        borderRadius: 12,
-                                        barThickness: 24,
-                                    }
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                interaction: {
-                                    mode: 'index',
-                                    intersect: false,
+                            window.safeFoodComparisonChart = new Chart(comparisonChartElement, {
+                                type: 'bar',
+                                data: {
+                                    labels: comparisonRows.map((row) => `${row.label} (${row.unit || 'tanpa satuan'})`),
+                                    datasets: [
+                                        {
+                                            label: @json($foodA->local_name),
+                                            data: normalizedFoodA,
+                                            rawValues: comparisonRows.map((row) => Number(row.food_a) || 0),
+                                            backgroundColor: gradientA,
+                                            borderRadius: 12,
+                                            barThickness: 24,
+                                        },
+                                        {
+                                            label: @json($foodB->local_name),
+                                            data: normalizedFoodB,
+                                            rawValues: comparisonRows.map((row) => Number(row.food_b) || 0),
+                                            backgroundColor: gradientB,
+                                            borderRadius: 12,
+                                            barThickness: 24,
+                                        }
+                                    ]
                                 },
-                                plugins: {
-                                    legend: {
-                                        position: 'top',
-                                        labels: {
-                                            color: tickColor,
-                                            font: {
-                                                size: 14,
-                                                weight: '600',
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    interaction: {
+                                        mode: 'index',
+                                        intersect: false,
+                                    },
+                                    plugins: {
+                                        legend: {
+                                            position: 'top',
+                                            labels: {
+                                                color: tickColor,
+                                                font: {
+                                                    size: 14,
+                                                    weight: '600',
+                                                }
+                                            }
+                                        },
+                                        tooltip: {
+                                            backgroundColor: tooltipBackground,
+                                            titleColor: '#ffffff',
+                                            bodyColor: '#e5e7eb',
+                                            padding: 12,
+                                            cornerRadius: 10,
+                                            callbacks: {
+                                                label(context) {
+                                                    const row = comparisonRows[context.dataIndex];
+                                                    const rawValue = context.dataset.rawValues[context.dataIndex];
+
+                                                    return `${context.dataset.label}: ${rawValue} ${row.unit}`;
+                                                },
+                                                afterLabel(context) {
+                                                    return `Skala relatif: ${context.formattedValue}%`;
+                                                }
                                             }
                                         }
                                     },
-                                    tooltip: {
-                                        backgroundColor: tooltipBackground,
-                                        titleColor: '#ffffff',
-                                        bodyColor: '#e5e7eb',
-                                        padding: 12,
-                                        cornerRadius: 10,
-                                        callbacks: {
-                                            label(context) {
-                                                const row = comparisonRows[context.dataIndex];
-                                                const rawValue = context.dataset.rawValues[context.dataIndex];
-
-                                                return `${context.dataset.label}: ${rawValue} ${row.unit}`;
+                                    scales: {
+                                        x: {
+                                            grid: {
+                                                display: false,
                                             },
-                                            afterLabel(context) {
-                                                return `Skala relatif: ${context.formattedValue}%`;
+                                            ticks: {
+                                                color: tickColor,
+                                                font: {
+                                                    size: 12,
+                                                }
                                             }
-                                        }
-                                    }
-                                },
-                                scales: {
-                                    x: {
-                                        grid: {
-                                            display: false,
                                         },
-                                        ticks: {
-                                            color: tickColor,
-                                            font: {
-                                                size: 12,
+                                        y: {
+                                            beginAtZero: true,
+                                            max: 100,
+                                            grid: {
+                                                color: gridColor,
+                                            },
+                                            ticks: {
+                                                color: tickColor,
+                                                callback(value) {
+                                                    return `${value}%`;
+                                                }
                                             }
                                         }
                                     },
-                                    y: {
-                                        beginAtZero: true,
-                                        max: 100,
-                                        grid: {
-                                            color: gridColor,
-                                        },
-                                        ticks: {
-                                            color: tickColor,
-                                            callback(value) {
-                                                return `${value}%`;
-                                            }
-                                        }
+                                    animation: {
+                                        duration: 1000,
+                                        easing: 'easeOutQuart',
                                     }
-                                },
-                                animation: {
-                                    duration: 1000,
-                                    easing: 'easeOutQuart',
                                 }
-                            }
-                        });
-                    }
+                            });
+
+                            clearTimeout(skeletonTimeout);
+                            revealComparisonChart();
+                            return;
+                        }
+
+                        clearTimeout(skeletonTimeout);
+                        revealComparisonChart();
+                    });
                 </script>
             @endpush
         @else

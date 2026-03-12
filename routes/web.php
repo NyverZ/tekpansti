@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Admin\PlantController as AdminPlantResourceController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Api\NotificationController as ApiNotificationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SafeFoodController;
@@ -42,6 +43,19 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware('auth')
+    ->prefix('api')
+    ->group(function () {
+        Route::get('/notifications', [ApiNotificationController::class, 'index'])
+            ->middleware('throttle:notifications-poll');
+        Route::get('/notifications/unread-count', [ApiNotificationController::class, 'unreadCount'])
+            ->middleware('throttle:notifications-poll');
+        Route::post('/notifications/mark-all-read', [ApiNotificationController::class, 'markAllRead'])
+            ->middleware('throttle:notifications-action');
+        Route::post('/notifications/{id}/read', [ApiNotificationController::class, 'markRead'])
+            ->middleware('throttle:notifications-action');
+    });
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')

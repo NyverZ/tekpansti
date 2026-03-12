@@ -31,7 +31,8 @@
                         Grafik ditampilkan dalam skala relatif agar semua komponen nutrisi tetap mudah dibaca meskipun satuannya berbeda.
                     </p>
                     <div class="relative mt-8 h-72">
-                        <canvas id="foodNutritionChart" height="280"></canvas>
+                        <div id="foodNutritionChartSkeleton" class="sf-skeleton h-full rounded-[1rem]"></div>
+                        <canvas id="foodNutritionChart" height="280" class="hidden"></canvas>
                     </div>
                 </div>
 
@@ -51,81 +52,96 @@
     </section>
 
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            const nutrientData = @json($chartData);
-            const foodNutritionChart = document.getElementById('foodNutritionChart');
+            document.addEventListener('DOMContentLoaded', () => {
+                const nutrientData = @json($chartData);
+                const foodNutritionChart = document.getElementById('foodNutritionChart');
+                const foodNutritionSkeleton = document.getElementById('foodNutritionChartSkeleton');
+                const revealFoodChart = () => {
+                    foodNutritionSkeleton?.classList.add('hidden');
+                    foodNutritionChart?.classList.remove('hidden');
+                };
+                const chartSkeletonDelay = window.safeFoodSkeletonTimeout?.(850, 3000) ?? 1200;
+                const skeletonTimeout = window.setTimeout(revealFoodChart, chartSkeletonDelay);
 
-            if (foodNutritionChart && window.Chart && nutrientData.length) {
-                const isDarkMode = document.documentElement.classList.contains('dark');
-                const tickColor = isDarkMode ? '#cbd5e1' : '#475569';
-                const gridColor = isDarkMode ? 'rgba(148, 163, 184, 0.18)' : 'rgba(15, 23, 42, 0.08)';
-                const tooltipBackground = isDarkMode ? '#0f172a' : '#111827';
-                const highestValue = Math.max(...nutrientData.map((item) => Number(item.value) || 0), 1);
+                if (foodNutritionChart && window.Chart && nutrientData.length) {
+                    const isDarkMode = document.documentElement.classList.contains('dark');
+                    const tickColor = isDarkMode ? '#cbd5e1' : '#475569';
+                    const gridColor = isDarkMode ? 'rgba(148, 163, 184, 0.18)' : 'rgba(15, 23, 42, 0.08)';
+                    const tooltipBackground = isDarkMode ? '#0f172a' : '#111827';
+                    const highestValue = Math.max(...nutrientData.map((item) => Number(item.value) || 0), 1);
 
-                new Chart(foodNutritionChart, {
-                    type: 'bar',
-                    data: {
-                        labels: nutrientData.map((item) => `${item.label} (${item.unit})`),
-                        datasets: [{
-                            label: 'Skala relatif per 100 g',
-                            data: nutrientData.map((item) => Number((((Number(item.value) || 0) / highestValue) * 100).toFixed(1))),
-                            rawValues: nutrientData.map((item) => Number(item.value) || 0),
-                            backgroundColor: ['#0f766e', '#155e75', '#d97706', '#f59e0b'],
-                            borderRadius: 10,
-                            barThickness: 26,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: tooltipBackground,
-                                titleColor: '#ffffff',
-                                bodyColor: '#e5e7eb',
-                                callbacks: {
-                                    label(context) {
-                                        const row = nutrientData[context.dataIndex];
-                                        const rawValue = context.dataset.rawValues[context.dataIndex];
-
-                                        return `${row.label}: ${rawValue} ${row.unit}`;
-                                    },
-                                    afterLabel(context) {
-                                        return `Skala relatif: ${context.formattedValue}%`;
-                                    }
-                                }
-                            }
+                    new Chart(foodNutritionChart, {
+                        type: 'bar',
+                        data: {
+                            labels: nutrientData.map((item) => `${item.label} (${item.unit})`),
+                            datasets: [{
+                                label: 'Skala relatif per 100 g',
+                                data: nutrientData.map((item) => Number((((Number(item.value) || 0) / highestValue) * 100).toFixed(1))),
+                                rawValues: nutrientData.map((item) => Number(item.value) || 0),
+                                backgroundColor: ['#0f766e', '#155e75', '#d97706', '#f59e0b'],
+                                borderRadius: 10,
+                                barThickness: 26,
+                            }]
                         },
-                        scales: {
-                            x: {
-                                grid: {
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
                                     display: false
                                 },
-                                ticks: {
-                                    color: tickColor
+                                tooltip: {
+                                    backgroundColor: tooltipBackground,
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#e5e7eb',
+                                    callbacks: {
+                                        label(context) {
+                                            const row = nutrientData[context.dataIndex];
+                                            const rawValue = context.dataset.rawValues[context.dataIndex];
+
+                                            return `${row.label}: ${rawValue} ${row.unit}`;
+                                        },
+                                        afterLabel(context) {
+                                            return `Skala relatif: ${context.formattedValue}%`;
+                                        }
+                                    }
                                 }
                             },
-                            y: {
-                                beginAtZero: true,
-                                max: 100,
-                                grid: {
-                                    color: gridColor
+                            scales: {
+                                x: {
+                                    grid: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        color: tickColor
+                                    }
                                 },
-                                ticks: {
-                                    color: tickColor,
-                                    callback(value) {
-                                        return `${value}%`;
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    grid: {
+                                        color: gridColor
+                                    },
+                                    ticks: {
+                                        color: tickColor,
+                                        callback(value) {
+                                            return `${value}%`;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                });
-            }
+                    });
+
+                    clearTimeout(skeletonTimeout);
+                    revealFoodChart();
+                    return;
+                }
+
+                clearTimeout(skeletonTimeout);
+                revealFoodChart();
+            });
         </script>
     @endpush
 @endsection

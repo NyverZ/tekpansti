@@ -16,9 +16,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('og_title', trim($__env->yieldContent('title', config('app.name', 'SafeFood'))))">
     <meta name="twitter:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', 'SafeFood adalah platform edukasi keamanan pangan, HACCP, nutrisi, dan praktik penanganan makanan yang aman untuk masyarakat umum.')))">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/safefood-mark.svg') }}">
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/safefood-favicon.ico') }}?v=2">
-    <link rel="shortcut icon" href="{{ asset('images/safefood-favicon.ico') }}?v=2">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/safefood-mark.svg') }}?v=3">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/safefood-favicon-v3.ico') }}?v=1">
+    <link rel="shortcut icon" href="{{ asset('images/safefood-favicon-v3.ico') }}?v=1">
+    <link rel="apple-touch-icon" href="{{ asset('images/favicon-preview.png') }}?v=3">
     <script>
         (() => {
             const storedTheme = localStorage.getItem('theme');

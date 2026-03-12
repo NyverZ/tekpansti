@@ -53,71 +53,77 @@
                 </div>
             </a>
 
-            <div class="hidden items-center gap-3 md:flex">
-                <button
-                    type="button"
-                    @click="toggleMenu()"
-                    class="sf-nav-toggle gap-2 hover:-translate-y-0.5"
-                    aria-label="Buka menu navigasi"
-                >
-                    <span>Navigasi</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-
-                <button
-                    type="button"
-                    @click="toggleTheme()"
-                    class="sf-nav-toggle h-11 w-11 p-0 hover:-translate-y-0.5"
-                    aria-label="Ubah mode gelap"
-                >
-                    <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M21 12.79A9 9 0 1111.21 3c0 0 0 0 0 0A7 7 0 0021 12.79z" />
-                    </svg>
-                    <svg x-show="dark" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 3v2.25M12 18.75V21M4.72 4.72l1.59 1.59M17.69 17.69l1.59 1.59M3 12h2.25M18.75 12H21M4.72 19.28l1.59-1.59M17.69 6.31l1.59-1.59M15.75 12A3.75 3.75 0 1112 8.25 3.75 3.75 0 0115.75 12z" />
-                    </svg>
-                </button>
-
+            <div class="flex items-center gap-2 md:gap-3">
                 @auth
-                    <a href="{{ route('dashboard') }}" class="sf-button-secondary">Dasbor</a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button class="sf-button-primary px-5 py-2.5">Keluar</button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="sf-button-secondary">Masuk</a>
-                    <a href="{{ route('register') }}" class="sf-button-primary">Daftar</a>
+                    <x-notification-bell />
                 @endauth
-            </div>
 
-            <div class="flex items-center gap-2 md:hidden">
-                <button
-                    type="button"
-                    @click="toggleTheme()"
-                    class="sf-nav-toggle h-10 w-10 p-0"
-                    aria-label="Ubah mode gelap"
-                >
-                    <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M21 12.79A9 9 0 1111.21 3c0 0 0 0 0 0A7 7 0 0021 12.79z" />
-                    </svg>
-                    <svg x-show="dark" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 3v2.25M12 18.75V21M4.72 4.72l1.59 1.59M17.69 17.69l1.59 1.59M3 12h2.25M18.75 12H21M4.72 19.28l1.59-1.59M17.69 6.31l1.59-1.59M15.75 12A3.75 3.75 0 1112 8.25 3.75 3.75 0 0115.75 12z" />
-                    </svg>
-                </button>
+                <div class="hidden items-center gap-3 md:flex">
+                    <button
+                        type="button"
+                        @click="toggleMenu()"
+                        class="sf-nav-toggle gap-2 hover:-translate-y-0.5"
+                        aria-label="Buka menu navigasi"
+                    >
+                        <span>Navigasi</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
 
-                <button
-                    type="button"
-                    @click="toggleMenu()"
-                    class="sf-nav-toggle h-10 w-10 p-0"
-                    aria-label="Buka navigasi seluler"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M4 7h16M4 12h16M4 17h16" />
-                        <path x-show="open" x-cloak stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M6 6l12 12M18 6L6 18" />
-                    </svg>
-                </button>
+                    <button
+                        type="button"
+                        @click="toggleTheme()"
+                        class="sf-nav-toggle h-11 w-11 p-0 hover:-translate-y-0.5"
+                        aria-label="Ubah mode gelap"
+                    >
+                        <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M21 12.79A9 9 0 1111.21 3c0 0 0 0 0 0A7 7 0 0021 12.79z" />
+                        </svg>
+                        <svg x-show="dark" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 3v2.25M12 18.75V21M4.72 4.72l1.59 1.59M17.69 17.69l1.59 1.59M3 12h2.25M18.75 12H21M4.72 19.28l1.59-1.59M17.69 6.31l1.59-1.59M15.75 12A3.75 3.75 0 1112 8.25 3.75 3.75 0 0115.75 12z" />
+                        </svg>
+                    </button>
+
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="sf-button-secondary">Dasbor</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="sf-button-primary px-5 py-2.5">Keluar</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="sf-button-secondary">Masuk</a>
+                        <a href="{{ route('register') }}" class="sf-button-primary">Daftar</a>
+                    @endauth
+                </div>
+
+                <div class="flex items-center gap-2 md:hidden">
+                    <button
+                        type="button"
+                        @click="toggleTheme()"
+                        class="sf-nav-toggle h-10 w-10 p-0"
+                        aria-label="Ubah mode gelap"
+                    >
+                        <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M21 12.79A9 9 0 1111.21 3c0 0 0 0 0 0A7 7 0 0021 12.79z" />
+                        </svg>
+                        <svg x-show="dark" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 3v2.25M12 18.75V21M4.72 4.72l1.59 1.59M17.69 17.69l1.59 1.59M3 12h2.25M18.75 12H21M4.72 19.28l1.59-1.59M17.69 6.31l1.59-1.59M15.75 12A3.75 3.75 0 1112 8.25 3.75 3.75 0 0115.75 12z" />
+                        </svg>
+                    </button>
+
+                    <button
+                        type="button"
+                        @click="toggleMenu()"
+                        class="sf-nav-toggle h-10 w-10 p-0"
+                        aria-label="Buka navigasi seluler"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M4 7h16M4 12h16M4 17h16" />
+                            <path x-show="open" x-cloak stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M6 6l12 12M18 6L6 18" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
 

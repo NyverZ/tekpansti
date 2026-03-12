@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\PlantRequest;
+use App\NewIngredientPublishedNotification;
+use App\Models\User;
 use Database\Seeders\CategorySeeder;
 use App\Models\Category;
 use App\Models\Nutrient;
@@ -31,7 +33,7 @@ class PlantController extends Controller
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($request, $data) {
+        $plant = DB::transaction(function () use ($request, $data) {
             if ($request->hasFile('image')) {
                 $data['image_path'] = $request->file('image')->store('plants', 'public');
             }
@@ -40,7 +42,14 @@ class PlantController extends Controller
 
             $this->syncFoodComposition($plant, $data['nutrient_values'] ?? []);
             $this->syncRegions($plant, $data['regions'] ?? []);
+
+            return $plant;
         });
+
+        if ($plant->is_published) {
+            $this->notifyPublicUsersAboutPublishedPlant($plant);
+        }
+        $this->notifyAdminUsersAboutIngredientInput($plant);
 
         return redirect()->route('admin.ingredients.index')->with('success', 'Bahan pangan berhasil dibuat.');
     }
@@ -58,8 +67,9 @@ class PlantController extends Controller
     public function update(PlantRequest $request, Plant $plant)
     {
         $data = $request->validated();
+        $wasPublished = (bool) $plant->is_published;
 
-        DB::transaction(function () use ($request, $plant, $data) {
+        $plant = DB::transaction(function () use ($request, $plant, $data) {
             if ($request->hasFile('image')) {
                 if ($plant->image_path) {
                     Storage::disk('public')->delete($plant->image_path);
@@ -71,7 +81,13 @@ class PlantController extends Controller
 
             $this->syncFoodComposition($plant, $data['nutrient_values'] ?? []);
             $this->syncRegions($plant, $data['regions'] ?? []);
+
+            return $plant;
         });
+
+        if (! $wasPublished && $plant->is_published) {
+            $this->notifyPublicUsersAboutPublishedPlant($plant);
+        }
 
         return redirect()->route('admin.ingredients.index')->with('success', 'Bahan pangan berhasil diperbarui.');
     }
@@ -145,5 +161,36 @@ class PlantController extends Controller
         }
 
         return Category::query()->orderBy('name')->get();
+    }
+
+    private function notifyPublicUsersAboutPublishedPlant(Plant $plant): void
+    {
+        User::query()
+            ->where(function ($query) {
+                $query->whereNull('role')->orWhere('role', '!=', 'admin');
+            })
+            ->where(function ($query) {
+                $query->whereNull('is_admin')->orWhere('is_admin', false);
+            })
+            ->select(['id'])
+            ->chunkById(200, function ($users) use ($plant) {
+                foreach ($users as $user) {
+                    $user->notify(new NewIngredientPublishedNotification($plant));
+                }
+            });
+    }
+
+    private function notifyAdminUsersAboutIngredientInput(Plant $plant): void
+    {
+        User::query()
+            ->where(function ($query) {
+                $query->where('role', 'admin')->orWhere('is_admin', true);
+            })
+            ->select(['id'])
+            ->chunkById(200, function ($users) use ($plant) {
+                foreach ($users as $user) {
+                    $user->notify(new NewIngredientPublishedNotification($plant));
+                }
+            });
     }
 }

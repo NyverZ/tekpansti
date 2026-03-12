@@ -258,7 +258,8 @@
                         SafeFood menggunakan visualisasi perbandingan agar pengguna dapat membaca perbedaan nutrisi dengan cepat, bukan hanya memindai tabel.
                     </p>
                     <div class="mt-8 rounded-[1.5rem] bg-slate-50 p-5 dark:bg-slate-900">
-                        <canvas id="homepageNutritionChart" height="280"></canvas>
+                        <div id="homepageNutritionChartSkeleton" class="sf-skeleton h-[280px] rounded-[1rem]"></div>
+                        <canvas id="homepageNutritionChart" height="280" class="hidden"></canvas>
                     </div>
                 </div>
             </div>
@@ -385,7 +386,6 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const revealItems = document.querySelectorAll('.sf-reveal');
@@ -432,8 +432,15 @@
             counters.forEach((counter) => counterObserver.observe(counter));
 
             const chartCanvas = document.getElementById('homepageNutritionChart');
+            const chartSkeleton = document.getElementById('homepageNutritionChartSkeleton');
+            const revealChart = () => {
+                chartSkeleton?.classList.add('hidden');
+                chartCanvas?.classList.remove('hidden');
+            };
+            const chartSkeletonDelay = window.safeFoodSkeletonTimeout?.(850, 2800) ?? 1200;
+            const chartSkeletonTimeout = window.setTimeout(revealChart, chartSkeletonDelay);
 
-            if (chartCanvas) {
+            if (chartCanvas && window.Chart) {
                 const darkMode = document.documentElement.classList.contains('dark');
 
                 new Chart(chartCanvas, {
@@ -485,7 +492,14 @@
                         }
                     }
                 });
+
+                clearTimeout(chartSkeletonTimeout);
+                revealChart();
+                return;
             }
+
+            clearTimeout(chartSkeletonTimeout);
+            revealChart();
         });
     </script>
 @endpush

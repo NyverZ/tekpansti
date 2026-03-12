@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
+use App\Models\User;
+use App\Notifications\NewArticlePublishedNotification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -38,13 +40,17 @@ class AdminArticleController extends Controller
 
     public function store(ArticleRequest $request): RedirectResponse
     {
-        Article::create([
+        $article = Article::create([
             'title' => $request->validated('title'),
             'slug' => $this->makeSlug($request->validated('title')),
             'content' => $request->validated('content'),
             'image' => $request->validated('image'),
             'is_published' => $request->boolean('is_published', true),
         ]);
+
+        if ($article->is_published) {
+            $this->notifyUsersAboutPublishedArticle($article);
+        }
 
         return redirect()
             ->route('admin.articles.index')
@@ -58,6 +64,8 @@ class AdminArticleController extends Controller
 
     public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
+        $wasPublished = (bool) $article->is_published;
+
         $article->update([
             'title' => $request->validated('title'),
             'slug' => $this->makeSlug($request->validated('title'), $article->id),
@@ -65,6 +73,10 @@ class AdminArticleController extends Controller
             'image' => $request->validated('image'),
             'is_published' => $request->boolean('is_published', true),
         ]);
+
+        if (! $wasPublished && $article->is_published) {
+            $this->notifyUsersAboutPublishedArticle($article);
+        }
 
         return redirect()
             ->route('admin.articles.index')
@@ -97,5 +109,27 @@ class AdminArticleController extends Controller
         }
 
         return $slug;
+    }
+
+    private function notifyUsersAboutPublishedArticle(Article $article): void
+    {
+        $actorId = auth()->id();
+
+        User::query()
+            ->where(function ($query) use ($actorId) {
+                if ($actorId !== null) {
+                    $query->where('id', '!=', $actorId);
+                }
+
+                $query->where(function ($roleQuery) {
+                    $roleQuery->whereNull('role')->orWhere('role', '!=', 'admin');
+                });
+            })
+            ->select(['id'])
+            ->chunkById(200, function ($users) use ($article) {
+                foreach ($users as $user) {
+                    $user->notify(new NewArticlePublishedNotification($article));
+                }
+            });
     }
 }
