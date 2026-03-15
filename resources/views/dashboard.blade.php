@@ -23,7 +23,7 @@
             <div class="relative grid gap-8 xl:grid-cols-[1.25fr_0.75fr] xl:items-end">
                 <div class="max-w-3xl">
                     <p class="text-xs font-semibold uppercase tracking-[0.34em] text-cyan-100/90">SafeFood Control Center</p>
-                    <h2 class="mt-4 text-3xl font-bold leading-[1.06] sm:text-4xl lg:text-5xl">Dashboard futuristik yang tetap tenang dan elegan</h2>
+                    <h2 class="mt-4 text-3xl font-bold leading-[1.06] sm:text-4xl lg:text-5xl">Dashboard tenang dan elegan</h2>
                     <p class="mt-4 text-sm leading-7 text-slate-100/95 sm:text-base">
                         @if ($isAdmin)
                             Pantau data bahan pangan, artikel terbit, pengguna terdaftar, dan alur masukan dari satu ruang kerja administratif yang terstruktur.

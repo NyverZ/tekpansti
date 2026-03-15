@@ -4,6 +4,8 @@
     $mobilePrimaryItems = [
         ['label' => 'Beranda', 'route' => 'home'],
         ['label' => 'Edukasi', 'route' => 'education'],
+        ['label' => 'HACCP', 'route' => 'haccp'],
+        ['label' => 'Bahan Pangan', 'route' => 'foods.index'],
         ['label' => 'Cek Keamanan Makanan', 'route' => 'safety-checker'],
         ['label' => 'Kuis', 'route' => 'quiz'],
     ];

@@ -87,7 +87,6 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-3">
-                        <x-notification-bell />
                         <div class="flex items-center gap-3 rounded-full bg-white px-4 py-2 shadow-sm dark:bg-slate-800">
                             <div class="flex h-10 w-10 items-center justify-center rounded-full bg-teal-700 font-bold text-white">
                                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
