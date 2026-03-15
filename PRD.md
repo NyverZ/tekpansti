@@ -21,6 +21,8 @@ Masyarakat umum sering kesulitan memahami keamanan pangan karena informasi yang 
 - penyimpanan makanan yang benar
 - pemilihan bahan pangan berdasarkan profil nutrisi
 
+Menurut WHO, 1 dari 10 orang di dunia jatuh sakit setiap tahun akibat pangan yang tidak aman, sehingga edukasi perilaku penanganan pangan menjadi krusial. citeturn0search1
+
 SafeFood hadir untuk menjembatani kebutuhan edukasi tersebut melalui pendekatan visual, interaktif, dan mudah dipahami.
 
 ---
@@ -104,6 +106,7 @@ Kebutuhan:
 - **Interaktif:** tidak hanya membaca, pengguna juga dapat mengecek, membandingkan, dan mengevaluasi
 - **Visual:** ada chart nutrisi dan tata letak modern
 - **Kredibel:** konten mengangkat HACCP, higiene, nutrisi, dan keamanan pangan
+- **Berbasis standar global:** materi selaras dengan WHO Five Keys to Safer Food, Codex General Principles of Food Hygiene (CXC 1-1969, edisi 2023), dan ISO 22000:2018 sebagai rujukan HACCP/FSMS. citeturn0search1turn2search0turn0search2
 - **Siap kompetisi:** desain dan struktur produk mendukung presentasi formal
 
 ---
@@ -130,9 +133,10 @@ Tujuan:
 #### B. Halaman Edukasi
 
 Fungsi:
-- menampilkan modul pembelajaran inti
-- memberikan pengantar keamanan pangan
-- menghubungkan pengguna ke artikel terkait
+- menampilkan landing page edukasi sebagai hub utama
+- memberi pengantar keamanan pangan dalam hero section
+- menampilkan 3 kartu materi inti yang dapat diklik (HACCP, Higiene dan Sanitasi, Pengolahan & Penyimpanan Pangan)
+- setiap kartu berisi ikon, deskripsi singkat, dan CTA “Pelajari sekarang”
 
 #### C. Halaman HACCP
 
@@ -212,6 +216,44 @@ Fungsi:
 - detail artikel berbasis slug
 - artikel terkait di halaman detail
 
+#### M. Modul 5 Kunci Keamanan Pangan (WHO & BPOM) citeturn0search1turn2search3
+
+Fungsi:
+- menyajikan micro-lesson dan poster ringkas 5 kunci keamanan pangan
+- menyediakan checklist praktik harian untuk rumah tangga dan kantin
+- tombol unduh poster versi ringkas
+
+Konten inti (ringkas): citeturn0search1turn2search3
+- jaga kebersihan
+- pisahkan pangan mentah dan matang
+- masak sampai matang
+- simpan pangan pada suhu aman
+- gunakan air dan bahan baku yang aman
+
+Catatan:
+- Poster resmi WHO tersedia dalam 88 bahasa termasuk Bahasa Indonesia, sehingga mudah diadaptasi untuk konteks lokal. citeturn1search4
+- BPOM juga mengadopsi 5 kunci keamanan pangan untuk edukasi publik di Indonesia. citeturn2search3
+
+#### N. Suhu Aman dan "Danger Zone" citeturn0search0
+
+Fungsi:
+- menjelaskan zona bahaya 40-140 F (sekitar 4-60 C) sebagai rentang suhu pertumbuhan bakteri cepat citeturn0search0
+- menekankan aturan 2 jam (1 jam jika suhu >90 F/sekitar 32 C) untuk makanan di suhu ruang citeturn0search0
+- memberikan tips penyimpanan panas/dingin dan pendinginan sisa makanan
+
+Rujukan:
+- USDA FSIS sebagai acuan zona bahaya dan batas waktu penyimpanan suhu ruang. citeturn0search0
+
+#### O. Edukasi Label Pangan (ING dan CEK KLIK - BPOM) citeturn2search6
+
+Fungsi:
+- panduan membaca Informasi Nilai Gizi (ING) pada kemasan pangan olahan
+- edukasi "CEK KLIK" sebelum membeli pangan olahan
+- contoh visual label dan checklist cepat
+
+Rujukan:
+- BPOM mengedukasi CEK KLIK dan pemahaman ING untuk konsumen. citeturn2search6
+
 ---
 
 ### 7.2 Fitur Autentikasi
@@ -246,6 +288,9 @@ Fungsi:
 - menampilkan statistik utama platform
 - menampilkan artikel terbaru
 - menampilkan tip harian
+- tampilan dashboard futuristik dan terstruktur (control center)
+- kartu statistik responsif dan konsisten light/dark mode
+- sidebar dashboard dapat dibuka/tutup (drawer kiri di mobile, panel tetap di desktop)
 
 ---
 
@@ -259,6 +304,9 @@ Akses:
 Fungsi:
 - melihat statistik bahan pangan, nutrisi, artikel, dan pengguna
 - melihat artikel terbaru
+- tampilan dashboard futuristik dan terstruktur, cocok untuk demo kompetisi
+- panel aksi cepat untuk manajemen konten
+- chart analitik dengan styling modern dan skeleton loading
 
 #### B. Manajemen Artikel
 
@@ -348,6 +396,21 @@ Setiap artikel minimal memiliki:
 - image opsional
 - is_published
 
+### 8.5 Data Referensi & Standar
+
+SafeFood menyimpan metadata sumber edukasi resmi untuk menjaga kredibilitas konten:
+- nama sumber dan organisasi penerbit
+- tahun/versi dan status pembaruan
+- URL resmi dan bahasa
+- ringkasan poin kunci
+
+Sumber utama yang menjadi rujukan konten:
+- WHO Five Keys to Safer Food (poster & pesan inti) citeturn0search1turn1search4
+- Codex General Principles of Food Hygiene (CXC 1-1969, edisi 2023) citeturn2search0
+- ISO 22000:2018 (FSMS, integrasi HACCP) citeturn0search2
+- BPOM: 5 Kunci Keamanan Pangan & edukasi label (ING/CEK KLIK) citeturn2search3turn2search6
+- USDA FSIS: zona bahaya & aturan waktu penyimpanan suhu ruang citeturn0search0
+
 ---
 
 ## 9. Kebutuhan Fungsional
@@ -393,6 +456,8 @@ Setiap artikel minimal memiliki:
 - profesional
 - konsisten light mode dan dark mode
 - mudah dipahami masyarakat umum
+- navigasi edukasi terfokus: dropdown Edukasi hanya berisi 3 materi inti
+- dashboard memiliki sidebar drawer di mobile untuk mengutamakan ruang konten
 
 ### 10.3 Keamanan
 
@@ -416,6 +481,10 @@ Setiap artikel minimal memiliki:
 - canonical URL
 - Open Graph dan Twitter meta
 - FAQ structured data pada beranda
+
+### 10.6 Kredibilitas Konten
+
+- setiap klaim suhu aman, higiene, dan HACCP harus merujuk ke sumber resmi (WHO, Codex/FAO, ISO, BPOM, USDA) dan ditautkan pada halaman terkait. citeturn0search1turn2search0turn0search2turn2search3turn0search0
 
 ---
 

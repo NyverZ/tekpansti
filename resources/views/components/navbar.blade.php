@@ -4,15 +4,13 @@
     $mobilePrimaryItems = [
         ['label' => 'Beranda', 'route' => 'home'],
         ['label' => 'Edukasi', 'route' => 'education'],
-        ['label' => 'HACCP', 'route' => 'haccp'],
         ['label' => 'Bahan Pangan', 'route' => 'foods.index'],
         ['label' => 'Cek Keamanan Makanan', 'route' => 'safety-checker'],
         ['label' => 'Kuis', 'route' => 'quiz'],
     ];
 
     $mobileSecondaryItems = [
-        ['label' => 'Higiene dan Sanitasi', 'route' => 'hygiene.sanitation'],
-        ['label' => 'Pengolahan dan Penyimpanan Pangan', 'route' => 'food.processing-storage'],
+
         ['label' => 'Artikel Edukasi', 'route' => 'articles.index'],
         ['label' => 'Perbandingan Nutrisi', 'route' => 'foods.compare'],
         ['label' => 'Konsultasi', 'route' => 'consultation'],
