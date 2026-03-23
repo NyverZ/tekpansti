@@ -140,8 +140,9 @@
                     ],
                     unreadCount: 0,
                     latestUnreadId: null,
-                    initializedPolling: false,
                     pollTimer: null,
+                    pollingEnabled: false,
+                    isDashboardPage: window.location.pathname === '/dashboard',
                     toast: {
                         visible: false,
                         message: '',
@@ -150,32 +151,37 @@
                     csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '',
 
                     init() {
-                        this.fetchUnreadCount(true);
-
-                        this.pollTimer = window.setInterval(() => {
-                            this.fetchUnreadCount(false);
-                        }, 15000);
-
                         this.$watch('open', (isOpen) => {
-                            if (isOpen && !this.loaded) {
-                                this.fetchNotifications();
+                            if (isOpen) {
+                                this.fetchUnreadNotifications({ includeList: true, initial: !this.loaded });
+                                this.startNotificationPolling();
+                                return;
+                            }
+
+                            if (!this.isDashboardPage) {
+                                this.stopNotificationPolling();
                             }
                         });
 
                         document.addEventListener('visibilitychange', () => {
                             if (document.visibilityState === 'visible') {
-                                this.fetchUnreadCount(false);
-                                if (this.open) {
-                                    this.fetchNotifications();
+                                if (this.pollingEnabled) {
+                                    this.startNotificationPolling();
                                 }
+                                return;
                             }
+
+                            this.stopNotificationPolling();
                         });
 
                         window.addEventListener('beforeunload', () => {
-                            if (this.pollTimer) {
-                                clearInterval(this.pollTimer);
-                            }
+                            this.stopNotificationPolling();
                         }, { once: true });
+
+                        if (this.isDashboardPage) {
+                            this.fetchUnreadNotifications({ initial: true });
+                            this.startNotificationPolling();
+                        }
                     },
 
                     toggleDropdown() {
@@ -234,7 +240,26 @@
                         return `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0a3 3 0 11-6 0m6 0H9"/></svg>`;
                     },
 
-                    async fetchUnreadCount(initial = false) {
+                    startNotificationPolling() {
+                        this.pollingEnabled = true;
+
+                        if (document.visibilityState !== 'visible' || this.pollTimer) {
+                            return;
+                        }
+
+                        this.pollTimer = window.setInterval(() => {
+                            this.fetchUnreadNotifications();
+                        }, 20000);
+                    },
+
+                    stopNotificationPolling() {
+                        if (this.pollTimer) {
+                            clearInterval(this.pollTimer);
+                            this.pollTimer = null;
+                        }
+                    },
+
+                    async fetchUnreadNotifications({ includeList = false, initial = false } = {}) {
                         try {
                             const response = await fetch('/api/notifications/unread-count', {
                                 method: 'GET',
@@ -258,16 +283,13 @@
 
                             if (!initial && this.unreadCount > previousCount && this.latestUnreadId && this.latestUnreadId !== previousLatestId) {
                                 this.showToast(payload.latest_unread_title ?? 'Tips keamanan pangan baru tersedia!');
-
-                                if (this.open) {
-                                    this.fetchNotifications();
-                                }
                             }
 
-                            if (!this.initializedPolling) {
-                                this.initializedPolling = true;
+                            if (includeList || this.open) {
+                                await this.fetchNotifications();
                             }
-                        } catch (_error) {
+                        } catch (error) {
+                            console.error('SafeFood notification polling failed:', error);
                         }
                     },
 
@@ -295,10 +317,11 @@
                             this.notifications = Array.isArray(payload.data) ? payload.data : [];
                             this.groupByDate();
                             this.loaded = true;
-                        } catch (_error) {
+                        } catch (error) {
                             this.notifications = [];
                             this.groupByDate();
                             this.loaded = true;
+                            console.error('SafeFood notifications fetch failed:', error);
                         } finally {
                             this.loading = false;
                         }
@@ -335,7 +358,8 @@
                             this.unreadCount = 0;
                             this.latestUnreadId = null;
                             this.groupByDate();
-                        } catch (_error) {
+                        } catch (error) {
+                            console.error('SafeFood mark-all-read failed:', error);
                         } finally {
                             this.loadingAction = false;
                         }

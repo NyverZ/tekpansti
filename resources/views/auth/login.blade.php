@@ -4,6 +4,11 @@
     <x-slot:subheading>Masuk untuk mengakses dasbor SafeFood, melanjutkan pembelajaran, dan menggunakan alat pada platform.</x-slot:subheading>
 
     <x-auth-session-status class="mb-6 rounded-2xl bg-emerald-100 px-4 py-3 text-sm font-medium text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300" :status="session('status')" />
+    @if (session('auth_message'))
+        <div class="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-300">
+            {{ session('auth_message') }}
+        </div>
+    @endif
     <x-input-error :messages="$errors->get('social')" class="mb-6" />
 
     <form method="POST" action="{{ route('login') }}" class="space-y-5">

@@ -4,7 +4,11 @@
     <section class="sf-container">
         <div class="grid gap-8 lg:grid-cols-[1fr_0.36fr]">
             <article class="sf-panel overflow-hidden">
-                <div class="h-64 bg-[linear-gradient(135deg,#0f766e,#d97706)]"></div>
+                @if ($article->image_url)
+                    <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="h-64 w-full object-cover" loading="lazy">
+                @else
+                    <div class="h-64 bg-[linear-gradient(135deg,#0f766e,#d97706)]"></div>
+                @endif
                 <div class="p-8 md:p-10">
                     <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">{{ $article->created_at->format('d M Y') }}</p>
                     <h1 class="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">{{ $article->title }}</h1>

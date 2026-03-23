@@ -9,28 +9,32 @@ use App\Notifications\NewArticlePublishedNotification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AdminArticleController extends Controller
 {
     public function index(Request $request): View
     {
+        $search = trim((string) $request->string('search'));
+        $sort = (string) $request->string('sort', 'latest');
+
         $articles = Article::query()
             ->when(
-                $request->filled('search'),
-                fn ($query) => $query->where(function ($articleQuery) use ($request) {
-                    $search = $request->string('search');
-
+                $search !== '',
+                fn ($query) => $query->where(function ($articleQuery) use ($search) {
                     $articleQuery
                         ->where('title', 'like', '%' . $search . '%')
                         ->orWhere('content', 'like', '%' . $search . '%');
                 })
             )
-            ->latest()
+            ->when($sort === 'oldest', fn ($query) => $query->oldest())
+            ->when($sort === 'title', fn ($query) => $query->orderBy('title'))
+            ->when(! in_array($sort, ['oldest', 'title'], true), fn ($query) => $query->latest())
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.articles.index', compact('articles'));
+        return view('admin.articles.index', compact('articles', 'search', 'sort'));
     }
 
     public function create(): View
@@ -40,11 +44,16 @@ class AdminArticleController extends Controller
 
     public function store(ArticleRequest $request): RedirectResponse
     {
+        $validated = $request->validated();
+        $imagePath = $request->hasFile('image')
+            ? $request->file('image')->store('articles', 'public')
+            : null;
+
         $article = Article::create([
-            'title' => $request->validated('title'),
-            'slug' => $this->makeSlug($request->validated('title')),
-            'content' => $request->validated('content'),
-            'image' => $request->validated('image'),
+            'title' => $validated['title'],
+            'slug' => $this->makeSlug($validated['title']),
+            'content' => $validated['content'],
+            'image' => $imagePath,
             'is_published' => $request->boolean('is_published', true),
         ]);
 
@@ -65,12 +74,22 @@ class AdminArticleController extends Controller
     public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
         $wasPublished = (bool) $article->is_published;
+        $validated = $request->validated();
+        $imagePath = $article->image;
+
+        if ($request->hasFile('image')) {
+            if ($this->isStoredImagePath($article->image)) {
+                Storage::disk('public')->delete($article->image);
+            }
+
+            $imagePath = $request->file('image')->store('articles', 'public');
+        }
 
         $article->update([
-            'title' => $request->validated('title'),
-            'slug' => $this->makeSlug($request->validated('title'), $article->id),
-            'content' => $request->validated('content'),
-            'image' => $request->validated('image'),
+            'title' => $validated['title'],
+            'slug' => $this->makeSlug($validated['title'], $article->id),
+            'content' => $validated['content'],
+            'image' => $imagePath,
             'is_published' => $request->boolean('is_published', true),
         ]);
 
@@ -85,6 +104,10 @@ class AdminArticleController extends Controller
 
     public function destroy(Article $article): RedirectResponse
     {
+        if ($this->isStoredImagePath($article->image)) {
+            Storage::disk('public')->delete($article->image);
+        }
+
         $article->delete();
 
         return redirect()
@@ -131,5 +154,10 @@ class AdminArticleController extends Controller
                     $user->notify(new NewArticlePublishedNotification($article));
                 }
             });
+    }
+
+    private function isStoredImagePath(?string $path): bool
+    {
+        return filled($path) && ! Str::startsWith($path, ['http://', 'https://']);
     }
 }

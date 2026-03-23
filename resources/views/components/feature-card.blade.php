@@ -5,6 +5,7 @@
     'href' => '#',
     'cta' => 'Jelajahi',
     'accent' => 'teal',
+    'protected' => false,
 ])
 
 @php
@@ -32,10 +33,26 @@
     ];
 
     $palette = $accentStyles[$accent] ?? $accentStyles['teal'];
+    $showGuestBadge = $protected && ! auth()->check();
 @endphp
 
-<article class="sf-panel sf-hover-lift group relative overflow-hidden p-7 md:p-8">
+<article
+    x-data
+    class="sf-panel sf-hover-lift group relative overflow-hidden p-7 md:p-8"
+>
     <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-r {{ $palette['glow'] }}"></div>
+
+    @if ($showGuestBadge)
+        <div class="absolute right-5 top-5 z-10">
+            <span class="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700 shadow-[0_16px_34px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-950/85 dark:text-slate-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-amber-500 dark:text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16.5 10.5V8a4.5 4.5 0 10-9 0v2.5M7.5 10.5h9a1 1 0 011 1v6a1 1 0 01-1 1h-9a1 1 0 01-1-1v-6a1 1 0 011-1z" />
+                </svg>
+                Login Required
+            </span>
+        </div>
+    @endif
+
     <div class="relative">
         <div class="flex h-14 w-14 items-center justify-center rounded-2xl {{ $palette['icon'] }} ring-1">
             @switch($icon)
@@ -74,7 +91,13 @@
         <h3 class="mt-6 text-2xl font-bold text-slate-900 dark:text-white">{{ $title }}</h3>
         <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">{{ $description }}</p>
 
-        <a href="{{ $href }}" class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-slate-900 transition group-hover:gap-3 dark:text-white">
+        <a
+            href="{{ $href }}"
+            @if ($showGuestBadge)
+                @click="if (window.innerWidth < 768) { $event.preventDefault(); $dispatch('safefood-guest-gate', { title: 'Akses Terbatas', message: 'Silakan login untuk mengakses fitur SafeFood.', loginUrl: '{{ route('login') }}' }); }"
+            @endif
+            class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-slate-900 transition group-hover:gap-3 dark:text-white"
+        >
             {{ $cta }}
             <span aria-hidden="true">-></span>
         </a>

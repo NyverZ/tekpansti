@@ -13,6 +13,20 @@ SafeFood adalah website edukasi yang menggabungkan materi keamanan pangan, HACCP
 
 ## 2. Latar Belakang Masalah
 
+### 2.1 Latar Belakang Website SafeFood
+
+SafeFood dibangun sebagai website edukasi yang menjawab kebutuhan akan media pembelajaran keamanan pangan yang lebih modern, mudah diakses, dan relevan dengan kebiasaan digital masyarakat saat ini. Website dipilih karena mampu menjadi pusat informasi yang terbuka, fleksibel, dan mudah digunakan melalui laptop maupun ponsel tanpa memerlukan instalasi aplikasi tambahan.
+
+Sebagai platform berbasis web, SafeFood tidak hanya berperan sebagai tempat membaca materi, tetapi juga sebagai ruang interaktif untuk belajar, mengeksplorasi data bahan pangan, membandingkan nutrisi, mengerjakan kuis, serta memahami praktik keamanan pangan melalui pendekatan visual yang lebih menarik. Pendekatan ini membuat proses edukasi terasa lebih ringan dibandingkan media konvensional yang cenderung statis dan padat teks.
+
+Website ini juga dirancang agar layak ditampilkan dalam konteks kompetisi teknologi. Karena itu, SafeFood menggabungkan tiga nilai penting sekaligus:
+
+- nilai edukasi, melalui materi keamanan pangan yang terstruktur
+- nilai teknologi, melalui pengembangan platform web yang interaktif dan terintegrasi
+- nilai presentasi, melalui desain antarmuka yang modern, rapi, dan mudah dipahami juri maupun pengguna umum
+
+Dengan demikian, SafeFood bukan hanya website informasi biasa, tetapi sebuah produk digital edukatif yang memadukan konten, pengalaman pengguna, dan kesiapan demonstrasi dalam satu platform.
+
 Masyarakat umum sering kesulitan memahami keamanan pangan karena informasi yang tersedia cenderung tersebar, teknis, atau tidak interaktif. Banyak pengguna memahami makanan hanya dari sisi rasa atau kebiasaan, tanpa memahami:
 
 - risiko kontaminasi silang

@@ -2,71 +2,104 @@
 
 @section('content')
     <section class="space-y-6">
-        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Artikel Admin</p>
+                <p class="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">CMS Artikel</p>
                 <h2 class="mt-2 text-4xl font-bold text-slate-900 dark:text-white">Kelola artikel edukasi</h2>
+                <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300">
+                    Panel artikel admin kini lebih terasa seperti CMS modern: mudah mencari konten, menyortir daftar, dan mengelola ilustrasi artikel dari satu dashboard visual.
+                </p>
             </div>
-            <a href="{{ route('admin.articles.create') }}" class="sf-button-primary">Buat Artikel</a>
+            <a href="{{ route('admin.articles.create') }}" class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white shadow-md transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-lg">
+                Buat Artikel
+            </a>
         </div>
 
-        <div class="sf-panel p-6">
-            <form method="GET" action="{{ route('admin.articles.index') }}" class="flex flex-col gap-4 md:flex-row">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul atau isi..." class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 md:max-w-md dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
-                <button class="sf-button-secondary">Cari</button>
+        <div class="rounded-[2rem] border border-slate-200/80 bg-white/80 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.06)] backdrop-blur dark:border-slate-700/80 dark:bg-slate-900/75">
+            <form method="GET" action="{{ route('admin.articles.index') }}" class="grid gap-4 lg:grid-cols-[1fr_220px_auto_auto]">
+                <div>
+                    <label for="search" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">Cari Artikel</label>
+                    <input id="search" type="text" name="search" value="{{ $search }}" placeholder="Cari berdasarkan judul atau isi..." class="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition duration-300 placeholder:text-slate-400 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-emerald-500 dark:focus:ring-emerald-500/20">
+                </div>
+
+                <div>
+                    <label for="sort" class="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">Sort By</label>
+                    <select id="sort" name="sort" class="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition duration-300 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:focus:border-emerald-500 dark:focus:ring-emerald-500/20">
+                        <option value="latest" @selected($sort === 'latest')>Latest</option>
+                        <option value="oldest" @selected($sort === 'oldest')>Oldest</option>
+                        <option value="title" @selected($sort === 'title')>Title A-Z</option>
+                    </select>
+                </div>
+
+                <div class="flex items-end">
+                    <button class="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white shadow-md transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-lg">
+                        Terapkan
+                    </button>
+                </div>
+
+                <div class="flex items-end">
+                    <a href="{{ route('admin.articles.index') }}" class="inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white/90 px-5 py-3 font-semibold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-900">
+                        Reset
+                    </a>
+                </div>
             </form>
+
+            <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+                <span>{{ $articles->total() }} artikel ditemukan</span>
+                @if ($search !== '')
+                    <span class="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                        Kata kunci: "{{ $search }}"
+                    </span>
+                @endif
+            </div>
         </div>
 
         @if (session('success'))
-            <div class="rounded-2xl bg-emerald-100 px-5 py-4 text-sm font-medium text-emerald-700">{{ session('success') }}</div>
+            <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-medium text-emerald-700 shadow-sm dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
+                {{ session('success') }}
+            </div>
         @endif
 
-        <div class="sf-panel overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-left text-sm">
-                    <thead class="bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                        <tr>
-                            <th class="px-6 py-4 font-semibold">Judul</th>
-                            <th class="px-6 py-4 font-semibold">Slug</th>
-                            <th class="px-6 py-4 font-semibold">Status</th>
-                            <th class="px-6 py-4 font-semibold">Dipublikasikan</th>
-                            <th class="px-6 py-4 font-semibold text-right">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        @forelse ($articles as $article)
-                            <tr>
-                                <td class="px-6 py-4 font-medium text-slate-900 dark:text-white">{{ $article->title }}</td>
-                                <td class="px-6 py-4 text-slate-500 dark:text-slate-400">{{ $article->slug }}</td>
-                                <td class="px-6 py-4">
-                                    <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $article->is_published ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">
-                                        {{ $article->is_published ? 'Dipublikasikan' : 'Draf' }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-slate-500 dark:text-slate-400">{{ $article->created_at->format('d M Y') }}</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex justify-end gap-3">
-                                        <a href="{{ route('admin.articles.edit', $article) }}" class="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">Ubah</a>
-                                        <form method="POST" action="{{ route('admin.articles.destroy', $article) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white" onclick="return confirm('Hapus artikel ini?')">Hapus</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">Tidak ada artikel ditemukan.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+        @if ($articles->count() > 0)
+            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                @foreach ($articles as $article)
+                    @include('admin.articles.partials.article-card', ['article' => $article])
+                @endforeach
             </div>
-        </div>
+        @else
+            <div class="rounded-[2rem] border border-dashed border-slate-300 bg-white/70 px-6 py-16 text-center shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/70">
+                <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V5.75A1.75 1.75 0 0 1 9.75 4h7.5A1.75 1.75 0 0 1 19 5.75v12.5A1.75 1.75 0 0 1 17.25 20h-10.5A1.75 1.75 0 0 1 5 18.25V8.75A1.75 1.75 0 0 1 6.75 7H8Zm0 0h6m-6 4h8m-8 4h8" />
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-2xl font-bold text-slate-900 dark:text-white">Belum ada artikel edukasi.</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">Klik tombol tambah untuk mulai.</p>
+            </div>
+        @endif
 
-        <div>
-            {{ $articles->links() }}
-        </div>
+        @if ($articles->hasPages())
+            <nav class="flex flex-wrap items-center justify-center gap-2 pt-2">
+                @if ($articles->onFirstPage())
+                    <span class="rounded-xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-500">Prev</span>
+                @else
+                    <a href="{{ $articles->previousPageUrl() }}" class="rounded-xl border border-slate-200 bg-white/90 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200">Prev</a>
+                @endif
+
+                @foreach ($articles->getUrlRange(max(1, $articles->currentPage() - 2), min($articles->lastPage(), $articles->currentPage() + 2)) as $page => $url)
+                    @if ($page == $articles->currentPage())
+                        <span class="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}" class="rounded-xl border border-slate-200 bg-white/90 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                @if ($articles->hasMorePages())
+                    <a href="{{ $articles->nextPageUrl() }}" class="rounded-xl border border-slate-200 bg-white/90 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200">Next</a>
+                @else
+                    <span class="rounded-xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-500">Next</span>
+                @endif
+            </nav>
+        @endif
     </section>
 @endsection

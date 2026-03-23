@@ -39,8 +39,8 @@
         <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse ($articles as $article)
                 <article class="sf-panel overflow-hidden">
-                    @if ($article->image)
-                        <img src="{{ $article->image }}" alt="{{ $article->title }}" class="h-44 w-full object-cover" loading="lazy">
+                    @if ($article->image_url)
+                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="h-44 w-full object-cover" loading="lazy">
                     @else
                         <div class="h-44 bg-[linear-gradient(135deg,#0f766e,#d97706)]"></div>
                     @endif

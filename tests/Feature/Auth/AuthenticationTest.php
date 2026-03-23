@@ -20,6 +20,20 @@ test('users can authenticate using the login screen', function () {
     $response->assertRedirect(route('dashboard', absolute: false));
 });
 
+test('users are redirected to their intended protected page after login', function () {
+    $user = User::factory()->create();
+
+    $this->get('/quiz')->assertRedirect(route('login', absolute: false));
+
+    $response = $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+    $response->assertRedirect('/quiz');
+});
+
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 

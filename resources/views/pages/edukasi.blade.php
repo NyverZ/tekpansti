@@ -9,7 +9,7 @@
             <div class="relative grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
                 <div class="space-y-5">
                     <span class="sf-chip">Edukasi</span>
-                    <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl daJrk:text-white">
+                    <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">
                         Materi Edukasi Keamanan Pangan
                     </h1>
                     <p class="text-base leading-7 text-slate-600 dark:text-slate-300">

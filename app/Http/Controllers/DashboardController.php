@@ -21,22 +21,27 @@ class DashboardController extends Controller
     {
         $isAdmin = Auth::user()?->role === 'admin';
 
-        return view('dashboard', [
-            'stats' => Cache::remember('safefood.dashboard.stats', now()->addMinutes(5), fn(): array => [
-                'ingredients' => Plant::count(),
-                'nutrients' => Nutrient::count(),
-                'articles' => Article::count(),
-                'users' => User::count(),
-            ]),
-            'latestArticles' => Article::query()
-                ->when(
-                    ! $isAdmin,
-                    fn($query) => $query->published()
-                )
+        $stats = Cache::remember('safefood.dashboard.stats', now()->addMinutes(5), fn(): array => [
+            'ingredients' => Plant::count(),
+            'nutrients' => Nutrient::count(),
+            'articles' => Article::count(),
+            'users' => User::count(),
+        ]);
+
+        $latestArticles = Cache::remember(
+            'safefood.dashboard.latest-articles.' . ($isAdmin ? 'admin' : 'user'),
+            now()->addMinutes(5),
+            fn () => Article::query()
+                ->when(! $isAdmin, fn ($query) => $query->published())
                 ->latest()
-                ->select(['id', 'slug', 'title', 'created_at', 'is_published'])
+                ->select(['id', 'slug', 'title', 'created_at', 'is_published', 'image'])
                 ->take(4)
-                ->get(),
+                ->get()
+        );
+
+        return view('dashboard', [
+            'stats' => $stats,
+            'latestArticles' => $latestArticles,
             'dailyTip' => $this->safeFoodContentService->dailyTip(),
         ]);
     }
